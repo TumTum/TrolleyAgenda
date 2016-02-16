@@ -1,3 +1,8 @@
+trolly_agenda:
+    resource: "@TrollyAgendaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
