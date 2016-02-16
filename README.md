@@ -1,8 +1,10 @@
 TrollyAgenda
 ============
 
-TrollyAgenda ist dafür gedacht um den Trolly Dienst bei den Zeugen Jehovas zu organisieren. 
-(Ist in Entwicklung)
+Ein Planung Tool um den Trolly Dienst der Zeugen Jehovas zu verwalten. (IST in Entwicklung) 
+
+NOT USE IS'T FINISH
+===================
 
 RoadMap
 -------
