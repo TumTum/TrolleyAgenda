@@ -23,6 +23,7 @@ class Builder implements ContainerAwareInterface
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
         $menu->addChild('Home', array('route' => 'trolly_agenda_default_homepage'));
+        $menu->addChild('Benutzerliste', array('route' => 'trolly_agenda_users_list') );
 
 //        // create another menu item
 //        $menu->addChild('About Me', array('route' => 'about'));
