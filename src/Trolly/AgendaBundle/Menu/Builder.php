@@ -20,6 +20,7 @@ class Builder implements ContainerAwareInterface
     public function mainMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
         $menu->addChild('Home', array('route' => 'trolly_agenda_default_homepage'));
 
