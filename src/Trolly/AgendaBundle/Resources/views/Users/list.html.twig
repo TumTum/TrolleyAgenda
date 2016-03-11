@@ -1,8 +1,43 @@
 {% extends ":layouts:sidebar_right.html.twig" %}
 
-{% block title %}Übersicht alle Benutzer{% endblock %}
+{% block title %}{{ 'page.userlist'|trans }}{% endblock %}
 
 {% block content %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th><i class="fa fa-user"></i> {{ 'label.name'|trans }}</th>
+            <th><i class="fa fa-envelope-o"></i> {{ 'label.email'|trans }}</th>
+            <th><i class="fa fa-user"></i> {{ 'label.username'|trans }}</th>
+            <th><i class="fa fa-phone"></i> {{ 'label.phone'|trans }}</th>
+            <th><i class="fa fa-mobile-phone"></i> {{ 'label.mobile'|trans }}</th>
+            <th><i class="fa fa-mobile-phone"></i> {{ 'label.mobile'|trans }}</th>
+            <th><i class="fa fa-cogs"></i> {{ 'label.actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.firstlastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.mobile }}</td>
+                <td>{{ user.mobile2 }}</td>
+                <td>
+                    <div class="item-actions">
+                        <a href="{# path('UserManager_edit', { id: user.id }) #}" class="btn btn-sm btn-default">
+                            {{ 'action.show'|trans }}
+                        </a>
+                        <a href="{{ path('trolly_agenda_users_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
 

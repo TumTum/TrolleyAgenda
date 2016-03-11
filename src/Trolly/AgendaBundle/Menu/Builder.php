@@ -12,6 +12,7 @@ namespace Trolly\AgendaBundle\Menu;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\Translation\Translator;
 
 class Builder implements ContainerAwareInterface
 {
@@ -19,11 +20,15 @@ class Builder implements ContainerAwareInterface
 
     public function mainMenu(FactoryInterface $factory, array $options)
     {
+        global $kernel;
+        $tr = $kernel->getContainer()->get('translator');
+
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
-        $menu->addChild('Home', array('route' => 'trolly_agenda_default_homepage'));
-        $menu->addChild('Benutzerliste', array('route' => 'trolly_agenda_users_list') );
+
+        $menu->addChild($tr->trans('menu.home'), array('route' => 'trolly_agenda_default_homepage'));
+        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
 
 //        // create another menu item
 //        $menu->addChild('About Me', array('route' => 'about'));

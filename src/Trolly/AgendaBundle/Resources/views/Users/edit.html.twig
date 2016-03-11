@@ -1,0 +1,25 @@
+{% extends ":layouts:sidebar_right.html.twig" %}
+{% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block title %}{{ 'page.useredit'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(edit_form, { attr: attr|default({}) }) }}
+    {{ form_widget(edit_form) }}
+
+    <div class="row">
+        <div class="col-xs-offset-8 col-xs-4 text-nowrap text-right">
+            <a href="{{ path('trolly_agenda_users_list') }}" class="{{ button_css|default("btn btn-default") }}">Abbrechen</a>
+            <input type="submit" value="{{ button_label|default('label.save'|trans) }}" class="{{ button_css|default("btn btn-primary") }}" />
+        </div>
+    </div>
+
+
+    {{ form_end(edit_form) }}
+
+
+{% endblock %}
+
+{% block sidebar %}
+
+{%  endblock %}
