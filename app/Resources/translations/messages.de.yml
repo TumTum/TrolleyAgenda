@@ -1,6 +1,7 @@
 page:
   userlist: Teilnehmerliste
   useredit: Teilnemer Bearbeiten
+  signinheading: Bitte melde dich an
 
 action:
   show: Anzeigen

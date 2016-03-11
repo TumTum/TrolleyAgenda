@@ -3,17 +3,19 @@
 namespace Trolly\AgendaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Trolly\AgendaBundle\Entity\User;
 
 /**
+ * @Security("has_role('ROLE_ADMIN')");
  * @Route("/users")
  */
 class UsersController extends Controller
 {
     /**
-     * @Route("/list")
+     * @Route("/list");
      */
     public function listAction()
     {
