@@ -1,0 +1,31 @@
+page:
+  userlist: Teilnehmerliste
+  useredit: Teilnemer Bearbeiten
+
+action:
+  show: Anzeigen
+  edit: Bearbeiten
+  sign_in: Login
+
+label:
+  actions: Bearbeiten
+  save: Sichern
+  name: Vor- und Nachname
+  email: E-Mail
+  username: Benutzername
+  password: Passwort
+  role:
+    label: Berechtigungen
+    admin: Verwalter
+    user: Benutzer
+  street: Straße
+  plz: PLZ
+  city: Stadt
+  phone: Telefon
+  mobile: Mobile
+  mobile2: Mobile2
+
+menu:
+  home: Übersicht
+  userlist: Teilnehmer
+
