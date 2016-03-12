@@ -37,15 +37,13 @@
 
 {# Ansicht des Adminsgtrator#}
 {% block admin_view %}
-    <div class="panel-body">
-        <p>
-            {% if day.taUsers %}
-                {{ 'page.calendar.daytext-gogo'|trans }}
-            {% else %}
+    {% if day.taUsers|length == 0 %}
+        <div class="panel-body">
+            <p>
                 {{ 'page.calendar.daytext-free'|trans }}
-            {% endif %}
-        </p>
-    </div>
+            </p>
+        </div>
+    {% endif %}
 
     <ul class="list-group">
         {% for user in day.taUsers %}
