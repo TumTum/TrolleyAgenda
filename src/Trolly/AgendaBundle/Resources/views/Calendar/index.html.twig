@@ -1,7 +1,43 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}TrollyAgendaBundle:Calendar:index{% endblock %}
+{% block title %}{{ 'page.calendar.overview'|trans }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Calendar:index page</h1>
+    {{ parent() }}
+    <p class="lead">Terminverwaltung um sich anzumelden am Trolly Dienst.</p>
+
+    <div class="container calendar">
+        {% for month in months %}
+            {{ block('month_template') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{# Monats design #}
+{% block month_template %}
+    <div class="row month">
+        <h2>{{ month.name }}</h2>
+        {% for day in month.days %}
+            {{ block('day_template') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{# Tages Block design#}
+{% block day_template %}
+    <div class="col-xs-6 col-sm-3 dayentry">
+        <div class="list-group">
+            <div class="list-group-item list-group-item-heading">
+                <h5 class="popover-title">{{ day.date }}</h5>
+            </div>
+            <div class="list-group-item list-group-item-text">
+                <p>{{ day.users|join(', ') }}</p>
+                <p class="button_action">
+                    <a href="#" class="btn btn-default btn-xs">zusagen</a>
+                    <a href="#" class="btn btn-default btn-xs">absagen</a>
+                    <a href="#" class="btn btn-primary btn-xs">akzeptiert</a>
+                </p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -38,7 +38,7 @@ class Builder implements ContainerAwareInterface
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
 
-        $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " (".$this->getUsername().")", $menu);
+        $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " <small>(".$this->getUsername().")</small>", $menu);
         $menuProfile->setLabel($menuProfile->getLabel());
         $menuProfile->addChild($tr->trans('change_password.submit',[], 'FOSUserBundle'), array('route' => 'fos_user_change_password'));
         $this->addSeppartor($menuProfile);

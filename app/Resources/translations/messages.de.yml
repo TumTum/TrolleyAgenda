@@ -3,6 +3,8 @@ page:
   useredit: Teilnemer Bearbeiten
   userchangepasswort: Passwort Ändern
   signinheading: Bitte melde dich an
+  calendar:
+    overview: Trolly Anmeldung
 
 action:
   show: Anzeigen
