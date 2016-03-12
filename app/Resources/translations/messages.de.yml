@@ -3,6 +3,10 @@ page:
   useredit: Teilnemer Bearbeiten
   userchangepasswort: Passwort Ändern
   signinheading: Bitte melde dich an
+  calendar:
+    overview: Trolly Anmeldung
+    daytext-gogo: "An diesem Tag gehen:"
+    daytext-free: "Nicht Belegt"
 
 action:
   show: Anzeigen
@@ -14,6 +18,10 @@ label:
     okay: ok
     cancel: Abbrechen
     save: Sichern
+    calendar:
+      signoff: Absagen
+      signon: Zusagen
+      remind: Erinnern
   actions: Bearbeiten
   name: Vor- und Nachname
   adress: Adresse
@@ -36,3 +44,27 @@ menu:
   userlist: Teilnehmer
   user: Profile
 
+date:
+  Monday: Montag
+  Tuesday: Dienstag
+  Wednesday: Mittwoch
+  Thursday: Donnerstag
+  Friday: Freitag
+  Saturday: Samstag
+  Sunday: Sonntag
+  January: Januar
+  February: Februar
+  March: März
+  April: April
+  May: Mai
+  June: June
+  July: Juli
+  August: August
+  September: September
+  October: Oktober
+  November: November
+  December: Dezember
+
+help:
+  calendar.user.okay: "Ist Fest eingeplannt"
+  calendar.user.pending: "Wartet auf Zustimmung"

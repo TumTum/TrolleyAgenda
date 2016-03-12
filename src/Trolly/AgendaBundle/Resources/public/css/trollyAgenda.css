@@ -42,3 +42,22 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+/* Seite Blog */
+.calendar .dayentry {
+    padding: 15px;
+}
+
+.calendar .list-group-item-heading {
+    margin-bottom: -1px;
+    padding: 0 !important;
+}
+
+.calendar .user-name-box {
+    display: block;
+    padding: 3px 5px;
+    font-size: 0.9em;
+    border-radius: 3px;
+    margin: 2px;
+    white-space: nowrap;
+}
