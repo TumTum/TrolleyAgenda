@@ -10,9 +10,11 @@
 namespace Trolly\AgendaBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Translation\Translator;
+use Trolly\AgendaBundle\Entity\User;
 
 class Builder implements ContainerAwareInterface
 {
@@ -32,14 +34,57 @@ class Builder implements ContainerAwareInterface
             return $menu;
         }
 
-        $menu->addChild($tr->trans('menu.home'), array('route' => 'trolly_agenda_default_homepage'));
+        $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage'));
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
-        $menu->addChild($tr->trans('layout.logout', [], 'FOSUserBundle'), array('route' => 'fos_user_security_logout') );
+
+        $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " (".$this->getUsername().")", $menu);
+        $menuProfile->setLabel($menuProfile->getLabel());
+        $menuProfile->addChild($tr->trans('change_password.submit',[], 'FOSUserBundle'), array('route' => 'fos_user_change_password'));
+        $this->addSeppartor($menuProfile);
+        $menuProfile->addChild($tr->trans('layout.logout', [], 'FOSUserBundle'), array('route' => 'fos_user_security_logout') );
 
         return $menu;
     }
 
+    /**
+     * Erstellt ein dropdown Menu
+     *
+     * @param FactoryInterface $factory
+     *
+     * @return ItemInterface
+     */
+    public function addDropdownMenu($name, ItemInterface $menu)
+    {
+        return $menu->addChild($name)
+            ->setExtra('safe_label', true)
+            ->setLabel($name . ' <span class="caret"></span>')
+            ->setAttribute('class', 'dropdown')
+            ->setChildrenAttribute('class', 'dropdown-menu')
+            ->setLinkAttributes([
+                'class' => 'dropdown-toggle',
+                'data-toggle' => "dropdown",
+                "role" => "button",
+                "aria-haspopup" => "true",
+                "aria-expanded" => "false"
+            ])
+            ->setUri('#');
+    }
+
+    /**
+     * @param ItemInterface $menu
+     *
+     * @return ItemInterface
+     */
+    public function addSeppartor(ItemInterface $menu)
+    {
+        return $menu->addChild('')
+            ->setAttributes([
+                'role'  => 'separator',
+                'class' => 'divider'
+            ])
+            ;
+    }
 
     /**
      * Checks if the attributes are granted against the current authentication token and optionally supplied object.
@@ -61,6 +106,23 @@ class Builder implements ContainerAwareInterface
         }
 
         return $container->get('security.authorization_checker')->isGranted($attributes, $object);
+    }
+
+    /**
+     * den Aktuellen Username
+     *
+     * @return string
+     */
+    protected function getUsername()
+    {
+        global $kernel;
+        $container = $kernel->getContainer();
+        /** @var User $user */
+        $user = $container->get('security.token_storage')->getToken()->getUser();
+        if (empty(trim($user->getFirstlastname()))) {
+            return $user->getUsername();
+        }
+        return $user->getFirstlastname();
     }
 
 }

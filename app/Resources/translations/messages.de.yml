@@ -1,6 +1,7 @@
 page:
   userlist: Teilnehmerliste
   useredit: Teilnemer Bearbeiten
+  userchangepasswort: Passwort Ändern
   signinheading: Bitte melde dich an
 
 action:
@@ -9,8 +10,11 @@ action:
   sign_in: Login
 
 label:
+  button:
+    okay: ok
+    cancel: Abbrechen
+    save: Sichern
   actions: Bearbeiten
-  save: Sichern
   name: Vor- und Nachname
   adress: Adresse
   email: E-Mail
@@ -30,4 +34,5 @@ label:
 menu:
   home: Übersicht
   userlist: Teilnehmer
+  user: Profile
 
