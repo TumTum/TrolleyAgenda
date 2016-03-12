@@ -4,6 +4,7 @@ namespace Trolly\AgendaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Trolly\AgendaBundle\Entity\Day;
 
 class CalendarController extends Controller
 {
@@ -12,53 +13,42 @@ class CalendarController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('TrollyAgendaBundle:Calendar:index.html.twig', array(
-            'months' => [
-                [
-                    'name' => 'Februar',
-                    'days' => [
-                         [
-                            "date"  => 'Samstag 06.02.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                         ],
-                         [
-                            "date"  => 'Samstag 13.02.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                         ],
-                         [
-                            "date"  => 'Samstag 29.02.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                         ],
-                         [
-                            "date"  => 'Samstag 27.02.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                         ],
-                    ]
-                ],
-                [
-                    'name' => 'März',
-                    'days' => [
+        $day = new Day("06.02.2016");
+        $day2 = new Day("13.02.2016");
+        $day3 = new Day("20.02.2016");
+        $months['Februar'][] = $day;
+        $months['Februar'][] = $day2;
+        $months['Februar'][] = $day3;
+        $months['Februar'][] = new Day("27.02.2016");
+        $months['März'][] = new Day("05.03.2016");
+        $months['März'][] = new Day("12.03.2016");
+        $months['März'][] = new Day("19.03.2016");
+        $months['März'][] = new Day("26.03.2016");
 
-                        [
-                            "date"  => 'Samstag 05.03.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                        ],
-                        [
-                            "date"  => 'Samstag 12.03.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                        ],
-                        [
-                            "date"  => 'Samstag 19.03.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                        ],
-                        [
-                            "date"  => 'Samstag 26.03.2016',
-                            "users" => ['Tobias', 'Jörg'],
-                        ],
-                    ]
-                ]
+
+        $day->setTaUsers(
+            [
+                [ 'name' => "Tobias Matthaiou", 'isAccept' => false ],
+                [ 'name' => "Bruder Franz", 'isAccept' => true ],
             ]
-        ));
+        );
+
+        $day2->setTaUsers(
+            [
+                [ 'name' => "Tabitha Matthaiou", 'isAccept' => true ],
+                [ 'name' => "Tobias Matthaiou", 'isAccept' => true ],
+            ]
+        );
+
+        $day3->setTaUsers(
+            [
+                [ 'name' => "Heidi vom Berg", 'isAccept' => false ],
+            ]
+        );
+
+        return $this->render('TrollyAgendaBundle:Calendar:index.html.twig', [
+            'months' => $months
+        ]);
     }
 
 }

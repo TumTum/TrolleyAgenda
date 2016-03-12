@@ -7,37 +7,76 @@
     <p class="lead">Terminverwaltung um sich anzumelden am Trolly Dienst.</p>
 
     <div class="container calendar">
-        {% for month in months %}
-            {{ block('month_template') }}
+        {% for monthname, month in months %}
+            <div class="row month">
+                <h2>{{ monthname }}</h2>
+                {% for day in month %}
+                    {{ block('day_template') }}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
 
-{# Monats design #}
-{% block month_template %}
-    <div class="row month">
-        <h2>{{ month.name }}</h2>
-        {% for day in month.days %}
-            {{ block('day_template') }}
-        {% endfor %}
-    </div>
-{% endblock %}
 
 {# Tages Block design#}
 {% block day_template %}
     <div class="col-xs-6 col-sm-3 dayentry">
-        <div class="list-group">
-            <div class="list-group-item list-group-item-heading">
-                <h5 class="popover-title">{{ day.date }}</h5>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
             </div>
-            <div class="list-group-item list-group-item-text">
-                <p>{{ day.users|join(', ') }}</p>
-                <p class="button_action">
-                    <a href="#" class="btn btn-default btn-xs">zusagen</a>
-                    <a href="#" class="btn btn-default btn-xs">absagen</a>
-                    <a href="#" class="btn btn-primary btn-xs">akzeptiert</a>
-                </p>
-            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ block('admin_view') }}
+            {% else %}
+                {{ block('user_view') }}
+            {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block admin_view %}nix{% endblock %}
+
+{% block user_view %}
+    {% set show_button_type = 'signon'%}
+    {% set show_buttons = false %}
+    <div class="panel-body">
+        {% if day.taUsers %}
+            <p>
+                {{ 'page.calendar.daytext-gogo'|trans }}
+            </p>
+            {% for user in day.taUsers %}
+                    <span class="user-name-box {% if user.isAccept %}bg-success{% else %}bg-warning{% endif %}" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
+                    {% if app.user.firstlastname == user.name %}
+                        {% set show_button_type = 'signoff'%}
+                        {% set show_buttons = true %}
+                    {% endif %}
+            {% endfor %}
+        {% else %}
+            {{ 'page.calendar.daytext-free'|trans }}
+        {% endif %}
+    </div>
+
+    {% if show_buttons or day.taUsers|length < 2 %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="#" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
+                {#<a href="#" class="btn btn-default btn-xs">absagen</a>#}
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="application/javascript">
+        $(function(){
+            $('.user-name-box.bg-success').tooltip({
+                title: '{{ 'help.calendar.user.okay'|trans }}'
+            });
+            $('.user-name-box.bg-warning').tooltip({
+                title: '{{ 'help.calendar.user.pending'|trans }}'
+            })
+        })
+    </script>
 {% endblock %}
