@@ -21,6 +21,7 @@ label:
     calendar:
       signoff: Absagen
       signon: Zusagen
+      remind: Erinnern
   actions: Bearbeiten
   name: Vor- und Nachname
   adress: Adresse

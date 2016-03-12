@@ -35,8 +35,53 @@
     </div>
 {% endblock %}
 
-{% block admin_view %}nix{% endblock %}
+{# Ansicht des Adminsgtrator#}
+{% block admin_view %}
+    <div class="panel-body">
+        <p>
+            {% if day.taUsers %}
+                {{ 'page.calendar.daytext-gogo'|trans }}
+            {% else %}
+                {{ 'page.calendar.daytext-free'|trans }}
+            {% endif %}
+        </p>
+    </div>
 
+    <ul class="list-group">
+        {% for user in day.taUsers %}
+            {% if user.isAccept %}
+                {% set class = 'bg-success' %}
+                {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.remind')|trans }}</button>{% endset %}
+
+            {% else %}
+                {% set class = 'bg-warning' %}
+                {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.signon')|trans }}</button>{% endset %}
+            {% endif %}
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-12 {{ class }}">
+                        <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
+                    </div>
+                    <div class="col-md-12 text-center" style="padding-top: 5px">
+                        <div class="btn-group btn-group-xs" role="group">
+                            {{ signon_button }}
+                            <button type="button" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        <li class="list-group-item">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Bruder/Schwester">
+                <span class="input-group-addon">Hinzufügen</span>
+            </div>
+        </li>
+    </ul>
+ {% endblock %}
+
+{# Ansicht des User#}
 {% block user_view %}
     {% set show_button_type = 'signon'%}
     {% set show_buttons = false %}
