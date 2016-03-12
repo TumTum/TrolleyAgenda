@@ -32,7 +32,7 @@ class Builder implements ContainerAwareInterface
             return $menu;
         }
 
-        $menu->addChild($tr->trans('menu.home'), array('route' => 'trolly_agenda_default_homepage'));
+        $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage'));
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
         $menu->addChild($tr->trans('layout.logout', [], 'FOSUserBundle'), array('route' => 'fos_user_security_logout') );
