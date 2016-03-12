@@ -12,6 +12,7 @@ label:
   actions: Bearbeiten
   save: Sichern
   name: Vor- und Nachname
+  adress: Adresse
   email: E-Mail
   username: Benutzername
   password: Passwort

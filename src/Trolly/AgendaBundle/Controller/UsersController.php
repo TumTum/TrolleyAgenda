@@ -9,12 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Trolly\AgendaBundle\Entity\User;
 
 /**
- * @Security("has_role('ROLE_ADMIN')");
+ * @Security("has_role('ROLE_USER')");
  * @Route("/users")
  */
 class UsersController extends Controller
 {
     /**
+     * @Route("/");
      * @Route("/list");
      */
     public function listAction()
@@ -42,7 +43,7 @@ class UsersController extends Controller
             $userManager = $this->get('fos_user.user_manager');
             $userManager->updateUser($user);
 
-            return $this->redirectToRoute('trolly_agenda_users_edit', ['id' => $user->getId()]);
+            return $this->redirectToRoute('trolly_agenda_users_list');
         }
 
         return $this->render('TrollyAgendaBundle:Users:edit.html.twig', array(

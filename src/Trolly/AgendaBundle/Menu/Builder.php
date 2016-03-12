@@ -27,7 +27,7 @@ class Builder implements ContainerAwareInterface
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_USER')) {
             $menu->addChild($tr->trans('layout.login', [], 'FOSUserBundle'), array('route' => 'fos_user_security_login') );
             return $menu;
         }
