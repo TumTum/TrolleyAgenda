@@ -2,3 +2,6 @@ trolly_agenda:
     resource: "@TrollyAgendaBundle/Controller/"
     type:     annotation
     prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

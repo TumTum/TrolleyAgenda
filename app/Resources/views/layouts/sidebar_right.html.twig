@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-9 main">
+
+            {{ parent() }}
+
+            {% block content %}{% endblock %}
+
+        </div>
+        <div class="col-sm-3 sidebar">
+            {% block sidebar %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends ":layouts:sidebar_right.html.twig" %}
+
+{% block title %}{{ 'page.userlist'|trans }}{% endblock %}
+
+{% block content %}
+    <table class="table table-striped table-responsive">
+        <thead>
+        <tr>
+            <th class="text-nowrap"><i class="fa fa-user hidden-xs"></i> {{ 'label.name'|trans }}</th>
+            <th class="text-nowrap"><i class="fa fa-phone hidden-xs"></i> {{ 'label.phone'|trans }}</th>
+            <th class="text-nowrap"><i class="fa fa-home hidden-xs"></i> {{ 'label.adress'|trans }}</th>
+            <th class="text-nowrap"><i class="fa fa-envelope-o hidden-xs"></i> {{ 'label.email'|trans }}</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th class="text-nowrap"><i class="fa fa-user hidden-xs"></i> {{ 'label.username'|trans }}</th>
+                <th class="text-nowrap"><i class="fa fa-cogs hidden-xs"></i> {{ 'label.actions'|trans }}</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td class="text-nowrap">{{ user.firstlastname }}</td>
+                <td class="text-nowrap">
+                    {%  if user.phone != '' %}<i class="fa fa-phone"></i> {{ user.phone }} <br/>{% endif %}
+                    {%  if user.mobile != '' %}<i class="fa fa-mobile-phone"></i> {{ user.mobile }}  <br/>{% endif %}
+                    {%  if user.mobile2 != '' %}<i class="fa fa-mobile-phone"></i> {{ user.mobile2 }}  <br/>{% endif %}
+                </td>
+                <td><span class="text-nowrap">{{ user.street }},</span> <span class="text-nowrap">{{ user.plz }} {{ user.city }}</span> </td>
+                <td class="text-nowrap">{{ user.email }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+
+                    <td class="text-nowrap">{{ user.username }}</td>
+                    <td class="text-nowrap">
+                        <div class="item-actions">
+                            {#<a href="#}{# path('UserManager_edit', { id: user.id }) #}{#" class="btn btn-sm btn-default">#}
+                                {#{{ 'action.show'|trans }}#}
+                            {#</a>#}
+                            <a href="{{ path('trolly_agenda_users_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
+                            </a>
+                        </div>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block sidebar %}
+
+{%  endblock %}

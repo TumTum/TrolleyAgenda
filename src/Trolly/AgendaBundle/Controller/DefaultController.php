@@ -14,4 +14,12 @@ class DefaultController extends Controller
     {
         return $this->render('TrollyAgendaBundle:Default:index.html.twig');
     }
+
+    /**
+     * @Route("/homepage")
+     */
+    public function homepageAction()
+    {
+        return $this->render('TrollyAgendaBundle:Default:index.html.twig');
+    }
 }
