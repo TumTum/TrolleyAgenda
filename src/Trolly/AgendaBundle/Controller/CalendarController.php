@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class CalendarController extends Controller
 {
     /**
-     * @Route("/", name="startpage")
+     * @Route("/", name="startpage");
      */
     public function indexAction()
     {

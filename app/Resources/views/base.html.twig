@@ -25,7 +25,7 @@
                 <a class="navbar-brand" href="{{ path('startpage') }}">TrollyAgenda</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
-                {{ knp_menu_render('TrollyAgendaBundle:Builder:mainMenu', {'currentClass': 'active', 'class': 'nav navbar-nav'}) }}
+                {{ knp_menu_render('TrollyAgendaBundle:Builder:mainMenu', {'currentClass': 'active', 'class': 'nav navbar-nav', 'allow_safe_labels': true}) }}
             </div>
         </div>
     </nav>
