@@ -1,6 +1,6 @@
 <?php
 
-namespace Trolly\AgendaBundle\Form;
+namespace Trolley\AgendaBundle\Form;
 
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use FOS\UserBundle\Form\Type\GroupFormType;
@@ -49,7 +49,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Trolly\AgendaBundle\Entity\User'
+            'data_class' => 'Trolley\AgendaBundle\Entity\User'
         ));
     }
 }

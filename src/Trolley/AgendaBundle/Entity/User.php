@@ -1,13 +1,13 @@
 <?php
 /**
- * Created for TrollyAgenda
+ * Created for TrolleyAgenda
  * Author: Tobias Matthaiou <matthaiou@tobimat.eu>
  * Date: 17.02.16
  * Time: 18:55
  * Copyright: 2014 Tobias Matthaiou
  */
 
-namespace Trolly\AgendaBundle\Entity;
+namespace Trolley\AgendaBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;

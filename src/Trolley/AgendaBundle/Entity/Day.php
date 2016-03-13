@@ -1,6 +1,6 @@
 <?php
 
-namespace Trolly\AgendaBundle\Entity;
+namespace Trolley\AgendaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Day
  *
  * @ORM\Table(name="day")
- * @ORM\Entity(repositoryClass="Trolly\AgendaBundle\Repository\DayRepository")
+ * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\DayRepository")
  */
 class Day
 {

@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>{% block title %}TrollyAgenta{% endblock %}</title>
+    <title>{% block title %}TrolleyAgenta{% endblock %}</title>
 
 
-    <link href="{{ asset('/bundles/trollyagenda/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/bundles/trollyagenda/css/trollyAgenda.css') }}" rel="stylesheet">
+    <link href="{{ asset('/bundles/trolleyagenda/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/bundles/trolleyagenda/css/trolleyAgenda.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!--[if lt IE 9]>
@@ -28,10 +28,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ path('startpage') }}">TrollyAgenda</a>
+                <a class="navbar-brand" href="{{ path('startpage') }}">TrolleyAgenda</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
-                {{ knp_menu_render('TrollyAgendaBundle:Builder:mainMenu', {'currentClass': 'active', 'class': 'nav navbar-nav', 'allow_safe_labels': true}) }}
+                {{ knp_menu_render('TrolleyAgendaBundle:Builder:mainMenu', {'currentClass': 'active', 'class': 'nav navbar-nav', 'allow_safe_labels': true}) }}
             </div>
         </div>
     </nav>
@@ -52,7 +52,7 @@
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="{{ asset('/bundles/trollyagenda/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/bootstrap.min.js') }}"></script>
     {% block javascript %}{% endblock %}
 </body>
 </html>

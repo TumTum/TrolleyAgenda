@@ -1,6 +1,6 @@
 <?php
 
-namespace Trolly\AgendaBundle\Tests\Controller;
+namespace Trolley\AgendaBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

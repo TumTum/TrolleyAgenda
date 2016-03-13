@@ -1,12 +1,12 @@
 <?php
 
-namespace Trolly\AgendaBundle\Controller;
+namespace Trolley\AgendaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Trolly\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Entity\User;
 
 /**
  * @Security("has_role('ROLE_USER')");
@@ -21,9 +21,9 @@ class UsersController extends Controller
     public function listAction()
     {
         $db = $this->getDoctrine()->getManager();
-        $userDB = $db->getRepository("TrollyAgendaBundle:User");
+        $userDB = $db->getRepository("TrolleyAgendaBundle:User");
 
-        return $this->render('TrollyAgendaBundle:Users:list.html.twig',[
+        return $this->render('TrolleyAgendaBundle:Users:list.html.twig',[
             'users' => $userDB->findAll()
         ]);
     }
@@ -33,7 +33,7 @@ class UsersController extends Controller
      */
     public function editAction(User $user, Request $request)
     {
-        $form = $this->createForm('Trolly\\AgendaBundle\\Form\\UserType', $user);
+        $form = $this->createForm('Trolley\\AgendaBundle\\Form\\UserType', $user);
 
         $form->handleRequest($request);
 
@@ -43,10 +43,10 @@ class UsersController extends Controller
             $userManager = $this->get('fos_user.user_manager');
             $userManager->updateUser($user);
 
-            return $this->redirectToRoute('trolly_agenda_users_list');
+            return $this->redirectToRoute('trolley_agenda_users_list');
         }
 
-        return $this->render('TrollyAgendaBundle:Users:edit.html.twig', array(
+        return $this->render('TrolleyAgendaBundle:Users:edit.html.twig', array(
             'user' => $user,
             'edit_form' => $form->createView(),
         ));

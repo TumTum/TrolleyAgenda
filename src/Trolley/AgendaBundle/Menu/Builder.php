@@ -1,20 +1,20 @@
 <?php
 /**
- * Created for TrollyAgenda
+ * Created for TrolleyAgenda
  * Author: Tobias Matthaiou <matthaiou@tobimat.eu>
  * Date: 17.02.16
  * Time: 19:18
  * Copyright: 2014 Tobias Matthaiou
  */
 
-namespace Trolly\AgendaBundle\Menu;
+namespace Trolley\AgendaBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Translation\Translator;
-use Trolly\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Entity\User;
 
 class Builder implements ContainerAwareInterface
 {
@@ -35,8 +35,8 @@ class Builder implements ContainerAwareInterface
         }
 
         $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage'));
-        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
-        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolly_agenda_users_list') );
+        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolley_agenda_users_list') );
+        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolley_agenda_users_list') );
 
         $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " <small>(".$this->getUsername().")</small>", $menu);
         $menuProfile->setLabel($menuProfile->getLabel());

@@ -1,6 +1,6 @@
 <?php
 
-namespace Trolly\AgendaBundle\Repository;
+namespace Trolley\AgendaBundle\Repository;
 
 /**
  * DayRepository

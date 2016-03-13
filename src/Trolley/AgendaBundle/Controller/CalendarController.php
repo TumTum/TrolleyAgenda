@@ -1,10 +1,10 @@
 <?php
 
-namespace Trolly\AgendaBundle\Controller;
+namespace Trolley\AgendaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Trolly\AgendaBundle\Entity\Day;
+use Trolley\AgendaBundle\Entity\Day;
 
 class CalendarController extends Controller
 {
@@ -46,7 +46,7 @@ class CalendarController extends Controller
             ]
         );
 
-        return $this->render('TrollyAgendaBundle:Calendar:index.html.twig', [
+        return $this->render('TrolleyAgendaBundle:Calendar:index.html.twig', [
             'months' => $months
         ]);
     }
