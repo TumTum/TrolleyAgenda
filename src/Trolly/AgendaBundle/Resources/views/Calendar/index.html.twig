@@ -12,6 +12,9 @@
                 <h2>{{ monthname }}</h2>
                 {% for day in month %}
                     {{ block('day_template') }}
+                    {% if (loop.index % 2) == 0 %}
+                        <div class="clearfix visible-xs-block"></div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endfor %}
