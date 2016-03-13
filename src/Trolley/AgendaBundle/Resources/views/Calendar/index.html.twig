@@ -51,17 +51,17 @@
     <ul class="list-group">
         {% for user in day.taUsers %}
             {% if user.isAccept %}
-                {% set class = 'bg-success' %}
-                {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.remind')|trans }}</button>{% endset %}
+                {% set bg_color = 'bg-success' %}
+                {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.change')|trans }}</button>{% endset %}
 
             {% else %}
-                {% set class = 'bg-warning' %}
+                {% set bg_color = 'bg-warning' %}
                 {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.signon')|trans }}</button>{% endset %}
             {% endif %}
 
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-md-12 {{ class }}">
+                    <div class="col-md-12 {{ bg_color }}">
                         <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
                     </div>
                     <div class="col-md-12 text-center" style="padding-top: 5px">
@@ -82,21 +82,36 @@
     </ul>
  {% endblock %}
 
-{# Ansicht des User#}
+{# Ansicht des User #}
 {% block user_view %}
     {% set show_button_type = 'signon'%}
     {% set show_buttons = false %}
+
     <div class="panel-body">
         {% if day.taUsers %}
             <p>
                 {{ 'page.calendar.daytext-gogo'|trans }}
             </p>
             {% for user in day.taUsers %}
-                    <span class="user-name-box {% if user.isAccept %}bg-success{% else %}bg-warning{% endif %}" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
-                    {% if app.user.firstlastname == user.name %}
-                        {% set show_button_type = 'signoff'%}
-                        {% set show_buttons = true %}
-                    {% endif %}
+
+                {% set isLoginUser = app.user.firstlastname == user.name %}
+
+                {% set bg_color = 'bg-warning' %}
+                {% if user.isAccept %}
+                    {% set bg_color = 'bg-success' %}
+                {% endif %}
+                {% set markActivUser = '' %}
+                {% if isLoginUser %}
+                    {% set markActivUser = 'markActivUser' %}
+                {% endif %}
+
+                <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">
+                    {{ user.name }}
+                </span>
+                {% if isLoginUser  %}
+                    {% set show_button_type = 'signoff'%}
+                    {% set show_buttons = true %}
+                {% endif %}
             {% endfor %}
         {% else %}
             {{ 'page.calendar.daytext-free'|trans }}

@@ -61,3 +61,8 @@ body {
     margin: 2px;
     white-space: nowrap;
 }
+
+.calendar .markActivUser {
+    font-weight: bold;
+    font-size: 1em;
+}
