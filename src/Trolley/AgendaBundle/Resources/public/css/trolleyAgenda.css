@@ -66,3 +66,11 @@ body {
     font-weight: bold;
     font-size: 1em;
 }
+
+.route dl dt {
+    margin-top: 1em;
+}
+
+.route dl dd {
+    margin-left: 1em;
+}

@@ -42,6 +42,7 @@ label:
 
 menu:
   home: Übersicht
+  route: Route
   userlist: Teilnehmer
   user: Profile
 
