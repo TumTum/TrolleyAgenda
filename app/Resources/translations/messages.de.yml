@@ -20,9 +20,10 @@ label:
     save: Sichern
     calendar:
       signoff: Absagen
-      signon: Zusagen
+      signon: Mich Bewerben
+      accept: Anerkennen
       remind: Erinnern
-      change: Wechseln
+      change: Auswechseln
   actions: Bearbeiten
   name: Vor- und Nachname
   adress: Adresse
@@ -44,7 +45,7 @@ menu:
   home: Übersicht
   route: Route
   userlist: Teilnehmer
-  user: Profile
+  user: Mein Profil
 
 date:
   Monday: Montag
@@ -68,5 +69,5 @@ date:
   December: Dezember
 
 help:
-  calendar.user.okay: "Ist Fest eingeplannt"
+  calendar.user.okay: "Angenommen"
   calendar.user.pending: "Wartet auf Zustimmung"
