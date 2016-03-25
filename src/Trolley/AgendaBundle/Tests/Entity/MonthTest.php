@@ -11,6 +11,7 @@
 namespace Trolley\AgendaBundle\Tests\Entity;
 
 
+use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\Month;
 
 class MonthTest extends \PHPUnit_Framework_TestCase
@@ -103,4 +104,48 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $month->getMonthName());
     }
 
+    /**
+     * @return array
+     */
+    public function ListOfWeeks()
+    {
+        return [ ['Monday'],
+                 ['Tuesday'],
+                 ['Wednesday'],
+                 ['Thursday'],
+                 ['Friday'],
+                 ['Saturday'],
+                 ['Sunday']
+        ];
+    }
+
+    /**
+     * @dataProvider ListOfWeeks
+     */
+    public function testFillDay($week)
+    {
+        $monthyear = date_create()->format('F Y');
+
+        $month_start = date_create("first {$week} of {$monthyear}");
+        $month_end   = date_create("last {$week} of {$monthyear}");
+
+        $plus7days = 604800; // 86400 * 7
+
+        $days = [];
+        for ($i = $month_start->format('U');
+             $i <= $month_end->format('U');
+             $i += $plus7days) {
+            $days[] = date('l d-m-y', $i);
+        }
+        $days[] = date('l d-m-y', $month_end->format('U'));
+
+        $month = new Month();
+        $month->setMonth('this Month');
+        $month->fillDaysOfWeek($week);
+
+        foreach ($month as $date) {
+            $this->assertEquals($week, $date->getTaDay()->format("l"));
+            $this->assertContains($date->getTaDay()->format("l d-m-y"), $days);
+        }
+    }
 }

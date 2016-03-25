@@ -55,6 +55,11 @@ class Month extends \ArrayIterator
         $this->setDate($date);
     }
 
+    /**
+     * Gibt den Monats Namen zuruck
+     *
+     * @return string
+     */
     public function getMonthName()
     {
         if ($this->getDate() == null) {
@@ -62,5 +67,44 @@ class Month extends \ArrayIterator
         }
 
         return $this->getDate()->format('F');
+    }
+
+    /**
+     * Füllt die Tage der Wochen
+     * @param $array
+     */
+    public function fillDaysFor($array)
+    {
+        array_map('self::fillDaysOfWeek', $array);
+    }
+
+    /**
+     * Füllt die Wochentage diesen Monats auf
+     *
+     * @param $week
+     */
+    public function fillDaysOfWeek($week)
+    {
+        $month_year = $this->getDate()->format('F Y');
+
+        $month_start = date_create("first {$week} of {$month_year}");
+        $thisMonth = $month_start->format('m');
+
+        $plus7days = new \DateInterval("P7D");
+        
+        while ($month_start->format('m') == $thisMonth) {
+            $this->_addDay($month_start);
+            $month_start->add($plus7days);
+        }
+    }
+
+    /**
+     * Fügt einen Tag hinzu.
+     *
+     * @param $time
+     */
+    protected function _addDay($date)
+    {
+        $this[] = new Day(clone $date);
     }
 }
