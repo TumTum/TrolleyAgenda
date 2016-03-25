@@ -10,7 +10,7 @@ class UserListeControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/list');
+        //$crawler = $client->request('GET', '/list');
     }
 
 }
