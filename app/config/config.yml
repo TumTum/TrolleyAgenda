@@ -84,3 +84,13 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+trolley_agenda:
+    calendar:
+        every_day:
+            - Monday
+            - Tuesday
+            - Wednesday
+            - Thursday
+        month_looking_ahead: 3
+        month_retrospective: 1
