@@ -8,9 +8,9 @@ class UserListeControllerTest extends WebTestCase
 {
     public function testList()
     {
+        $this->markTestSkipped();
         $client = static::createClient();
-
-        //$crawler = $client->request('GET', '/list');
+        $crawler = $client->request('GET', '/list');
     }
 
 }
