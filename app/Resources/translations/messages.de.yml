@@ -1,7 +1,12 @@
 page:
   userlist: Teilnehmerliste
   useredit: Teilnemer Bearbeiten
+  userchangepasswort: Passwort Ändern
   signinheading: Bitte melde dich an
+  calendar:
+    overview: Trolley Anmeldung
+    daytext-gogo: "An diesem Tag gehen:"
+    daytext-free: "Nicht Belegt"
 
 action:
   show: Anzeigen
@@ -9,8 +14,17 @@ action:
   sign_in: Login
 
 label:
+  button:
+    okay: ok
+    cancel: Abbrechen
+    save: Sichern
+    calendar:
+      signoff: Absagen
+      signon: Mich Bewerben
+      accept: Anerkennen
+      remind: Erinnern
+      change: Auswechseln
   actions: Bearbeiten
-  save: Sichern
   name: Vor- und Nachname
   adress: Adresse
   email: E-Mail
@@ -29,5 +43,31 @@ label:
 
 menu:
   home: Übersicht
+  route: Route
   userlist: Teilnehmer
+  user: Mein Profil
 
+date:
+  Monday: Montag
+  Tuesday: Dienstag
+  Wednesday: Mittwoch
+  Thursday: Donnerstag
+  Friday: Freitag
+  Saturday: Samstag
+  Sunday: Sonntag
+  January: Januar
+  February: Februar
+  March: März
+  April: April
+  May: Mai
+  June: June
+  July: Juli
+  August: August
+  September: September
+  October: Oktober
+  November: November
+  December: Dezember
+
+help:
+  calendar.user.okay: "Angenommen"
+  calendar.user.pending: "Wartet auf Zustimmung"

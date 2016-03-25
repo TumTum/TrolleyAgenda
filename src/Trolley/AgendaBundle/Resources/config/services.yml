@@ -1,0 +1,4 @@
+services:
+#    trolley_agenda.example:
+#        class: Trolley\AgendaBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

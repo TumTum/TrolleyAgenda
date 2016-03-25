@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ 'page.calendar.overview'|trans }}{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <p class="lead">Terminverwaltung um sich anzumelden am Trolley Dienst.</p>
+
+    <div class="container calendar">
+        {% for monthname, month in months %}
+            <div class="row month">
+                <h2>{{ monthname }}</h2>
+                {% block day_befor %}{% endblock %}
+                {% for day in month %}
+                    {% block day_template %}{% endblock %}
+                {% endfor %}
+                {% block day_after %}{% endblock %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="application/javascript">
+        $(function(){
+            $('.user-name-box.bg-success').tooltip({
+                title: '{{ 'help.calendar.user.okay'|trans }}'
+            });
+            $('.user-name-box.bg-warning').tooltip({
+                title: '{{ 'help.calendar.user.pending'|trans }}'
+            })
+        })
+    </script>
+{% endblock %}

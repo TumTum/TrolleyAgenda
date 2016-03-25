@@ -1,0 +1,76 @@
+body {
+    padding-top: 50px;
+}
+
+.login-box {
+    margin-top: 3em;
+}
+.form-signin {
+
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[id="username"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Seite Blog */
+.calendar .dayentry {
+    padding: 15px;
+}
+
+.calendar .list-group-item-heading {
+    margin-bottom: -1px;
+    padding: 0 !important;
+}
+
+.calendar .user-name-box {
+    display: block;
+    padding: 3px 5px;
+    font-size: 0.9em;
+    border-radius: 3px;
+    margin: 2px;
+    white-space: nowrap;
+}
+
+.calendar .markActivUser {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.route dl dt {
+    margin-top: 1em;
+}
+
+.route dl dd {
+    margin-left: 1em;
+}

@@ -1,5 +1,5 @@
-trolly_agenda:
-    resource: "@TrollyAgendaBundle/Controller/"
+trolley_agenda:
+    resource: "@TrolleyAgendaBundle/Controller/"
     type:     annotation
     prefix:   /
 

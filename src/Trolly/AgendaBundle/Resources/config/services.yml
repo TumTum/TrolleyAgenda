@@ -1,4 +1,0 @@
-services:
-#    trolly_agenda.example:
-#        class: Trolly\AgendaBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
