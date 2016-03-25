@@ -3,6 +3,7 @@
 namespace Trolley\AgendaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Prophecy\Exception\InvalidArgumentException;
 
 /**
  * Day
@@ -21,12 +22,6 @@ class Day
      */
     private $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="taMonth", type="date")
-     */
-    private $taMonth;
 
     /**
      * @var \DateTime
@@ -61,30 +56,6 @@ class Day
     }
 
     /**
-     * Set taMonth
-     *
-     * @param \DateTime $taMonth
-     *
-     * @return Day
-     */
-    public function setTaMonth($taMonth)
-    {
-        $this->taMonth = $taMonth;
-
-        return $this;
-    }
-
-    /**
-     * Get taMonth
-     *
-     * @return \DateTime
-     */
-    public function getTaMonth()
-    {
-        return $this->taMonth;
-    }
-
-    /**
      * Set taDay
      *
      * @param \DateTime $taDay
@@ -93,6 +64,7 @@ class Day
      */
     public function setTaDay($taDay)
     {
+        $taDay->setTime(0,0,0);
         $this->taDay = $taDay;
 
         return $this;
@@ -157,22 +129,21 @@ class Day
     }
 
     /**
-     * PHP 5 allows developers to declare constructor methods for classes.
-     * Classes which have a constructor method call this method on each newly-created object,
-     * so it is suitable for any initialization that the object may need before it is used.
+     * Day constructor.
      *
-     * Note: Parent constructors are not called implicitly if the child class defines a constructor.
-     * In order to run a parent constructor, a call to parent::__construct() within the child constructor is required.
-     *
-     * param [ mixed $args [, $... ]]
-     *
-     * @return void
-     * @link http://php.net/manual/en/language.oop5.decon.php
+     * @param null $datestring
      */
     public function __construct($datestring = null)
     {
         if ($datestring !== null) {
-            $date = date_create($datestring);
+            if (is_scalar($datestring)) {
+                $date = date_create($datestring);
+            } elseif ($datestring instanceof \DateTime ) {
+                $date = $datestring;
+            } else {
+                throw new InvalidArgumentException('It must be a String or DateTime object.');
+            }
+
             $this->setTaDay($date);
         }
     }
