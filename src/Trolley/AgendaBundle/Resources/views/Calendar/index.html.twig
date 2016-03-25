@@ -9,7 +9,7 @@
     <div class="container calendar">
         {% for monthname, month in months %}
             <div class="row month">
-                <h2>{{ monthname }}</h2>
+                <h2>{{ ("date." ~ monthname)|trans }}</h2>
                 {% block day_befor %}{% endblock %}
                 {% for day in month %}
                     {% block day_template %}{% endblock %}
