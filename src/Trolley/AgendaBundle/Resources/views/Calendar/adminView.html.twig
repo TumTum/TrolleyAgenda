@@ -1,0 +1,87 @@
+{% extends "TrolleyAgendaBundle:Calendar:index.html.twig" %}
+
+{% block day_befor %}
+    <table class="table table-responsive table-hover table-condensed">
+        <colgroup>
+            <col span="1" style="width: 25%">
+            <col span="1" style="width: auto">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="text-center">letzte Monate</th>
+                <th class="text-center">Zukunft</th>
+            </tr>
+        </thead>
+        <tbody>
+{% endblock %}
+
+{# Tages Block design#}
+{% block day_template %}
+    {% for user in day.taUsers %}
+        {% if user.isAccept %}
+            {% set bg_color = 'bg-success' %}
+            {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.change')|trans }}</button>{% endset %}
+        {% else %}
+            {% set bg_color = 'bg-warning' %}
+            {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.accept')|trans }}</button>{% endset %}
+        {% endif %}
+
+        <tr>
+            {% if loop.first %}
+                <td rowspan="{{ day.taUsers|length }}">
+                    <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
+
+                    <div class="input-group input-group-sm" style="margin-top: 1em">
+                        <input type="text" class="form-control" placeholder="Bruder/Schwester">
+                        <span class="input-group-addon">Hinzufügen</span>
+                    </div>
+                </td>
+            {% endif %}
+            <td class="{{ bg_color }}">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
+                    </div>
+                    <div class="col-sm-5 text-right">
+                        <div class="btn-group btn-group-xs" role="group">
+                            {{ signon_button }}
+                            <button type="button" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center">
+                2
+            </td>
+            <td class="text-center">
+                4
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td >
+                <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
+            </td>
+            <td colspan="3">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="{{ 'page.calendar.daytext-free'|trans }}">
+                    <span class="input-group-addon">Hinzufügen</span>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+
+
+
+
+
+{% endblock %}
+
+{% block day_after %}
+        </tbody>
+    </table>
+{% endblock %}

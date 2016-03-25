@@ -10,122 +10,14 @@
         {% for monthname, month in months %}
             <div class="row month">
                 <h2>{{ monthname }}</h2>
+                {% block day_befor %}{% endblock %}
                 {% for day in month %}
-                    {{ block('day_template') }}
-                    {% if (loop.index % 2) == 0 %}
-                        <div class="clearfix visible-xs-block"></div>
-                    {% endif %}
+                    {% block day_template %}{% endblock %}
                 {% endfor %}
+                {% block day_after %}{% endblock %}
             </div>
         {% endfor %}
     </div>
-{% endblock %}
-
-
-{# Tages Block design#}
-{% block day_template %}
-    <div class="col-xs-6 col-sm-3 dayentry">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
-            </div>
-            {% if is_granted('ROLE_ADMIN') %}
-                {{ block('admin_view') }}
-            {% else %}
-                {{ block('user_view') }}
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
-
-{# Ansicht des Adminsgtrator#}
-{% block admin_view %}
-    {% if day.taUsers|length == 0 %}
-        <div class="panel-body">
-            <p>
-                {{ 'page.calendar.daytext-free'|trans }}
-            </p>
-        </div>
-    {% endif %}
-
-    <ul class="list-group">
-        {% for user in day.taUsers %}
-            {% if user.isAccept %}
-                {% set bg_color = 'bg-success' %}
-                {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.change')|trans }}</button>{% endset %}
-
-            {% else %}
-                {% set bg_color = 'bg-warning' %}
-                {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.accept')|trans }}</button>{% endset %}
-            {% endif %}
-
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-md-12 {{ bg_color }}">
-                        <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
-                    </div>
-                    <div class="col-md-12 text-center" style="padding-top: 5px">
-                        <div class="btn-group btn-group-xs" role="group">
-                            {{ signon_button }}
-                            <button type="button" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</button>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        {% endfor %}
-        <li class="list-group-item">
-            <div class="input-group input-group-sm">
-                <input type="text" class="form-control" placeholder="Bruder/Schwester">
-                <span class="input-group-addon">Hinzufügen</span>
-            </div>
-        </li>
-    </ul>
- {% endblock %}
-
-{# Ansicht des User #}
-{% block user_view %}
-    {% set show_button_type = 'signon'%}
-    {% set show_buttons = false %}
-
-    <div class="panel-body">
-        {% if day.taUsers %}
-            <p>
-                {{ 'page.calendar.daytext-gogo'|trans }}
-            </p>
-            {% for user in day.taUsers %}
-
-                {% set isLoginUser = app.user.firstlastname == user.name %}
-
-                {% set bg_color = 'bg-warning' %}
-                {% if user.isAccept %}
-                    {% set bg_color = 'bg-success' %}
-                {% endif %}
-                {% set markActivUser = '' %}
-                {% if isLoginUser %}
-                    {% set markActivUser = 'markActivUser' %}
-                {% endif %}
-
-                <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">
-                    {{ user.name }}
-                </span>
-                {% if isLoginUser  %}
-                    {% set show_button_type = 'signoff'%}
-                    {% set show_buttons = true %}
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {{ 'page.calendar.daytext-free'|trans }}
-        {% endif %}
-    </div>
-
-    {% if show_buttons or day.taUsers|length < 2 %}
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="#" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
-                {#<a href="#" class="btn btn-default btn-xs">absagen</a>#}
-            </li>
-        </ul>
-    {% endif %}
 {% endblock %}
 
 {% block javascript %}

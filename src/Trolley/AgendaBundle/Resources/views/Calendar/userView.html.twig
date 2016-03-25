@@ -1,0 +1,58 @@
+{% extends "TrolleyAgendaBundle:Calendar:index.html.twig" %}
+
+{% block day_template %}
+    <div class="col-xs-6 col-sm-3 dayentry">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
+            </div>
+
+            {% set show_button_type = 'signon'%}
+            {% set show_buttons = false %}
+
+            <div class="panel-body">
+                {% if day.taUsers %}
+                    <p>
+                        {{ 'page.calendar.daytext-gogo'|trans }}
+                    </p>
+                    {% for user in day.taUsers %}
+
+                        {% set isLoginUser = app.user.firstlastname == user.name %}
+
+                        {% set bg_color = 'bg-warning' %}
+                        {% if user.isAccept %}
+                            {% set bg_color = 'bg-success' %}
+                        {% endif %}
+                        {% set markActivUser = '' %}
+                        {% if isLoginUser %}
+                            {% set markActivUser = 'markActivUser' %}
+                        {% endif %}
+
+                        <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">
+                    {{ user.name }}
+                </span>
+                        {% if isLoginUser  %}
+                            {% set show_button_type = 'signoff'%}
+                            {% set show_buttons = true %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {{ 'page.calendar.daytext-free'|trans }}
+                {% endif %}
+            </div>
+
+            {% if show_buttons or day.taUsers|length < 2 %}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="#" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
+                        {#<a href="#" class="btn btn-default btn-xs">absagen</a>#}
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if (loop.index % 2) == 0 %}
+        <div class="clearfix visible-xs-block">####</div>
+    {% endif %}
+{% endblock %}

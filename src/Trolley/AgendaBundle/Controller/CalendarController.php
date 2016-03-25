@@ -46,7 +46,13 @@ class CalendarController extends Controller
             ]
         );
 
-        return $this->render('TrolleyAgendaBundle:Calendar:index.html.twig', [
+        $Template = 'TrolleyAgendaBundle:Calendar:userView.html.twig';
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $Template = 'TrolleyAgendaBundle:Calendar:adminView.html.twig';
+        }
+
+        return $this->render($Template, [
             'months' => $months
         ]);
     }
