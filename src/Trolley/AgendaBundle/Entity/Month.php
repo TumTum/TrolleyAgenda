@@ -96,6 +96,8 @@ class Month extends \ArrayIterator
             $this->_addDay($month_start);
             $month_start->add($plus7days);
         }
+
+        $this->asort();
     }
 
     /**
@@ -107,4 +109,29 @@ class Month extends \ArrayIterator
     {
         $this[] = new Day(clone $date);
     }
+
+    /**
+     * Sort array by values
+     *
+     * @link  http://php.net/manual/en/arrayiterator.asort.php
+     * @return void
+     * @since 5.2.0
+     */
+    public function asort()
+    {
+        $this->uasort([$this, 'sortByDay']);
+    }
+
+    public function sortByDay(Day $a, Day $b)
+    {
+        $atime = $a->getTaDay()->getTimestamp();
+        $btime = $b->getTaDay()->getTimestamp();
+
+        if ($atime == $btime) {
+            return 0;
+        }
+        
+        return $atime < $btime ? -1 : 1;
+    }
+
 }

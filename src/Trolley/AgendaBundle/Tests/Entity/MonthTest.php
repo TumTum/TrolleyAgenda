@@ -148,4 +148,42 @@ class MonthTest extends \PHPUnit_Framework_TestCase
             $this->assertContains($date->getTaDay()->format("l d-m-y"), $days);
         }
     }
+
+    public function testSortDayEarlier()
+    {
+        $month = new Month();
+
+        $earlierDay = new Day('2016-10-20');
+        $laterDay = new Day('2016-10-21');
+
+        $actual = $month->sortByDay($earlierDay, $laterDay);
+
+        $this->assertEquals(-1, $actual);
+    }
+
+    public function testSortDayLater()
+    {
+        $month = new Month();
+
+        $earlierDay = new Day('2016-10-20');
+        $laterDay = new Day('2016-10-21');
+
+        $actual = $month->sortByDay($laterDay, $earlierDay);
+
+        $this->assertEquals(1, $actual);
+    }
+
+    public function testSortDaySame()
+    {
+        $month = new Month();
+
+        $earlierDay = new Day('2016-10-20');
+        $laterDay = new Day('2016-10-20');
+
+        $actual = $month->sortByDay($laterDay, $earlierDay);
+
+        $this->assertEquals(0, $actual);
+    }
+
+
 }
