@@ -136,9 +136,7 @@ class Month extends \ArrayIterator
 
     public function getSQLDates()
     {
-        $days = array_map(function(Day $day) { return (string)$day; }, $this->getArrayCopy());
-
-        return "'" . implode("','", $days) . "'";
+        return "'" . implode("','", $this->getArrayCopy()) . "'";
     }
 
 }
