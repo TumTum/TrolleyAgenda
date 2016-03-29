@@ -134,4 +134,11 @@ class Month extends \ArrayIterator
         return $atime < $btime ? -1 : 1;
     }
 
+    public function getSQLDates()
+    {
+        $days = array_map(function(Day $day) { return (string)$day; }, $this->getArrayCopy());
+
+        return "'" . implode("','", $days) . "'";
+    }
+
 }

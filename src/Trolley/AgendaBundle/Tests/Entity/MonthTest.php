@@ -185,5 +185,15 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $actual);
     }
 
+    public function testGetAllDayForSQL()
+    {
+        $month = new Month();
 
+        $month[] = new Day('2016-10-20');
+        $month[] = new Day('2016-10-21');
+        $month[] = new Day('2016-10-22');
+
+        $this->assertEquals("'2016-10-20','2016-10-21','2016-10-22'", $month->getSQLDates());
+
+    }
 }
