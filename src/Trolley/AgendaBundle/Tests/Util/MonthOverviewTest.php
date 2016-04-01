@@ -65,4 +65,33 @@ class MonthOverviewTest extends \PHPUnit_Framework_TestCase
             $this->assertContains($week, $weeks);
         }
     }
+
+    /**
+     * Testet ob MonthOverview allte Tage Hat
+     */
+    public function testDayListe()
+    {
+        $monthOverview = new MonthOverview();
+        $monthOverview->createAheadMonth(2);
+
+        $exceptCount = 0;
+
+        $Month = new Month();
+        $Month->setMonth("now");
+        $Month->fillDaysOfWeek('Saturday');
+        $exceptCount += count($Month);
+
+        $Month = new Month();
+        $Month->setMonth("next Month");
+        $Month->fillDaysOfWeek('Saturday');
+
+        $exceptCount += count($Month);
+
+        $monthOverview->fillMonthWithDaysFor(['Saturday']);
+
+        $this->assertCount($exceptCount, $monthOverview->getDaysList());
+    }
+
+
+
 }

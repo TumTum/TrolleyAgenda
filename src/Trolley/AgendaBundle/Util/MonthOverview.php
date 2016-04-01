@@ -17,6 +17,11 @@ class MonthOverview extends \ArrayIterator
 {
 
     /**
+     * @var array
+     */
+    private $daysList = [];
+
+    /**
      * Die Anzahl der Monate
      *
      * @param integer $count anzahl der Monate im Voraus
@@ -63,14 +68,35 @@ class MonthOverview extends \ArrayIterator
     }
 
     /**
-     * @param array days
+     * Füllt alle Monate mit den Tagen aus
+     *
+     * @param array $days
      */
     public function fillMonthWithDaysFor($days)
     {
         /** @var Month $month */
         foreach ($this as $month) {
             $month->fillDaysFor($days);
+            $this->_setDaysList($month);
         }
+    }
+
+    /**
+     * Gibt die Day zurück die nicht in der DB sind
+     *
+     * @return array
+     */
+    public function getDaysList()
+    {
+        return $this->daysList;
+    }
+
+    /**
+     * @param array $daysList
+     */
+    protected function _setDaysList(Month $daysList)
+    {
+        $this->daysList = array_merge($this->daysList, $daysList->getArrayCopy());
     }
 
 }
