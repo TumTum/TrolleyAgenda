@@ -19,6 +19,9 @@ use Symfony\Component\VarDumper\VarDumper;
 class MonthOverviewTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * Test zwei Monate
+     */
     public function testCreateTowMonth()
     {
         $monthOverview = new MonthOverview();
@@ -27,6 +30,9 @@ class MonthOverviewTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $monthOverview);
     }
 
+    /**
+     * Test den zweiten Monat ob es wirklich stimmt
+     */
     public function testCreateNextMonthWithName()
     {
         $monthOverview = new MonthOverview();
@@ -36,6 +42,9 @@ class MonthOverviewTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey($thisMonth, $monthOverview);
     }
 
+    /**
+     * Testet den letzten Monat
+     */
     public function testCreateLastMonthWithName()
     {
         $monthOverview = new MonthOverview();
@@ -45,6 +54,9 @@ class MonthOverviewTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey($thisMonth, $monthOverview);
     }
 
+    /**
+     * Testen den Inhalt des Monats mit den Tagen
+     */
     public function testFillMonthWihtEntry()
     {
         $weeks = ['Saturday', 'Monday'];
@@ -91,7 +103,4 @@ class MonthOverviewTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount($exceptCount, $monthOverview->getDaysList());
     }
-
-
-
 }

@@ -16,6 +16,9 @@ use Trolley\AgendaBundle\Entity\Day;
 class DayTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * Test ob das Object ein Datum zurück gibt
+     */
     public function testDayToString()
     {
         $day = new Day('2016-10-20');
