@@ -29,10 +29,20 @@ class DayTest extends \PHPUnit_Framework_TestCase
     /**
      * Testet das format
      */
-    public function testFormatDat()
+    public function testFormatDate()
     {
         $day = new Day('2016-10-20');
 
         $this->assertEquals('10-2016~20', $day->format('m-Y~d'));
+    }
+
+    /**
+     * Testet das format
+     */
+    public function testFormatMonth()
+    {
+        $day = new Day('2016-10-20');
+
+        $this->assertEquals('October', $day->getMonthName());
     }
 }

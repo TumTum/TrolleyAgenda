@@ -29,12 +29,6 @@ class Day
     private $id;
 
     /**
-     * Id nach Datum
-     * @var string
-     */
-    private $idDate = "";
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="taDay", type="datetime")
@@ -54,6 +48,17 @@ class Day
      * @ORM\Column(name="taIsAccept", type="smallint", nullable=true)
      */
     private $taIsAccept;
+
+    /**
+     * Id nach Datum
+     * @var string
+     */
+    private $idDate = "";
+
+    /**
+     * @var string
+     */
+    private $monthName = "";
 
     /**
      * Ist das datum Format für das Array key des $daysList
@@ -76,6 +81,9 @@ class Day
      */
     public function getIdDate()
     {
+        if ($this->idDate == '' && !empty($this->taDay)) {
+            $this->idDate = $this->taDay->format(self::idDateFormat);
+        }
         return $this->idDate;
     }
 
@@ -163,6 +171,19 @@ class Day
     {
         return $this->getTaDay()->format($format);
     }
+
+    /**
+     * @return string
+     */
+    public function getMonthName()
+    {
+        if ($this->monthName == '' && !empty($this->taDay)) {
+            $this->monthName = $this->taDay->format('F');
+        }
+
+        return $this->monthName;
+    }
+
     /**
      * Day constructor.
      *
@@ -193,7 +214,6 @@ class Day
     {
         return $this->getTaDay()->format("Y-m-d");
     }
-
 
 }
 
