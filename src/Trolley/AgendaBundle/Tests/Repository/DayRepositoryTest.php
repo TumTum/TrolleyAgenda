@@ -95,10 +95,10 @@ class DayRepositoryTest extends KernelTestCase
         /** @var \Trolley\AgendaBundle\Repository\DayRepository $DayRepository */
         $DayRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
         $newGenarate = [
-            new Day("+1 Month"),
             new Day("+1 Day"),
             new Day("+2 Day"),
             new Day("+3 Day"),
+            new Day("+1 Month"),
         ];
 
         $manager = $this->getDoctrine()->getManager();
