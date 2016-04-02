@@ -10,4 +10,22 @@ namespace Trolley\AgendaBundle\Repository;
  */
 class DayRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Holt aus der DB die Passende Tagen
+     *
+     * @param array $Days
+     *
+     * @return array
+     */
+    public function findDaysByDate(array $Days)
+    {
+        $qB = $this->createQueryBuilder('d');
+
+        $qB->where(
+            $qB->expr()->in('DATE_FORMAT(d.taDay, \'%Y-%m-%d\')', $Days)
+        );
+
+        return $qB->getQuery()->getResult();
+    }
 }
