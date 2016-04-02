@@ -7,10 +7,9 @@
  * Copyright: 2014 Tobias Matthaiou
  */
 
-
 namespace Trolley\AgendaBundle\Util;
 
-
+use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\Month;
 
 class MonthOverview extends \ArrayIterator
@@ -77,12 +76,12 @@ class MonthOverview extends \ArrayIterator
         /** @var Month $month */
         foreach ($this as $month) {
             $month->fillDaysFor($days);
-            $this->_setDaysList($month);
+            $this->_addDayToList($month);
         }
     }
 
     /**
-     * Gibt die Day zurück die nicht in der DB sind
+     * Gibt alle Days zurück die in den Monaten erstellt wurden
      *
      * @return array
      */
@@ -92,11 +91,132 @@ class MonthOverview extends \ArrayIterator
     }
 
     /**
-     * @param array $daysList
+     * Macht einen Zusammenführung der DB mit den Tagen
      */
-    protected function _setDaysList(Month $daysList)
+    public function mergeDaysWithDB()
     {
-        $this->daysList = array_merge($this->daysList, $daysList->getArrayCopy());
+        /** @var \Trolley\AgendaBundle\Repository\DayRepository $repositoryEntityDay */
+        $repositoryEntityDay = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
+        $dbDays = $repositoryEntityDay->findDaysByMonth($this);
+
+        $this->_persistMissingDays($dbDays);
+        $this->_replaceGenareteDaysWithDBDays($dbDays);
     }
 
+    /**
+     * Sollten Generierte Days nicht in der DB vorhanden so werden Sie erstellt.
+     *
+     * @param array $dbDays
+     */
+    protected function _persistMissingDays(array $dbDays)
+    {
+        $genarateDays = $this->getDaysList();
+
+        //Findet die nicht gespeicherte heraus.
+        $persistInDB = array_udiff(
+            $genarateDays,
+            $dbDays,
+            function(Day $a, Day $b) {
+                return strcmp($a->getIdDate(), $b->getIdDate());
+            }
+        );
+
+        if (!empty($persistInDB)) {
+            $this->_persistDaysInDB($persistInDB);
+        }
+    }
+
+    /**
+     * Speichtert die Days in der DB ab
+     *
+     * @param array $saveInDB
+     */
+    protected function _persistDaysInDB(array $persistInDB)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        foreach ($persistInDB as $dayEntity) {
+            $manager->persist($dayEntity);
+        }
+        $manager->flush();
+    }
+
+    /**
+     * Ersetzt die Automaitsch erstellte Days durch die von der DB
+     *
+     * @param array $dbDays
+     */
+    protected function _replaceGenareteDaysWithDBDays(array $dbDays)
+    {
+        $isRefreshList     = false;
+        $genarateDays      = $this->getDaysList();
+        $dbDaysKeyFormated = $this->_reformatArrayToFindDaysFaster($dbDays);
+
+        /** @var Day $day */
+        foreach ($genarateDays as $day) {
+            if ($day->getId() === null) {
+                $id = $day->getIdDate();
+
+                /** @var Month $month */
+                $month = $this[$day->getMonthName()];
+                $month->replaceDay($dbDaysKeyFormated[$id]);
+
+                $isRefreshList = true;
+            }
+        }
+
+        if ($isRefreshList) {
+            $this->_refreshDayList();
+        }
+    }
+
+    /**
+     * Formatiert das Array neu mit Keys damit es schneller gefunden werden
+     * um es zu ersetzten.
+     *
+     * @param array $dbDays
+     *
+     * @return array
+     */
+    protected function _reformatArrayToFindDaysFaster(array $dbDays)
+    {
+        $dbDaysKeyFormated = [];
+
+        /** @var Day $day */
+        foreach ($dbDays as $day) {
+            $id = $day->getIdDate();
+            $dbDaysKeyFormated[$id] = $day;
+        }
+
+        return $dbDaysKeyFormated;
+    }
+
+    /**
+     * @param array $month
+     */
+    protected function _addDayToList(Month $month)
+    {
+        foreach ($month as $day) {
+            $this->daysList[] = $day;
+        }
+    }
+
+    /**
+     * Erneuert die Liste.
+     */
+    protected function _refreshDayList()
+    {
+        $this->daysList = [];
+        foreach ($this as $month) {
+            $this->_addDayToList($month);
+        }
+    }
+
+    /**
+     * @return \Doctrine\Bundle\DoctrineBundle\Registry
+     */
+    protected function getDoctrine()
+    {
+        global $kernel;
+        return $kernel->getContainer()->get('doctrine');
+    }
 }
