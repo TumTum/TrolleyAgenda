@@ -5,11 +5,17 @@ namespace Trolley\AgendaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Prophecy\Exception\InvalidArgumentException;
 
+
+
 /**
  * Day
  *
- * @ORM\Table(name="day")
+ * @ORM\Table(
+ *     name="day",
+ *     uniqueConstraints=@ORM\UniqueConstraint(name="OnlyOneDateAllow",columns={"taDay"})
+ * )
  * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\DayRepository")
+ *
  */
 class Day
 {
@@ -22,11 +28,10 @@ class Day
      */
     private $id;
 
-
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="taDay", type="date")
+     * @ORM\Column(name="taDay", type="datetime")
      */
     private $taDay;
 
@@ -44,6 +49,22 @@ class Day
      */
     private $taIsAccept;
 
+    /**
+     * Id nach Datum
+     * @var string
+     */
+    private $idDate = "";
+
+    /**
+     * @var string
+     */
+    private $monthName = "";
+
+    /**
+     * Ist das datum Format für das Array key des $daysList
+     */
+    const idDateFormat = "YmdHi";
+
 
     /**
      * Get id
@@ -53,6 +74,17 @@ class Day
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdDate()
+    {
+        if ($this->idDate == '' && !empty($this->taDay)) {
+            $this->idDate = $this->taDay->format(self::idDateFormat);
+        }
+        return $this->idDate;
     }
 
     /**
@@ -66,7 +98,7 @@ class Day
     {
         $taDay->setTime(0,0,0);
         $this->taDay = $taDay;
-
+        $this->idDate = $taDay->format(self::idDateFormat);
         return $this;
     }
 
@@ -129,6 +161,30 @@ class Day
     }
 
     /**
+     * Gibt das Formatierte Datum zurück
+     *
+     * @param $format
+     *
+     * @return string
+     */
+    public function format($format)
+    {
+        return $this->getTaDay()->format($format);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMonthName()
+    {
+        if ($this->monthName == '' && !empty($this->taDay)) {
+            $this->monthName = $this->taDay->format('F');
+        }
+
+        return $this->monthName;
+    }
+
+    /**
      * Day constructor.
      *
      * @param null $datestring
@@ -148,6 +204,16 @@ class Day
         }
     }
 
+    /**
+     * The __toString method allows a class to decide how it will react when it is converted to a string.
+     *
+     * @return string
+     * @link http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
+     */
+    function __toString()
+    {
+        return $this->getTaDay()->format("Y-m-d");
+    }
 
 }
 

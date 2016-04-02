@@ -16,6 +16,10 @@ use Trolley\AgendaBundle\Entity\Month;
 
 class MonthTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     * Testet die Klasse Standard Array funktion Access
+     */
     public function testAsArrayAccessArray()
     {
         $month = new Month();
@@ -35,6 +39,9 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Geaendert Zahl 0", $month[0]);
     }
 
+    /**
+     * Testet die Klasse Standard Array funktion Count
+     */
     public function testAsCountableArray()
     {
         $month = new Month();
@@ -47,6 +54,9 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, count($month));
     }
 
+    /**
+     * Testet die Klasse Standard Array funktion Iteration
+     */
     public function testAsIteratorArray()
     {
         $month = new Month();
@@ -64,6 +74,9 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Testet Month das DateTime object akzeptiert
+     */
     public function testSetDate()
     {
         $month = new Month();
@@ -74,6 +87,9 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($date, $month->getDate());
     }
 
+    /**
+     * Test ob Month einen sting nimmt um den nächsten Monat zu bestimmen
+     */
     public function testSetMonthDate()
     {
         $month = new Month();
@@ -86,6 +102,7 @@ class MonthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testet den Fehler fall ob Month einen sting nimmt.
      * @expectedException \Symfony\Component\Config\Definition\Exception\Exception
      */
     public function testSetMonthDateError()
@@ -94,6 +111,9 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $month->setMonth('+1 Monate in Deutsch');
     }
 
+    /**
+     * Testet ob Month auch den übernächsten Monat nimmt
+     */
     public function testGetMonthName()
     {
         $month = new Month();
@@ -120,6 +140,8 @@ class MonthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testet ob der Month sich richtig füllt mit den Wochen
+     *
      * @dataProvider ListOfWeeks
      */
     public function testFillDay($week)
@@ -148,4 +170,77 @@ class MonthTest extends \PHPUnit_Framework_TestCase
             $this->assertContains($date->getTaDay()->format("l d-m-y"), $days);
         }
     }
+
+    /**
+     * Testet Ob die Tage richtig Sortiert werden absteigend
+     */
+    public function testSortDayEarlier()
+    {
+        $month = new Month();
+
+        $earlierDay = new Day('2016-10-20');
+        $laterDay = new Day('2016-10-21');
+
+        $actual = $month->sortByDay($earlierDay, $laterDay);
+
+        $this->assertEquals(-1, $actual);
+    }
+
+    /**
+     * Testet Ob die Tage richtig Sortiert werden aufsteigend
+     */
+    public function testSortDayLater()
+    {
+        $month = new Month();
+
+        $earlierDay = new Day('2016-10-20');
+        $laterDay = new Day('2016-10-21');
+
+        $actual = $month->sortByDay($laterDay, $earlierDay);
+
+        $this->assertEquals(1, $actual);
+    }
+
+    /**
+     * Testet Ob die Tage richtig Sortiert werden wenn sie gleich sind
+     */
+    public function testSortDaySame()
+    {
+        $month = new Month();
+
+        $earlierDay = new Day('2016-10-20');
+        $laterDay = new Day('2016-10-20');
+
+        $actual = $month->sortByDay($laterDay, $earlierDay);
+
+        $this->assertEquals(0, $actual);
+    }
+
+    /**
+     * Testet ob der Tag ersetzt werden kann.
+     * Um das Entity aus der DB.
+     */
+    public function testReplaceADay()
+    {
+        $month = new Month();
+        $month->setMonth('2016-10-01');
+
+        $month[] = new Day('2016-10-20');
+        $month[] = new Day('2016-10-21');
+        $month[] = new Day('2016-10-22');
+
+        $replace = new Day('2016-10-21');
+        $replace->isReplaced = true;
+
+        $isReplaced = $month->replaceDay($replace);
+
+        $this->assertTrue($isReplaced, 'is not replaces, but must be: '.$replace);
+        $this->assertEquals($month[1], $replace);
+
+        $wrongMonth = new Day('2016-9-21');
+        $isNotReplaced = $month->replaceDay($wrongMonth);
+        $this->assertFalse($isNotReplaced, 'Is replaced but must be not, through is not the same Month. ' . $wrongMonth );
+    }
+
+
 }
