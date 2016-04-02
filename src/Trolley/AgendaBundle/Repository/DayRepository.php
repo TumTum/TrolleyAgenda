@@ -54,6 +54,7 @@ class DayRepository extends \Doctrine\ORM\EntityRepository
         $qB->where(
             $qB->expr()->in('DATE_FORMAT(d.taDay, \'%Y-%m\')', $months)
         );
+        $qB->orderBy('d.taDay');
 
         return $qB->getQuery()->getResult();
     }
