@@ -28,6 +28,11 @@ class Day
      */
     private $id;
 
+    /**
+     * Id nach Datum
+     * @var string
+     */
+    private $idDate = "";
 
     /**
      * @var \DateTime
@@ -50,6 +55,11 @@ class Day
      */
     private $taIsAccept;
 
+    /**
+     * Ist das datum Format für das Array key des $daysList
+     */
+    const idDateFormat = "YmdHi";
+
 
     /**
      * Get id
@@ -59,6 +69,14 @@ class Day
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdDate()
+    {
+        return $this->idDate;
     }
 
     /**
@@ -72,7 +90,7 @@ class Day
     {
         $taDay->setTime(0,0,0);
         $this->taDay = $taDay;
-
+        $this->idDate = $taDay->format(self::idDateFormat);
         return $this;
     }
 

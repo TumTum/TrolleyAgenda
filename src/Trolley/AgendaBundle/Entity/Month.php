@@ -146,7 +146,7 @@ class Month extends \ArrayIterator
         }
 
         foreach ($this as &$internalDay) {
-            if ($internalDay->format("YmdHi") == $day->format("YmdHi")) {
+            if ($internalDay->getIdDate() == $day->getIdDate()) {
                 $internalDay = $day;
                 return true;
             }
