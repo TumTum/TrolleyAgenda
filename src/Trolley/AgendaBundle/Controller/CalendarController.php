@@ -38,6 +38,7 @@ class CalendarController extends Controller
         $MonthOverview = new MonthOverview();
         $MonthOverview->createAheadMonth($looking_months);
         $MonthOverview->fillMonthWithDaysFor($dayname);
+        $MonthOverview->mergeDaysWithDB();
 
         return $MonthOverview;
     }
