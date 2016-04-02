@@ -5,11 +5,17 @@ namespace Trolley\AgendaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Prophecy\Exception\InvalidArgumentException;
 
+
+
 /**
  * Day
  *
- * @ORM\Table(name="day")
+ * @ORM\Table(
+ *     name="day",
+ *     uniqueConstraints=@ORM\UniqueConstraint(name="OnlyOneDateAllow",columns={"taDay"})
+ * )
  * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\DayRepository")
+ *
  */
 class Day
 {
@@ -26,7 +32,7 @@ class Day
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="taDay", type="date")
+     * @ORM\Column(name="taDay", type="datetime")
      */
     private $taDay;
 
