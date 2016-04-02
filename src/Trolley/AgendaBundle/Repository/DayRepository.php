@@ -2,6 +2,8 @@
 
 namespace Trolley\AgendaBundle\Repository;
 
+use Trolley\AgendaBundle\Entity\Day;
+
 /**
  * DayRepository
  *
@@ -24,6 +26,26 @@ class DayRepository extends \Doctrine\ORM\EntityRepository
 
         $qB->where(
             $qB->expr()->in('DATE_FORMAT(d.taDay, \'%Y-%m-%d\')', $Days)
+        );
+
+        return $qB->getQuery()->getResult();
+    }
+
+    /**
+     * Alle Tage des Monats
+     *
+     * @param array $Days of \Trolley\AgendaBundle\Entity\Day Objects
+     *
+     * @return array
+     */
+    public function findDaysByMonth(array $days)
+    {
+        $months = array_map(function($item) {return $item->getTaDay()->format("Y-m");}, $days);
+
+        $qB = $this->createQueryBuilder('d');
+
+        $qB->where(
+            $qB->expr()->in('DATE_FORMAT(d.taDay, \'%Y-%m\')', $months)
         );
 
         return $qB->getQuery()->getResult();

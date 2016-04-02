@@ -24,14 +24,14 @@ class DayRepositoryTest extends KernelTestCase
     protected $dbDays = [];
 
     /**
-     * This method is called before the first test of this test class is run.
-     *
-     * @since Method available since Release 3.4.0
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
      */
-    public static function setUpBeforeClass()
+    protected function setUp()
     {
         self::bootKernel();
     }
+
 
     /**
      * Clean up Kernel usage in this test.
@@ -48,6 +48,8 @@ class DayRepositoryTest extends KernelTestCase
 
     /**
      * Findet alle Tage SQL Auruf
+     *
+     * @covers \Trolley\AgendaBundle\Repository\DayRepository::findDaysByDate
      */
     public function testFindDaysByDate()
     {
@@ -72,10 +74,47 @@ class DayRepositoryTest extends KernelTestCase
         }
         $manager->flush();
 
+        //Testet die funktion
         $days = $DayRepository->findDaysByDate($newGenarate);
 
         $expect = implode('.', $this->dbDays);
         $actual = implode('.', $days);
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * Findet alle Tage SQL Auruf
+     *
+     * * @covers \Trolley\AgendaBundle\Repository\DayRepository::findDaysByMonth
+     */
+    public function testFindDaysByMonth()
+    {
+        /** @var \Trolley\AgendaBundle\Repository\DayRepository $DayRepository */
+        $DayRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
+        $newGenarate = [
+            new Day("+1 Month"),
+            new Day("+1 Day"),
+            new Day("+2 Day"),
+            new Day("+3 Day"),
+        ];
+
+        $manager = $this->getDoctrine()->getManager();
+        foreach ($newGenarate as $day) {
+            $dbDay = clone $day;
+            $this->dbDays[] = $dbDay;
+            $manager->persist($dbDay);
+        }
+        $manager->flush();
+
+        //Testet die Funktion
+        $days = $DayRepository->findDaysByMonth([
+            new Day('this Month'),
+            new Day('+1 Month'),
+        ]);
+
+        $expect = array_map(function($item) {return $item->getTaDay()->format("Y-m");}, $newGenarate);
+        $actual = array_map(function($item) {return $item->getTaDay()->format("Y-m");}, $days);
 
         $this->assertEquals($expect, $actual);
     }
