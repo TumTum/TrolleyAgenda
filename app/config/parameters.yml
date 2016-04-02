@@ -2,7 +2,7 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 8889
-    database_name: trollyAgenda
+    database_name: trollyagenda_dev
     database_user: trolly
     database_password: agenda
     mailer_transport: sendmail
