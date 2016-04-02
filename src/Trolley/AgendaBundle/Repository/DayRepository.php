@@ -3,6 +3,8 @@
 namespace Trolley\AgendaBundle\Repository;
 
 use Trolley\AgendaBundle\Entity\Day;
+use Trolley\AgendaBundle\Entity\Month;
+use Trolley\AgendaBundle\Util\MonthOverview;
 
 /**
  * DayRepository
@@ -38,9 +40,14 @@ class DayRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return array
      */
-    public function findDaysByMonth(array $days)
+    public function findDaysByMonth(MonthOverview $monthOverview)
     {
-        $months = array_map(function($item) {return $item->getTaDay()->format("Y-m");}, $days);
+        $months = array_map(
+            function($month) {
+                return $month->getDate()->format("Y-m");
+            },
+            $monthOverview->getArrayCopy()
+        );
 
         $qB = $this->createQueryBuilder('d');
 

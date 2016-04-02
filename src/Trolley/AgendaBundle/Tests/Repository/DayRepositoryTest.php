@@ -14,6 +14,7 @@ namespace Trolley\AgendaBundle\Tests\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\VarDumper\VarDumper;
 use Trolley\AgendaBundle\Entity\Day;
+use Trolley\AgendaBundle\Util\MonthOverview;
 
 class DayRepositoryTest extends KernelTestCase
 {
@@ -43,6 +44,7 @@ class DayRepositoryTest extends KernelTestCase
             $manager->remove($day);
         }
         $manager->flush();
+        $this->dbDays = [];
         parent::tearDown();
     }
 
@@ -107,11 +109,11 @@ class DayRepositoryTest extends KernelTestCase
         }
         $manager->flush();
 
+        $monthOverview = new MonthOverview();
+        $monthOverview->createAheadMonth(2);
+
         //Testet die Funktion
-        $days = $DayRepository->findDaysByMonth([
-            new Day('this Month'),
-            new Day('+1 Month'),
-        ]);
+        $days = $DayRepository->findDaysByMonth($monthOverview);
 
         $expect = array_map(function($item) {return $item->getTaDay()->format("Y-m");}, $newGenarate);
         $actual = array_map(function($item) {return $item->getTaDay()->format("Y-m");}, $days);
