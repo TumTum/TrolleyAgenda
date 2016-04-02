@@ -134,9 +134,25 @@ class Month extends \ArrayIterator
         return $atime < $btime ? -1 : 1;
     }
 
-    public function getSQLDates()
+    /**
+     * @param Day $day
+     *
+     * @return bool
+     */
+    public function replaceDay(Day $day)
     {
-        return "'" . implode("','", $this->getArrayCopy()) . "'";
+        if ($this->getMonthName() != $day->format('F')) {
+            return false;
+        }
+
+        foreach ($this as &$internalDay) {
+            if ($internalDay->format("YmdHi") == $day->format("YmdHi")) {
+                $internalDay = $day;
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

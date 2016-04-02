@@ -216,19 +216,31 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $actual);
     }
 
-
     /**
-     * Testet ob man alle für das SQL alle Datum bekommt.
+     * Testet ob der Tag ersetzt werden kann.
+     * Um das Entity aus der DB.
      */
-    public function testGetAllDayForSQL()
+    public function testReplaceADay()
     {
         $month = new Month();
+        $month->setMonth('2016-10-01');
 
         $month[] = new Day('2016-10-20');
         $month[] = new Day('2016-10-21');
         $month[] = new Day('2016-10-22');
 
-        $this->assertEquals("'2016-10-20','2016-10-21','2016-10-22'", $month->getSQLDates());
+        $replace = new Day('2016-10-21');
+        $replace->isReplaced = true;
 
+        $isReplaced = $month->replaceDay($replace);
+
+        $this->assertTrue($isReplaced, 'is not replaces, but must be: '.$replace);
+        $this->assertEquals($month[1], $replace);
+
+        $wrongMonth = new Day('2016-9-21');
+        $isNotReplaced = $month->replaceDay($wrongMonth);
+        $this->assertFalse($isNotReplaced, 'Is replaced but must be not, through is not the same Month. ' . $wrongMonth );
     }
+
+
 }
