@@ -25,4 +25,14 @@ class DayTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('2016-10-20', (string)$day);
     }
+
+    /**
+     * Testet das format
+     */
+    public function testFormatDat()
+    {
+        $day = new Day('2016-10-20');
+
+        $this->assertEquals('10-2016~20', $day->format('m-Y~d'));
+    }
 }

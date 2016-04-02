@@ -135,6 +135,17 @@ class Day
     }
 
     /**
+     * Gibt das Formatierte Datum zurück
+     *
+     * @param $format
+     *
+     * @return string
+     */
+    public function format($format)
+    {
+        return $this->getTaDay()->format($format);
+    }
+    /**
      * Day constructor.
      *
      * @param null $datestring
