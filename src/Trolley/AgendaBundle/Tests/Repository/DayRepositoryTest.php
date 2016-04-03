@@ -33,7 +33,6 @@ class DayRepositoryTest extends KernelTestCase
         self::bootKernel();
     }
 
-
     /**
      * Clean up Kernel usage in this test.
      */
