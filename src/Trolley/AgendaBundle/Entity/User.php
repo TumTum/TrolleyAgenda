@@ -9,6 +9,7 @@
 
 namespace Trolley\AgendaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -73,6 +74,13 @@ class User extends BaseUser
      * @ORM\Column(name="mobile2", type="string", nullable=true)
      */
     private $mobile2 = "";
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Day")
+     */
+    private $days = null;
 
     /**
      * @return string
@@ -185,4 +193,31 @@ class User extends BaseUser
     {
         $this->mobile2 = $mobile2;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDays()
+    {
+        return $this->days;
+    }
+
+    /**
+     * @param ArrayCollection $days
+     */
+    public function setDays($days)
+    {
+        $this->days = $days;
+    }
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->days = new ArrayCollection();
+        parent::__construct();
+    }
+
+
 }
