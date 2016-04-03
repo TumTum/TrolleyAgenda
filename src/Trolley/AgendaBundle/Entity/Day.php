@@ -2,6 +2,7 @@
 
 namespace Trolley\AgendaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Prophecy\Exception\InvalidArgumentException;
 
@@ -36,9 +37,9 @@ class Day
     private $taDay;
 
     /**
-     * @var array
+     * @var ArrayCollection
      *
-     * @ORM\Column(name="taUsers", type="array", nullable=true)
+     * @ORM\ManyToMany(targetEntity="User")
      */
     private $taUsers;
 
@@ -137,6 +138,14 @@ class Day
     }
 
     /**
+     * Add User To Dat
+     */
+    public function addUser(User $user)
+    {
+        $this->taUsers->add($user);
+    }
+
+    /**
      * Set taIsAccept
      *
      * @param integer $taIsAccept
@@ -202,6 +211,8 @@ class Day
 
             $this->setTaDay($date);
         }
+
+        $this->taUsers = new ArrayCollection();
     }
 
     /**
