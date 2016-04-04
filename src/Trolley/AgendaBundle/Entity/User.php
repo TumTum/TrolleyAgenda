@@ -78,7 +78,7 @@ class User extends BaseUser
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Day")
+     * @ORM\ManyToMany(targetEntity="Day", mappedBy="taUsers")
      */
     private $days = null;
 
@@ -208,6 +208,14 @@ class User extends BaseUser
     public function setDays($days)
     {
         $this->days = $days;
+    }
+
+    /**
+     * @param Day $user
+     */
+    public function addDay(Day $user)
+    {
+        $this->days->add($user);
     }
 
     /**

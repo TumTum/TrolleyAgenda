@@ -39,7 +39,7 @@ class Day
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="day")
      */
     private $taUsers;
 
@@ -142,6 +142,7 @@ class Day
      */
     public function addUser(User $user)
     {
+        $user->addDay($this);
         $this->taUsers->add($user);
     }
 

@@ -55,28 +55,37 @@ class DayTest extends KernelTestCase
      */
     public function testAddUserToDay()
     {
-        $day  = new Day("2016-10-20");
         $user = new User();
-
         $user->setUsername('testuser');
         $user->setEmail('testuser@localhost');
         $user->setPlainPassword('testpasswort');
 
+        $user2 = new User();
+        $user2->setUsername('testuser2');
+        $user2->setEmail('testuser2@localhost');
+        $user2->setPlainPassword('testpasswort2');
+
+        $day  = new Day("2016-10-22");
         $day->addUser($user);
+        $day->addUser($user2);
 
         $manager = $this->getDoctrine()->getManager();
-        $manager->persist($this->clearEntity($day));
-        $manager->persist($this->clearEntity($user));
+        $manager->persist($day);
+        $manager->persist($user);
+        $manager->persist($user2);
         $manager->flush();
-        $manager->detach($day);
-        $manager->detach($user);
 
-        $dayDB = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
+        self::bootKernel();
 
-        $this->assertCount(1, $dayDB->getTaUsers());
+        $dayRepository  = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
+        $dayDB = $dayRepository->find($day->getId());
+        $this->assertCount(2, $dayDB->getTaUsers());
 
-        $users = $dayDB->getTaUsers();
+        $userRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User');
+        $user2db = $userRepository->findOneBy(['username' => 'testuser2']);
 
-        $this->assertEquals('testuser', $users[0]->getUsername());
+        $dayFromUser = $user2db->getDays();
+
+        $this->assertEquals($day->getIdDate(), $dayFromUser[0]->getIdDate());
     }
 }
