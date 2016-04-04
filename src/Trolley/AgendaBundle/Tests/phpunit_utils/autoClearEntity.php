@@ -40,13 +40,25 @@ trait autoClearEntity
      */
     protected function tearDown()
     {
-        $manager = $this->getDoctrine()->getManager();
-        foreach ($this->entity as $day) {
-            $manager->remove($day);
-        }
-        $manager->flush();
-        $this->entity = [];
+        try {
+            $this->clearTable([
+                'day',
+                'fos_user'
+            ]);
+        } catch (\Exception $e){}
         parent::tearDown();
+    }
+
+    /**
+     * @param array $tables
+     */
+    protected function clearTable(array $tables)
+    {
+        $DBALConnection = $this->getDBALConnection();
+        foreach ($tables as $table) {
+            $query = $DBALConnection->createQueryBuilder('d')->delete($table)->where('1');
+            $DBALConnection->executeQuery($query);
+        }
     }
 
     /**
@@ -55,5 +67,13 @@ trait autoClearEntity
     protected function getDoctrine()
     {
         return self::$kernel->getContainer()->get('doctrine');
+    }
+
+    /**
+     * @return \Doctrine\DBAL\Connection
+     */
+    protected function getDBALConnection()
+    {
+        return self::$kernel->getContainer()->get('database_connection');
     }
 }
