@@ -146,6 +146,11 @@ class Day
         $this->taUsers->add($user);
     }
 
+    public function removeUser(User $user)
+    {
+        $this->taUsers->removeElement($user);
+    }
+
     /**
      * Set taIsAccept
      *

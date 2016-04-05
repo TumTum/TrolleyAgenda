@@ -77,4 +77,21 @@ class DayTest extends KernelTestCase
         }
     }
 
+    public function testRemoveUserFromDay()
+    {
+        /**
+         * @var User $user
+         * @var User $user2
+         * @var User $userFromDay
+         * @var Day $day
+         */
+        list($day, $user, $user2) = $this->createDayTowUsers();
+
+        $day->removeUser($user);
+
+        foreach ($day->getTaUsers() as $userFromDay) {
+            $this->assertNotEquals($user->getUsername(), $userFromDay->getUsername());
+        }
+    }
+
 }
