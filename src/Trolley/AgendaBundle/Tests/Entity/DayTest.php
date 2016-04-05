@@ -23,7 +23,7 @@ class DayTest extends KernelTestCase
     use createUserDayRelationships;
 
     /**
-     * Test ob das Object ein Datum zurück gibt     $day =
+     * Test ob das Object ein Datum zurück gibt Day
      */
     public function testDayToString()
     {
@@ -97,4 +97,70 @@ class DayTest extends KernelTestCase
         }
     }
 
+    /**
+     * Prüft ob der User gehen darf
+     */
+    public function testUserCanNotGo()
+    {
+        $day = new Day('2014-02-03');
+
+        $user = new User();
+        $user->setUsername('UserCanNotGo');
+
+        $this->assertFalse($day->canUserGo($user));
+    }
+
+    /**
+     * Der User kann gehen
+     */
+    public function testUserCanGo()
+    {
+        $day = new Day('2014-02-03');
+
+        $user = new User();
+        $user->setUsername('UserCanGo');
+
+        $day->userAcceptToGo($user);
+
+        $this->assertTrue($day->canUserGo($user));
+    }
+
+    /**
+     * Der User kann nicht gehen
+     *
+     * @covers Trolley\AgendaBundle\Entity\Day::userCancelToGo
+     */
+    public function testCancelUserToGo()
+    {
+        $day = new Day('2014-02-03');
+
+        $user = new User();
+        $user->setUsername('UserCanGo');
+
+        $day->userAcceptToGo($user);
+        $day->userCancelToGo($user);
+
+        $this->assertFalse($day->canUserGo($user));
+    }
+
+    public function testAcceptUserToGoPresetInDB()
+    {
+        /**
+         * @var User $user
+         * @var User $user2
+         * @var Day $day
+         * @var Day $dayDB
+         */
+        list($day, $user, $user2) = $this->createDayTowUsers();
+
+        $day->userAcceptToGo($user);
+        $day->userAcceptToGo($user2);
+
+        $this->saveInDb([$day, $user, $user2]);
+
+        $dayRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
+        $dayDB = $dayRepository->find($day->getId());
+
+        $this->assertTrue($dayDB->canUserGo($user2));
+    }
 }

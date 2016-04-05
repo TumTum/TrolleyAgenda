@@ -44,11 +44,11 @@ class Day
     private $taUsers;
 
     /**
-     * @var ArrayCollection
+     * @var array
      *
-     * @ORM\Column(name="taIsAccept", type="json_array", nullable=true)
+     * @ORM\Column(name="taAcceptUsers", type="json_array", nullable=true)
      */
-    private $taAcceptUsers;
+    private $taAcceptUsers = [];
 
     /**
      * Id nach Datum
@@ -74,8 +74,7 @@ class Day
      */
     public function __construct($datestring = null)
     {
-        $this->taUsers       = new ArrayCollection();
-        $this->taAcceptUsers = new ArrayCollection();
+        $this->taUsers = new ArrayCollection();
         $this->initDay($datestring);
     }
 
@@ -223,7 +222,40 @@ class Day
 
         return $this->monthName;
     }
-    
+
+    /**
+     * Prüft ob der User gehen darf
+     *
+     * @return bool
+     */
+    public function canUserGo(User $user)
+    {
+        return (array_search($user->getUsername(), $this->taAcceptUsers) !== false);
+    }
+
+    /**
+     * User darf gehen
+     *
+     * @param User $user
+     */
+    public function userAcceptToGo(User $user)
+    {
+        $this->taAcceptUsers[] = $user->getUsername();
+    }
+
+    /**
+     * User kann geht doch nicht mit zum Trolley
+     *
+     * @param User $user
+     */
+    public function userCancelToGo(User $user)
+    {
+        $key = array_search($user->getUsername(), $this->taAcceptUsers);
+        if ($key !== false) {
+            unset($this->taAcceptUsers[$key]);
+        }
+    }
+
     /**
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
