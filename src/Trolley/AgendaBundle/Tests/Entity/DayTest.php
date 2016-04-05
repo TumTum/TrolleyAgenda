@@ -77,6 +77,9 @@ class DayTest extends KernelTestCase
         }
     }
 
+    /**
+     * Löscht den User vom Tag wieder
+     */
     public function testRemoveUserFromDay()
     {
         /**

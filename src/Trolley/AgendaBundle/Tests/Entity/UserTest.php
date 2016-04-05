@@ -45,4 +45,27 @@ class UserTest extends KernelTestCase
             $this->assertRegExp('/2016-10-(21|22)/', $dayDB->format('Y-m-d'));
         }
     }
+
+    /**
+     * Wenn am Day ein User wegenommen wurde so ist der User nur mit einem verkünpft
+     */
+    public function testRemoveUserToDayInverse()
+    {
+        /**
+         * @var User $user
+         * @var Day $day
+         * @var Day $day2
+         */
+        list($user, $day, $day2) = $this->createUserInTowDays();
+
+        $day2->removeUser($user);
+
+        $this->assertCount(1, $user->getDays());
+
+        foreach ($user->getDays() as $dayInUser) {
+            $this->assertNotEquals($day2->getIdDate(), $dayInUser->getIdDate());
+        }
+    }
+
+
 }

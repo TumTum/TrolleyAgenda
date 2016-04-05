@@ -219,6 +219,14 @@ class User extends BaseUser
     }
 
     /**
+     * @param Day $day
+     */
+    public function removeDay(Day $day)
+    {
+        $this->days->removeElement($day);
+    }
+
+    /**
      * User constructor.
      */
     public function __construct()
