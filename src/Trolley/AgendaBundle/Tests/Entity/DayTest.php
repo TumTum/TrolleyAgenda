@@ -15,10 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
 use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntity;
+use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationships;
 
 class DayTest extends KernelTestCase
 {
     use autoClearEntity;
+    use createUserDayRelationships;
 
     /**
      * Test ob das Object ein Datum zurück gibt     $day =
@@ -55,37 +57,24 @@ class DayTest extends KernelTestCase
      */
     public function testAddUserToDay()
     {
-        $user = new User();
-        $user->setUsername('testuser');
-        $user->setEmail('testuser@localhost');
-        $user->setPlainPassword('testpasswort');
+        /**
+         * @var User $user
+         * @var User $user2
+         * @var User $userDB
+         * @var Day $day
+         * @var Day $dayDB
+         */
+        list($day, $user, $user2) = $this->createDayTowUsers();
 
-        $user2 = new User();
-        $user2->setUsername('testuser2');
-        $user2->setEmail('testuser2@localhost');
-        $user2->setPlainPassword('testpasswort2');
-
-        $day  = new Day("2016-10-22");
-        $day->addUser($user);
-        $day->addUser($user2);
-
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($day);
-        $manager->persist($user);
-        $manager->persist($user2);
-        $manager->flush();
-
-        self::bootKernel();
+        $this->saveInDb([$day, $user, $user2]);
 
         $dayRepository  = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
         $dayDB = $dayRepository->find($day->getId());
         $this->assertCount(2, $dayDB->getTaUsers());
 
-        $userRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User');
-        $user2db = $userRepository->findOneBy(['username' => 'testuser2']);
-
-        $dayFromUser = $user2db->getDays();
-
-        $this->assertEquals($day->getIdDate(), $dayFromUser[0]->getIdDate());
+        foreach ($dayDB->getTaUsers() as $userDB) {
+            $this->assertContains('testuser', $userDB->getUsername());
+        }
     }
+
 }
