@@ -120,7 +120,7 @@ class MonthOverviewTest extends KernelTestCase
     /**
      * Erstellt alle Tage in der DB wenn sie nicht vor handen sind
      *
-     * @covers MonthOverview::mergeDaysWithDB
+     * @covers Trolley\AgendaBundle\Util\MonthOverview::mergeDaysWithDB
      */
     public function testCreateDaysInDB()
     {
