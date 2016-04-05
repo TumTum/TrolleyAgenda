@@ -68,6 +68,37 @@ class Day
 
 
     /**
+     * Day constructor.
+     *
+     * @param null $datestring
+     */
+    public function __construct($datestring = null)
+    {
+        $this->taUsers       = new ArrayCollection();
+        $this->initDay($datestring);
+    }
+
+    /**
+     * Erstellt das Datum dieses Object
+     *
+     * @param $datestring
+     */
+    protected function initDay($datestring)
+    {
+        if ($datestring !== null) {
+            if (is_scalar($datestring)) {
+                $date = date_create($datestring);
+            } elseif ($datestring instanceof \DateTime ) {
+                $date = $datestring;
+            } else {
+                throw new InvalidArgumentException('It must be a String or DateTime object.');
+            }
+
+            $this->setTaDay($date);
+        }
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -199,29 +230,7 @@ class Day
 
         return $this->monthName;
     }
-
-    /**
-     * Day constructor.
-     *
-     * @param null $datestring
-     */
-    public function __construct($datestring = null)
-    {
-        if ($datestring !== null) {
-            if (is_scalar($datestring)) {
-                $date = date_create($datestring);
-            } elseif ($datestring instanceof \DateTime ) {
-                $date = $datestring;
-            } else {
-                throw new InvalidArgumentException('It must be a String or DateTime object.');
-            }
-
-            $this->setTaDay($date);
-        }
-
-        $this->taUsers = new ArrayCollection();
-    }
-
+    
     /**
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
