@@ -44,11 +44,11 @@ class Day
     private $taUsers;
 
     /**
-     * @var int
+     * @var ArrayCollection
      *
-     * @ORM\Column(name="taIsAccept", type="smallint", nullable=true)
+     * @ORM\Column(name="taIsAccept", type="json_array", nullable=true)
      */
-    private $taIsAccept;
+    private $taAcceptUsers;
 
     /**
      * Id nach Datum
@@ -75,6 +75,7 @@ class Day
     public function __construct($datestring = null)
     {
         $this->taUsers       = new ArrayCollection();
+        $this->taAcceptUsers = new ArrayCollection();
         $this->initDay($datestring);
     }
 
@@ -184,27 +185,19 @@ class Day
     }
 
     /**
-     * Set taIsAccept
-     *
-     * @param integer $taIsAccept
-     *
-     * @return Day
+     * @return ArrayCollection
      */
-    public function setTaIsAccept($taIsAccept)
+    public function getTaAcceptUsers()
     {
-        $this->taIsAccept = $taIsAccept;
-
-        return $this;
+        return $this->taAcceptUsers;
     }
 
     /**
-     * Get taIsAccept
-     *
-     * @return int
+     * @param ArrayCollection $taAcceptUsers
      */
-    public function getTaIsAccept()
+    public function setTaAcceptUsers($taAcceptUsers)
     {
-        return $this->taIsAccept;
+        $this->taAcceptUsers = $taAcceptUsers;
     }
 
     /**
