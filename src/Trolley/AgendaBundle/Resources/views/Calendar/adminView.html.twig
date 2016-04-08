@@ -22,7 +22,7 @@
 {# Tages Block design#}
 {% block day_template %}
     {% for user in day.taUsers %}
-        {% if user.isAccept %}
+        {% if day.canUserGo(user) %}
             {% set bg_color = 'bg-success' %}
             {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.change')|trans }}</button>{% endset %}
         {% else %}
@@ -44,7 +44,7 @@
             <td class="{{ bg_color }}">
                 <div class="row">
                     <div class="col-sm-7">
-                        <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.name }}</span>
+                        <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.firstlastname }}</span>
                     </div>
                     <div class="col-sm-5 text-right">
                         <div class="btn-group btn-group-xs" role="group">
@@ -55,10 +55,10 @@
                 </div>
             </td>
             <td class="text-center">
-                2
+                ??
             </td>
             <td class="text-center">
-                4
+                ??
             </td>
         </tr>
     {% else %}

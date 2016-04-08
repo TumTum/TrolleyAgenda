@@ -7,11 +7,12 @@
                 <strong>{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
             </div>
 
-            {% set show_button_type = 'signon'%}
-            {% set show_buttons = false %}
+            {% set show_button_type       = 'signon'%}
+            {% set add_signoff_controller = 'trolley_agenda_calendar_addusertoday'%}
+            {% set show_buttons           = false %}
 
             <div class="panel-body">
-                {% if day.taUsers %}
+                {% if day.taUsers.count > 0 %}
                     <p>
                         {{ 'page.calendar.daytext-gogo'|trans }}
                     </p>
@@ -32,6 +33,7 @@
                         <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">{{ user.firstlastname }}</span>
                         {% if isLoginUser  %}
                             {% set show_button_type = 'signoff'%}
+                            {% set add_signoff_controller = 'trolley_agenda_calendar_addusertoday_1' %}
                             {% set show_buttons = true %}
                         {% endif %}
                     {% endfor %}
@@ -43,7 +45,7 @@
             {% if show_buttons or day.taUsers|length < 2 %}
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <a href="#" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
+                        <a href="{{ path(add_signoff_controller, {"day": day.id}) }}" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
                         {#<a href="#" class="btn btn-default btn-xs">absagen</a>#}
                     </li>
                 </ul>

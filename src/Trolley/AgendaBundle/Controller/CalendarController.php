@@ -40,6 +40,7 @@ class CalendarController extends Controller
     /**
      * @Method("GET")
      * @Route("/addme/{day}")
+     * @Route("/signoffme/{day}")
      */
     public function addUserToDayAction(Request $request, Day $day)
     {
