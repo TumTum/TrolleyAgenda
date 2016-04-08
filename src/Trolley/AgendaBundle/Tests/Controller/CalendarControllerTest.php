@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
-use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntity;
-use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationships;
-use Trolley\AgendaBundle\Tests\phpunit_utils\webClientUserLoginTraid;
+use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntityTrait;
+use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationshipsTrait;
+use Trolley\AgendaBundle\Tests\phpunit_utils\webClientUserLoginTrait;
 
 class CalendarControllerTest extends WebTestCase
 {
-    use autoClearEntity;
-    use createUserDayRelationships;
-    use webClientUserLoginTraid;
+    use autoClearEntityTrait;
+    use createUserDayRelationshipsTrait;
+    use webClientUserLoginTrait;
 
     public function testAddMeToAday()
     {

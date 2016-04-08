@@ -11,7 +11,7 @@
 namespace Trolley\AgendaBundle\Tests\phpunit_utils;
 
 
-trait autoClearEntity
+trait autoClearEntityTrait
 {
     /**
      * @var array

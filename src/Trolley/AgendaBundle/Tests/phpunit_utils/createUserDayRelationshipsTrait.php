@@ -14,7 +14,7 @@ namespace Trolley\AgendaBundle\Tests\phpunit_utils;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
 
-trait createUserDayRelationships
+trait createUserDayRelationshipsTrait
 {
     /**
      * Erstellt einen User der mit zwei Day verkünft wurde.

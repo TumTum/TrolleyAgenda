@@ -13,13 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\VarDumper\VarDumper;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
-use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntity;
-use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationships;
+use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntityTrait;
+use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationshipsTrait;
 
 class UserTest extends KernelTestCase
 {
-    use autoClearEntity;
-    use createUserDayRelationships;
+    use autoClearEntityTrait;
+    use createUserDayRelationshipsTrait;
 
     /**
      * Wenn man dem Datum einen User gibt get es auch wieder Inverse

@@ -14,13 +14,13 @@ namespace Trolley\AgendaBundle\Tests\Entity;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
-use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntity;
-use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationships;
+use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntityTrait;
+use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationshipsTrait;
 
 class DayTest extends KernelTestCase
 {
-    use autoClearEntity;
-    use createUserDayRelationships;
+    use autoClearEntityTrait;
+    use createUserDayRelationshipsTrait;
 
     /**
      * Test ob das Object ein Datum zurück gibt Day
