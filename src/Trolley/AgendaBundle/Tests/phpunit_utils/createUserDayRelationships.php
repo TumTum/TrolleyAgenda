@@ -30,10 +30,10 @@ trait createUserDayRelationships
         $user->setEmail('testuser@localhost');
         $user->setPlainPassword('testpasswort');
 
-        $day  = new Day("2016-10-22");
+        $day  = new Day("2014-10-22");
         $day->addUser($user);
 
-        $day2  = new Day("2016-10-21");
+        $day2  = new Day("2014-10-21");
         $day2->addUser($user);
 
         return [$user, $day, $day2];
@@ -58,7 +58,7 @@ trait createUserDayRelationships
         $user2->setEmail('testuser2@localhost');
         $user2->setPlainPassword('testpasswort2');
 
-        $day  = new Day("2016-10-22");
+        $day  = new Day("2014-10-22");
         $day->addUser($user);
         $day->addUser($user2);
 

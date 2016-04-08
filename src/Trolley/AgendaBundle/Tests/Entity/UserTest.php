@@ -42,7 +42,7 @@ class UserTest extends KernelTestCase
         $this->assertCount(2, $userDB->getDays());
 
         foreach ($userDB->getDays() as $dayDB) {
-            $this->assertRegExp('/2016-10-(21|22)/', $dayDB->format('Y-m-d'));
+            $this->assertRegExp('/2014-10-(21|22)/', $dayDB->format('Y-m-d'));
         }
     }
 
