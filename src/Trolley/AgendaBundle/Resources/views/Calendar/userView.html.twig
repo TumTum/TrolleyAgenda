@@ -17,20 +17,19 @@
                     </p>
                     {% for user in day.taUsers %}
 
-                        {% set isLoginUser = app.user.firstlastname == user.name %}
-
                         {% set bg_color = 'bg-warning' %}
-                        {% if user.isAccept %}
+                        {% if day.canUserGo(user) %}
                             {% set bg_color = 'bg-success' %}
                         {% endif %}
+
+                        {% set isLoginUser = app.user.id == user.id %}
                         {% set markActivUser = '' %}
+
                         {% if isLoginUser %}
                             {% set markActivUser = 'markActivUser' %}
                         {% endif %}
 
-                        <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">
-                    {{ user.name }}
-                </span>
+                        <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">{{ user.firstlastname }}</span>
                         {% if isLoginUser  %}
                             {% set show_button_type = 'signoff'%}
                             {% set show_buttons = true %}

@@ -7,6 +7,10 @@ page:
     overview: Trolley Anmeldung
     daytext-gogo: "An diesem Tag gehen:"
     daytext-free: "Nicht Belegt"
+    user_successful_added: "Deine Bewerbung haben wir erhalten"
+
+error:
+  no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"
 
 action:
   show: Anzeigen
