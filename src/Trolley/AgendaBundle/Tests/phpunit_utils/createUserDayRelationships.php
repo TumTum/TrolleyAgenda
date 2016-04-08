@@ -75,6 +75,9 @@ trait createUserDayRelationships
             $manager->persist($entity);
         }
         $manager->flush();
+
         self::bootKernel();
+        global $kernel;
+        $kernel = self::$kernel;
     }
 }

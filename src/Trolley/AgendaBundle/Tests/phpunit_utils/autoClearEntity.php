@@ -25,6 +25,9 @@ trait autoClearEntity
     protected function setUp()
     {
         self::bootKernel();
+        global $kernel;
+        $kernel = self::$kernel;
+
         parent::setUp();
     }
 
