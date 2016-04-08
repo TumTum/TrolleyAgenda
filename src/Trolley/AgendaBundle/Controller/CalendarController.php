@@ -4,13 +4,23 @@ namespace Trolley\AgendaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Trolley\AgendaBundle\Entity\Day;
+use Trolley\AgendaBundle\Entity\User;
 use Trolley\AgendaBundle\Util\MonthOverview;
 
+/**
+ * Class CalendarController
+ *
+ * @package Trolley\AgendaBundle\Controller
+ *
+ * @Route("/calendar")
+ */
 class CalendarController extends Controller
 {
     /**
-     * @Route("/", name="startpage");
+     * @Route("/");
      */
     public function indexAction()
     {
@@ -28,6 +38,31 @@ class CalendarController extends Controller
     }
 
     /**
+     * @Method("GET")
+     * @Route("/addme/{day}")
+     */
+    public function addUserToDayAction(Request $request, Day $day)
+    {
+        $tr = $this->_getTranslator();
+
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash('error', $tr->trans('error.no_user_found'));
+
+        }
+        $day->addUser($user);
+
+        $manager =$this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('info', $tr->trans('page.calendar.user_successful_added'));
+
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
      * Rechnet die Monate zurück
      */
     protected function _createAheadMonths()
@@ -41,6 +76,14 @@ class CalendarController extends Controller
         $MonthOverview->mergeDaysWithDB();
 
         return $MonthOverview;
+    }
+
+    /**
+     * @return \Symfony\Component\Translation\DataCollectorTranslator
+     */
+    protected function _getTranslator()
+    {
+        return $this->get('translator');
     }
 
 }
