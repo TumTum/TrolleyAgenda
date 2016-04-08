@@ -66,15 +66,24 @@ trait createUserDayRelationships
     }
 
     /**
-     * @param $Entitys
+     * @return Day
      */
-    protected function saveInDb($entitys)
+    protected function createOneDay()
+    {
+        return new Day("2014-10-22");
+    }
+
+    /**
+     * @param array $Entitys
+     */
+    protected function saveInDb(array $entitys)
     {
         $manager = $this->getDoctrine()->getManager();
         foreach ($entitys as $entity) {
             $manager->persist($entity);
         }
         $manager->flush();
+
 
         self::bootKernel();
         global $kernel;
