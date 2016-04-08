@@ -13,6 +13,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\Translator;
 use Trolley\AgendaBundle\Entity\User;
 
@@ -22,9 +23,8 @@ class Builder implements ContainerAwareInterface
 
     public function mainMenu(FactoryInterface $factory, array $options)
     {
-        global $kernel;
         /** @var Translator $tr */
-        $tr = $kernel->getContainer()->get('translator');
+        $tr = $this->getContainer()->get('translator');
 
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
@@ -98,14 +98,11 @@ class Builder implements ContainerAwareInterface
      */
     protected function isGranted($attributes, $object = null)
     {
-        global $kernel;
-        $container = $kernel->getContainer();
-
-        if (!$container->has('security.authorization_checker')) {
+        if (!$this->getContainer()->has('security.authorization_checker')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
 
-        return $container->get('security.authorization_checker')->isGranted($attributes, $object);
+        return $this->getContainer()->get('security.authorization_checker')->isGranted($attributes, $object);
     }
 
     /**
@@ -115,14 +112,22 @@ class Builder implements ContainerAwareInterface
      */
     protected function getUsername()
     {
-        global $kernel;
-        $container = $kernel->getContainer();
+
         /** @var User $user */
-        $user = $container->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getContainer()->get('security.token_storage')->getToken()->getUser();
         if (empty(trim($user->getFirstlastname()))) {
             return $user->getUsername();
         }
         return $user->getFirstlastname();
+    }
+
+    /**
+     * @use ContainerAwareTrait::container
+     * @return ContainerInterface
+     */
+    protected function getContainer()
+    {
+        return $this->container;
     }
 
 }
