@@ -39,7 +39,7 @@ class Day
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="day")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="days")
      */
     private $taUsers;
 
