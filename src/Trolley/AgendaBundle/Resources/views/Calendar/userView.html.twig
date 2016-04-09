@@ -54,6 +54,9 @@
     </div>
 
     {% if (loop.index % 2) == 0 %}
-        <div class="clearfix visible-xs-block">####</div>
+        <div class="clearfix visible-xs-block"></div>
+    {% endif %}
+    {% if (loop.index % 4) == 0 %}
+        <div class="clearfix hidden-xs"></div>
     {% endif %}
 {% endblock %}
