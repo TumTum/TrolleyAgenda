@@ -33,7 +33,7 @@
                         <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">{{ user.firstlastname }}</span>
                         {% if isLoginUser  %}
                             {% set show_button_type = 'signoff'%}
-                            {% set add_signoff_controller = 'trolley_agenda_calendar_addusertoday_1' %}
+                            {% set add_signoff_controller = 'trolley_agenda_calendar_signoffuserfromday' %}
                             {% set show_buttons = true %}
                         {% endif %}
                     {% endfor %}

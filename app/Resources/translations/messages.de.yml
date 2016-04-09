@@ -8,6 +8,7 @@ page:
     daytext-gogo: "An diesem Tag gehen:"
     daytext-free: "Nicht Belegt"
     user_successful_added: "Deine Bewerbung haben wir erhalten"
+    user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
 
 error:
   no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"

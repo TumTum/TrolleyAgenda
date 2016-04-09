@@ -49,6 +49,34 @@ class CalendarControllerTest extends WebTestCase
         $this->assertCount(1, $userLinked);
     }
 
+    public function testSignoffMeFromADay()
+    {
+        /**
+         * @var User $user
+         * @var Day $day
+         * @var Router $router
+         */
+        $client = static::createClient();
+        $user = $this->login($client);
+        $user = self::getDoctrine()->getRepository('TrolleyAgendaBundle:User')->find($user->getId());
+
+        $day = $this->createOneDay();
+        $day->addUser($user);
+
+        $this->saveInDb([$day]);
+
+        $url = $this->_getUrl('trolley_agenda_calendar_signoffuserfromday', ['day'  => $day->getId()]);
+
+        $crawler = $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: ('.$client->getResponse()->getStatusCode().') trolley_agenda_calendar_addusertoday');
+
+        $dayDB = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
+
+        $userLinked = $dayDB->getTaUsers();
+        $this->assertCount(0, $userLinked);
+    }
+
     /**
      * @param string $routename
      */

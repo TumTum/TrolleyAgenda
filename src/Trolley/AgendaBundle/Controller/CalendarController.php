@@ -40,7 +40,6 @@ class CalendarController extends Controller
     /**
      * @Method("GET")
      * @Route("/addme/{day}")
-     * @Route("/signoffme/{day}")
      */
     public function addUserToDayAction(Request $request, Day $day)
     {
@@ -50,7 +49,6 @@ class CalendarController extends Controller
 
         if (!$user) {
             $this->addFlash('error', $tr->trans('error.no_user_found'));
-
         }
         $day->addUser($user);
 
@@ -59,6 +57,36 @@ class CalendarController extends Controller
         $manager->flush();
 
         $this->addFlash('info', $tr->trans('page.calendar.user_successful_added'));
+
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * Meldest den benutzer ab vom Tag
+     *
+     * @Route("/signoffme/{day}")
+     *
+     * @param Request $request
+     * @param Day     $day
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function signoffUserFromDayAction(Request $request, Day $day)
+    {
+        $tr = $this->_getTranslator();
+
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash('error', $tr->trans('error.no_user_found'));
+        }
+        $day->removeUser($user);
+
+        $manager =$this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('info', $tr->trans('page.calendar.user_successful_signoff'));
 
         return $this->redirectToRoute('trolley_agenda_calendar_index');
     }
