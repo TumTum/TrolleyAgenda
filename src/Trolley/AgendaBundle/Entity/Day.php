@@ -2,6 +2,7 @@
 
 namespace Trolley\AgendaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Prophecy\Exception\InvalidArgumentException;
 
@@ -36,18 +37,18 @@ class Day
     private $taDay;
 
     /**
-     * @var array
+     * @var ArrayCollection
      *
-     * @ORM\Column(name="taUsers", type="array", nullable=true)
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="days")
      */
     private $taUsers;
 
     /**
-     * @var int
+     * @var array
      *
-     * @ORM\Column(name="taIsAccept", type="smallint", nullable=true)
+     * @ORM\Column(name="taAcceptUsers", type="json_array", nullable=true)
      */
-    private $taIsAccept;
+    private $taAcceptUsers = [];
 
     /**
      * Id nach Datum
@@ -65,6 +66,37 @@ class Day
      */
     const idDateFormat = "YmdHi";
 
+
+    /**
+     * Day constructor.
+     *
+     * @param null $datestring
+     */
+    public function __construct($datestring = null)
+    {
+        $this->taUsers = new ArrayCollection();
+        $this->initDay($datestring);
+    }
+
+    /**
+     * Erstellt das Datum dieses Object
+     *
+     * @param $datestring
+     */
+    protected function initDay($datestring)
+    {
+        if ($datestring !== null) {
+            if (is_scalar($datestring)) {
+                $date = date_create($datestring);
+            } elseif ($datestring instanceof \DateTime ) {
+                $date = $datestring;
+            } else {
+                throw new InvalidArgumentException('It must be a String or DateTime object.');
+            }
+
+            $this->setTaDay($date);
+        }
+    }
 
     /**
      * Get id
@@ -137,27 +169,34 @@ class Day
     }
 
     /**
-     * Set taIsAccept
-     *
-     * @param integer $taIsAccept
-     *
-     * @return Day
+     * Add User To Dat
      */
-    public function setTaIsAccept($taIsAccept)
+    public function addUser(User $user)
     {
-        $this->taIsAccept = $taIsAccept;
+        $user->addDay($this);
+        $this->taUsers->add($user);
+    }
 
-        return $this;
+    public function removeUser(User $user)
+    {
+        $user->removeDay($this);
+        $this->taUsers->removeElement($user);
     }
 
     /**
-     * Get taIsAccept
-     *
-     * @return int
+     * @return ArrayCollection
      */
-    public function getTaIsAccept()
+    public function getTaAcceptUsers()
     {
-        return $this->taIsAccept;
+        return $this->taAcceptUsers;
+    }
+
+    /**
+     * @param ArrayCollection $taAcceptUsers
+     */
+    public function setTaAcceptUsers($taAcceptUsers)
+    {
+        $this->taAcceptUsers = $taAcceptUsers;
     }
 
     /**
@@ -185,22 +224,35 @@ class Day
     }
 
     /**
-     * Day constructor.
+     * Prüft ob der User gehen darf
      *
-     * @param null $datestring
+     * @return bool
      */
-    public function __construct($datestring = null)
+    public function canUserGo(User $user)
     {
-        if ($datestring !== null) {
-            if (is_scalar($datestring)) {
-                $date = date_create($datestring);
-            } elseif ($datestring instanceof \DateTime ) {
-                $date = $datestring;
-            } else {
-                throw new InvalidArgumentException('It must be a String or DateTime object.');
-            }
+        return (array_search($user->getUsername(), $this->taAcceptUsers) !== false);
+    }
 
-            $this->setTaDay($date);
+    /**
+     * User darf gehen
+     *
+     * @param User $user
+     */
+    public function userAcceptToGo(User $user)
+    {
+        $this->taAcceptUsers[] = $user->getUsername();
+    }
+
+    /**
+     * User kann geht doch nicht mit zum Trolley
+     *
+     * @param User $user
+     */
+    public function userCancelToGo(User $user)
+    {
+        $key = array_search($user->getUsername(), $this->taAcceptUsers);
+        if ($key !== false) {
+            unset($this->taAcceptUsers[$key]);
         }
     }
 
