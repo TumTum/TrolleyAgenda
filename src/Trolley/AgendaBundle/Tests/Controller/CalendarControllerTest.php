@@ -27,17 +27,12 @@ class CalendarControllerTest extends WebTestCase
          * @var Router $router
          */
         $client = static::createClient();
-        $user = $this->loginAsAdmin($client);
+        $user = $this->login($client);
         $day = $this->createOneDay();
 
         $this->saveInDb([$day]);
 
-        $url = $this->_getUrl(
-            'trolley_agenda_calendar_addusertoday',
-            [
-                'day'  => $day->getId(),
-                'user' => $user->getId()
-            ]);
+        $url = $this->_getUrl('trolley_agenda_calendar_addusertoday', ['day'  => $day->getId()]);
 
         $crawler = $client->request('GET', $url);
 
