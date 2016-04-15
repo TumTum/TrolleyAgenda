@@ -4,6 +4,7 @@
 
 {% block modal_global_body %}
     <input type="hidden" name="userid" id="js_modal_userid" value="">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user') }}">
     {{ 'page.user.modal.ask_for_delete_user'|trans({'%name%': '<strong class="js_modal_firstlastname"></strong>'})|raw }}
 {% endblock %}
 
