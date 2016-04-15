@@ -3,51 +3,72 @@
 {% block title %}{{ 'page.userlist'|trans }}{% endblock %}
 
 {% block content %}
-    <table class="table table-striped table-responsive">
-        <thead>
-        <tr>
-            <th class="text-nowrap"><i class="fa fa-user hidden-xs"></i> {{ 'label.name'|trans }}</th>
-            <th class="text-nowrap"><i class="fa fa-phone hidden-xs"></i> {{ 'label.phone'|trans }}</th>
-            <th class="text-nowrap"><i class="fa fa-home hidden-xs"></i> {{ 'label.adress'|trans }}</th>
-            <th class="text-nowrap"><i class="fa fa-envelope-o hidden-xs"></i> {{ 'label.email'|trans }}</th>
-            {% if is_granted('ROLE_ADMIN') %}
-                <th class="text-nowrap"><i class="fa fa-user hidden-xs"></i> {{ 'label.username'|trans }}</th>
-                <th class="text-nowrap"><i class="fa fa-cogs hidden-xs"></i> {{ 'label.actions'|trans }}</th>
-            {% endif %}
-        </tr>
-        </thead>
-        <tbody>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         {% for user in users %}
-            <tr>
-                <td class="text-nowrap">{{ user.firstlastname }}</td>
-                <td class="text-nowrap">
-                    {%  if user.phone != '' %}<i class="fa fa-phone"></i> {{ user.phone }} <br/>{% endif %}
-                    {%  if user.mobile != '' %}<i class="fa fa-mobile-phone"></i> {{ user.mobile }}  <br/>{% endif %}
-                    {%  if user.mobile2 != '' %}<i class="fa fa-mobile-phone"></i> {{ user.mobile2 }}  <br/>{% endif %}
-                </td>
-                <td><span class="text-nowrap">{{ user.street }},</span> <span class="text-nowrap">{{ user.plz }} {{ user.city }}</span> </td>
-                <td class="text-nowrap">{{ user.email }}</td>
-                {% if is_granted('ROLE_ADMIN') %}
-
-                    <td class="text-nowrap">{{ user.username }}</td>
-                    <td class="text-nowrap">
-                        <div class="item-actions">
-                            {#<a href="#}{# path('UserManager_edit', { id: user.id }) #}{#" class="btn btn-sm btn-default">#}
-                                {#{{ 'action.show'|trans }}#}
-                            {#</a>#}
-                            <a href="{{ path('trolley_agenda_users_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
-                                <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
-                            </a>
+            {% set collapse_id = "collapse" ~ loop.index %}
+            {% set heading_id  = "heading" ~ loop.index %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="{{ heading_id }}">
+                    <div class="panel-title row" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ collapse_id }}" aria-controls="{{ collapse_id }}">
+                        <div class="col-xs-7">
+                            <i class="fa fa-user hidden-xs"></i>  {{ user.firstlastname }}
                         </div>
-                    </td>
-                {% endif %}
-            </tr>
+                        <div class="col-xs-5">
+                            {% if user.mobile != '' %}<i class="fa fa-mobile-phone hidden-xs"></i> {{ user.mobile }}
+                            {% elseif user.phone != '' %}<i class="fa fa-phone hidden-xs"></i> {{ user.phone }}
+                            {% elseif user.mobile2 != '' %}<i class="fa fa-mobile-phone hidden-xs"></i> {{ user.mobile2 }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div id="{{ collapse_id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ heading_id }}">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p>
+                                    {{ user.street }}<br/>
+                                    {{ user.plz }} {{ user.city }}
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <p>
+                                    <i class="fa fa-envelope-o"></i> {{ user.email }}<br/>
+                                    {% if user.phone != '' %}<i class="fa fa-phone"></i> {{ user.phone }} <br/>{% endif %}
+                                    {% if user.mobile != '' %}<i class="fa fa-mobile-phone"></i> {{ user.mobile }}  <br/>{% endif %}
+                                    {% if user.mobile2 != '' %}<i class="fa fa-mobile-phone"></i> {{ user.mobile2 }}  <br/>{% endif %}
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <p>
+                                        {{ 'label.username'|trans }}:
+                                        <i class="fa fa-user"></i> {{ user.username }}
+                                    </p>
+                                    <a href="{{ path('trolley_agenda_users_edit', { id: user.id }) }}"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
+    </div>
 {% endblock %}
 
 {% block sidebar %}
-
-{%  endblock %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="hidden-xs" style="margin-top: 5em;"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Verwaltung</h3>
+            </div>
+            <div class="panel-body">
+                <a href="{{ path('trolley_agenda_users_new') }}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-user"></i> {{ 'action.new_user'|trans }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

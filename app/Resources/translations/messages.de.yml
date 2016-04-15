@@ -17,6 +17,7 @@ action:
   show: Anzeigen
   edit: Bearbeiten
   sign_in: Login
+  new_user: "Neuer Verkündiger"
 
 label:
   button:
