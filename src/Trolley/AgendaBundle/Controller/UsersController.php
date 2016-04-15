@@ -37,6 +37,7 @@ class UsersController extends Controller
         list ($isSaveDB, $form) = $this->_userFromSave($user, $request);
 
         if ($isSaveDB) {
+            $this->addFlash('success', 'page.user.saved_sussfully');
             return $this->redirectToRoute('trolley_agenda_users_list');
         }
 
@@ -58,6 +59,7 @@ class UsersController extends Controller
         list ($isSaveDB, $form) = $this->_userFromSave($user, $request);
 
         if ($isSaveDB) {
+            $this->addFlash('success', 'page.user.saved_sussfully');
             return $this->redirectToRoute('trolley_agenda_users_edit', ['id' => $user->getId()]);
         }
 
