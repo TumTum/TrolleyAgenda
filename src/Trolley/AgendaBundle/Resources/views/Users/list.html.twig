@@ -54,10 +54,11 @@
                                        class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
                                     </a>
-
-                                    <a data-toggle="modal" data-target="#global_modal" class="btn btn-sm btn-default" data-firstlastname='{{ user.firstlastname }}' data-userid='{{ user.id }}'>
-                                        <i class="fa fa-trash"></i>
-                                    </a>
+                                    {% if app.user.id != user.id %}
+                                        <a data-toggle="modal" data-target="#global_modal" class="btn btn-sm btn-default" data-firstlastname='{{ user.firstlastname }}' data-userid='{{ user.id }}'>
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
