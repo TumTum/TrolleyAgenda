@@ -16,10 +16,11 @@ page:
       title_delete_user: "Teilnehmer entfernen"
       ask_for_delete_user: "Bist du dir <strong>sicher</strong> das du den Verkündiger '%name%' entfernen möchtest?"
       button_sure_remove: "ja entfernen"
+    error:
+      user_edit_save_faild: "Verkündiger konnte nicht gespeichert werden. Username oder Email sind bereit vorhanden"
 
 error:
   no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"
-  user_edit_save_faild : "Verkündiger konnte nicht gespeichert werden. Username oder Email sind bereit vorhanden"
 
 action:
   show: Anzeigen

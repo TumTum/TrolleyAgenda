@@ -105,7 +105,7 @@ class UsersController extends Controller
                 $userManager->updateUser($user);
                 $saved = true;
             } catch (\Exception $e) {
-                $this->addFlash('danger', 'error.user_edit_save_faild');
+                $this->addFlash('danger', 'page.user.error.user_edit_save_faild');
                 $saved = false;
             }
         }
