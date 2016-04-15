@@ -10,14 +10,28 @@ page:
     daytext-free: "Nicht Belegt"
     user_successful_added: "Deine Bewerbung haben wir erhalten"
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
+  user:
+    saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
+    remove_sussfully: "Verkündiger wurde erfolgreich gelöscht"
+    modal:
+      title_delete_user: "Teilnehmer entfernen"
+      ask_for_delete_user: >
+        Bist du dir <strong>sicher</strong> das du den Verkündiger '%name%' entfernen möchtest?<br/>
+        Die Termine vom Verkündiger werden somit frei gegeben.
+      button_sure_remove: "ja entfernen"
+    error:
+      remove_self: "Du kannst dich selbst nicht entfernen"
+      unknown_user: "Unbekannter Verkündiger"
+      user_edit_save_faild: "Verkündiger konnte nicht gespeichert werden. Username oder Email sind bereit vorhanden"
 
 error:
   no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"
-  user_edit_save_faild : "Verkündiger konnte nicht gespeichert werden. Username oder Email sind bereit vorhanden"
+  access_deny: "Zugriff verweigert"
 
 action:
   show: Anzeigen
   edit: Bearbeiten
+  delete: Löschen
   sign_in: Login
   new_user: "Neuer Verkündiger"
 
@@ -53,7 +67,6 @@ label:
     callinfo: Telefonummern
     adress:  Anschrift
     security: Sicherheit
-
 
 menu:
   home: Übersicht
