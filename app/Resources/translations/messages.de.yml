@@ -12,6 +12,10 @@ page:
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
   user:
     saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
+    modal:
+      title_delete_user: "Teilnehmer entfernen"
+      ask_for_delete_user: "Bist du dir <strong>sicher</strong> das du den Verkündiger '%name%' entfernen möchtest?"
+      button_sure_remove: "ja entfernen"
 
 error:
   no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"
@@ -20,6 +24,7 @@ error:
 action:
   show: Anzeigen
   edit: Bearbeiten
+  delete: Löschen
   sign_in: Login
   new_user: "Neuer Verkündiger"
 
@@ -55,7 +60,6 @@ label:
     callinfo: Telefonummern
     adress:  Anschrift
     security: Sicherheit
-
 
 menu:
   home: Übersicht

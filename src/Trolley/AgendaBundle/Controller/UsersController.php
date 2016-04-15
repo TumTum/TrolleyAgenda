@@ -70,6 +70,17 @@ class UsersController extends Controller
     }
 
     /**
+     * @Route("/delete")
+     * @Security("has_role('ROLE_ADMIN')");
+     *
+     * @param Request $request
+     */
+    public function deleteAction(Request $request)
+    {
+
+    }
+
+    /**
      * Speichert den User in der DB anhand des Formulars
      *
      * @param User    $user

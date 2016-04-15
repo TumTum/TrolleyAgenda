@@ -49,9 +49,14 @@
                                         {{ 'label.username'|trans }}:
                                         <i class="fa fa-user"></i> {{ user.username }}
                                     </p>
+
                                     <a href="{{ path('trolley_agenda_users_edit', { id: user.id }) }}"
                                        class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
+                                    </a>
+
+                                    <a data-toggle="modal" data-target="#global_modal" class="btn btn-sm btn-default" data-firstlastname='{{ user.firstlastname }}' data-userid='{{ user.id }}'>
+                                        <i class="fa fa-trash"></i>
                                     </a>
                                 {% endif %}
                             </div>
@@ -61,6 +66,15 @@
             </div>
         {% endfor %}
     </div>
+
+    {% use "TrolleyAgendaBundle:Users:_deleteModal.html.twig" %}
+    {% include 'common/_bootstrap_modal.html.twig' with {
+        'form_action': path('trolley_agenda_users_delete'),
+        'modal_title': block('modal_global_title'),
+        'modal_body': block('modal_global_body'),
+        'modal_buttons': block('modal_global_footer')
+        }
+    %}
 {% endblock %}
 
 {% block sidebar %}
@@ -78,3 +92,4 @@
         </div>
     {% endif %}
 {% endblock %}
+
