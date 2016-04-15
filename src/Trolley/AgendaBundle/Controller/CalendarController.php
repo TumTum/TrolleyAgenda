@@ -43,12 +43,10 @@ class CalendarController extends Controller
      */
     public function addUserToDayAction(Request $request, Day $day)
     {
-        $tr = $this->_getTranslator();
-
-        $user = $this->getUser();
+           $user = $this->getUser();
 
         if (!$user) {
-            $this->addFlash('error', $tr->trans('error.no_user_found'));
+            $this->addFlash('error', 'error.no_user_found');
         }
         $day->addUser($user);
 
@@ -56,7 +54,7 @@ class CalendarController extends Controller
         $manager->persist($day);
         $manager->flush();
 
-        $this->addFlash('info', $tr->trans('page.calendar.user_successful_added'));
+        $this->addFlash('info', 'page.calendar.user_successful_added');
 
         return $this->redirectToRoute('trolley_agenda_calendar_index');
     }
@@ -73,12 +71,10 @@ class CalendarController extends Controller
      */
     public function signoffUserFromDayAction(Request $request, Day $day)
     {
-        $tr = $this->_getTranslator();
-
         $user = $this->getUser();
 
         if (!$user) {
-            $this->addFlash('error', $tr->trans('error.no_user_found'));
+            $this->addFlash('error', 'error.no_user_found');
         }
         $day->removeUser($user);
 
@@ -86,7 +82,7 @@ class CalendarController extends Controller
         $manager->persist($day);
         $manager->flush();
 
-        $this->addFlash('info', $tr->trans('page.calendar.user_successful_signoff'));
+        $this->addFlash('info', 'page.calendar.user_successful_signoff');
 
         return $this->redirectToRoute('trolley_agenda_calendar_index');
     }
@@ -106,13 +102,4 @@ class CalendarController extends Controller
 
         return $MonthOverview;
     }
-
-    /**
-     * @return \Symfony\Component\Translation\DataCollectorTranslator
-     */
-    protected function _getTranslator()
-    {
-        return $this->get('translator');
-    }
-
 }

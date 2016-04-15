@@ -1,6 +1,7 @@
 page:
   userlist: Teilnehmerliste
-  useredit: Teilnemer Bearbeiten
+  useredit: Verkündiger bearbeiten
+  usernew: Neuen Verkündiger anlegen
   userchangepasswort: Passwort Ändern
   signinheading: Bitte melde dich an
   calendar:
@@ -12,11 +13,13 @@ page:
 
 error:
   no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"
+  user_edit_save_faild : "Verkündiger konnte nicht gespeichert werden. Username oder Email sind bereit vorhanden"
 
 action:
   show: Anzeigen
   edit: Bearbeiten
   sign_in: Login
+  new_user: "Neuer Verkündiger"
 
 label:
   button:
@@ -36,15 +39,21 @@ label:
   username: Benutzername
   password: Passwort
   role:
-    label: Berechtigungen
-    admin: Verwalter
-    user: Benutzer
+    label: Verkündiger darf ...
+    admin: nutzen und verwalten
+    user: nutzen
   street: Straße
   plz: PLZ
   city: Stadt
   phone: Telefon
   mobile: Mobile
   mobile2: Mobile2
+  group:
+    userinfo: Verkündiger
+    callinfo: Telefonummern
+    adress:  Anschrift
+    security: Sicherheit
+
 
 menu:
   home: Übersicht

@@ -227,6 +227,29 @@ class User extends BaseUser
     }
 
     /**
+     * Wird gebrauch wird das Formialar
+     *
+     * @return string
+     */
+    public function getAdminRole()
+    {
+        return $this->hasRole('ROLE_ADMIN') ? 'yes' : 'no';
+    }
+
+    /**
+     * Upgrade oder Degrade den User
+     * @param $upgrade
+     */
+    public function setAdminRole($upgrade)
+    {
+        if ($upgrade == 'yes') {
+            $this->addRole('ROLE_ADMIN');
+        } else {
+            $this->removeRole('ROLE_ADMIN');
+        }
+    }
+
+    /**
      * User constructor.
      */
     public function __construct()

@@ -1,0 +1,85 @@
+{{ form_start(user_form) }}
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong><i class="fa fa-user hidden-xs"></i> {{ 'label.group.userinfo'|trans }}</strong>
+            </div>
+            <div class="panel-body">
+            {{ form_row(user_form.firstlastname) }}
+            {{ form_row(user_form.username) }}
+            {{ form_row(user_form.email) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong><i class="fa fa-phone hidden-xs"></i> {{ 'label.group.callinfo'|trans }}</strong>
+            </div>
+            <div class="panel-body">
+                {{ form_row(user_form.phone) }}
+                {{ form_row(user_form.mobile) }}
+                {{ form_row(user_form.mobile2) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong><i class="fa fa-home hidden-xs"></i> {{ 'label.group.adress'|trans }}</strong>
+            </div>
+            <div class="panel-body">
+                {{ form_row(user_form.street) }}
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_label(user_form.plz) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_label(user_form.city) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_widget(user_form.plz) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_widget(user_form.city) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong><i class="fa fa-user-secret hidden-xs"></i> {{ 'label.group.security'|trans }}</strong>
+            </div>
+            <div class="panel-body">
+                {{ form_row(user_form.plainPassword) }}
+                {{ form_row(user_form.adminRole) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-offset-6 col-sm-3 text-right" style="margin-bottom: 8px">
+        <a href="{{ path('trolley_agenda_users_list') }}"
+           class="btn btn-default  btn-block">{{ 'label.button.cancel'|trans }}</a>
+    </div>
+    <div class="col-xs-12 col-sm-3 text-right">
+        <input type="submit" value="{{ button_label|default('label.button.save'|trans) }}"
+               class="btn btn-primary btn-block"/>
+    </div>
+</div>
+
+{{ form_errors(user_form) }}
+
+{{ form_end(user_form) }}
