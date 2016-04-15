@@ -1,23 +1,8 @@
 {% extends "::base.html.twig" %}
-{% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
 
 {% block title %}{{ 'page.useredit'|trans }}{% endblock %}
 
 {% block body %}
     {{ parent() }}
-    {{ form_start(edit_form, { attr: attr|default({}) }) }}
-    {{ form_widget(edit_form) }}
-
-    <div class="form-group">
-        <div class="col-xs-12 col-sm-offset-8 col-sm-4 text-right">
-            <a href="{{ path('trolley_agenda_users_list') }}" class="btn btn-default btn-block">{{ 'label.button.cancel'|trans }}</a>
-            <input type="submit" value="{{ button_label|default('label.button.save'|trans) }}" class="btn btn-primary btn-block" />
-        </div>
-    </div>
-
-    {{ form_errors(edit_form) }}
-
-    {{ form_end(edit_form) }}
-
-
+    {{ include("TrolleyAgendaBundle:Users:_userForm.html.twig") }}
 {% endblock %}
