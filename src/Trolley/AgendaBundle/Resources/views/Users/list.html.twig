@@ -11,7 +11,13 @@
                 <div class="panel-heading" role="tab" id="{{ heading_id }}">
                     <div class="panel-title row" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ collapse_id }}" aria-controls="{{ collapse_id }}">
                         <div class="col-xs-7">
-                            <i class="fa fa-user hidden-xs"></i>  {{ user.firstlastname }}
+                            {% set fa_user = 'fa-user' %}
+                            {% set icon_hidden = 'hidden-xs' %}
+                            {% if user.getAdminRole == 'yes' %}
+                                {% set fa_user = 'fa-user-plus' %}
+                                {% set icon_hidden = '' %}
+                            {% endif %}
+                            <i class="fa {{ fa_user }} {{ icon_hidden }}"></i>  {{ user.firstlastname }}
                         </div>
                         <div class="col-xs-5">
                             {% if user.mobile != '' %}<i class="fa fa-mobile-phone hidden-xs"></i> {{ user.mobile }}
@@ -24,10 +30,10 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-4">
-                                <p>
+                                <address>
                                     {{ user.street }}<br/>
                                     {{ user.plz }} {{ user.city }}
-                                </p>
+                                </address>
                             </div>
                             <div class="col-sm-4">
                                 <p>
