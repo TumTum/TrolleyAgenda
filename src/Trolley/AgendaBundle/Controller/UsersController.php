@@ -5,6 +5,7 @@ namespace Trolley\AgendaBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Trolley\AgendaBundle\Entity\User;
 
@@ -74,12 +75,46 @@ class UsersController extends Controller
     /**
      * @Route("/delete")
      * @Security("has_role('ROLE_ADMIN')");
+     * @Method({"POST"})
      *
      * @param Request $request
      */
     public function deleteAction(Request $request)
     {
+        $userid     = $request->get('userid');
+        $csrf_token = $request->get('_csrf_token');
 
+        $RedirectResponse = $this->redirectToRoute('trolley_agenda_users_list');
+
+        if (!$this->isCsrfTokenValid('delete_user', $csrf_token)) {
+            $this->addFlash('danger', 'error.access_deny');
+
+            return $RedirectResponse;
+        }
+        if (empty($userid)) {
+            $this->addFlash('danger', 'page.user.error.unknown_user');
+            return $RedirectResponse;
+        }
+
+        if ($this->getUser()->getId() == $userid) {
+            $this->addFlash('danger', 'page.user.error.remove_self');
+            return $RedirectResponse;
+        }
+
+        $userRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User');
+        $user = $userRepository->find($userid);
+
+        if (empty($user)) {
+            $this->addFlash('danger', 'page.user.error.unknown_user');
+            return $RedirectResponse;
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($user);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.user.remove_sussfully');
+        return $this->redirectToRoute('trolley_agenda_users_list');
     }
 
     /**
