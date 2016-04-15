@@ -56,6 +56,8 @@ class UsersController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
+        $user->setEnabled('true');
+        
         list ($isSaveDB, $form) = $this->_userFromSave($user, $request);
 
         if ($isSaveDB) {
