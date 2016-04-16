@@ -35,10 +35,7 @@
                 <td rowspan="{{ day.taUsers|length }}">
                     <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
 
-                    <div class="input-group input-group-sm" style="margin-top: 1em">
-                        <input type="text" class="form-control" placeholder="Bruder/Schwester">
-                        <span class="input-group-addon">Hinzufügen</span>
-                    </div>
+                    {{ block('autocomplete_user') }}
                 </td>
             {% endif %}
             <td class="{{ bg_color }}">
@@ -67,9 +64,10 @@
                 <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
             </td>
             <td colspan="3">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="{{ 'page.calendar.daytext-free'|trans }}">
-                    <span class="input-group-addon">Hinzufügen</span>
+                <div class="row">
+                    <div class="col-sm-8 col-xs-12">
+                        {{ block('autocomplete_user') }}
+                    </div>
                 </div>
             </td>
         </tr>
@@ -79,4 +77,37 @@
 {% block day_after %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block autocomplete_user %}
+    <div class="input-group input-group-sm select2-bootstrap-append">
+        <select class="form-control js_selectuser" id="adduserdate_{{ day.id }}" name="adduserdate[{{ day.id }}]" multiple="multiple" style="width: 100%"></select>
+        <span class="input-group-btn"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></span>
+    </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+    <link href="{{ asset('/bundles/trolleyagenda/select2-4.0.2/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/trolleyagenda/select2-4.0.2/css/select2-bootstrap.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% set lang = app.request.defaultLocale %}
+{% if app.request.locale != null %}
+    {% set lang = app.request.locale %}
+{% endif %}
+
+{% block javascript %}
+    <script src="{{ asset('/bundles/trolleyagenda/select2-4.0.2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/select2-4.0.2/js/i18n/'~lang~'.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/autocompleter-select2.js') }}"></script>
+    <script type="application/javascript">
+        $(function(){
+            $('.js_selectuser').autocompleter({
+                url_list: '{{ path('trolley_agenda_autocomplete_searchusername') }}',
+                placeholder: '{{ 'label.preacher'|trans }}'
+            });
+        });
+    </script>
+    {{ parent() }}
 {% endblock %}
