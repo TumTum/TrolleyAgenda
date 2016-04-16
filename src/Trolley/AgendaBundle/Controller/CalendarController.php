@@ -105,6 +105,22 @@ class CalendarController extends Controller
     }
 
     /**
+     * @Route("/signoff-{user}-on-{day}")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function adminSignOffUser(User $user, Day $day)
+    {
+        $day->removeUser($user);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.user_successful_signoff');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
      * Rechnet die Monate zurück
      */
     protected function _createAheadMonths()

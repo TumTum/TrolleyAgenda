@@ -49,7 +49,7 @@
                     <div class="col-sm-5 text-right">
                         <div class="btn-group btn-group-xs" role="group">
                             {{ signon_button }}
-                            <a href="#" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</a>
+                            <a href="{{ path('trolley_agenda_calendar_adminsignoffuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -74,11 +74,6 @@
             </td>
         </tr>
     {% endfor %}
-
-
-
-
-
 {% endblock %}
 
 {% block day_after %}

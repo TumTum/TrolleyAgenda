@@ -104,6 +104,38 @@ class CalendarControllerTest extends WebTestCase
     }
 
     /**
+     * Der Admin Acceptiert den User
+     */
+    public function testAdminSignOffUser()
+    {
+        /**
+         * @var User   $user
+         * @var User   $user2
+         * @var Day    $day
+         * @var Day    $dayDB
+         */
+        list($day, $user, $user2) = $this->createDayTowUsers();
+
+        $this->saveInDb([$day, $user, $user2]);
+
+        $url = $this->_getUrl('trolley_agenda_calendar_adminsignoffuser', [
+            'day' => $day->getId(),
+            'user' => $user->getId(),
+        ]);
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_adminacceptuser');
+
+        $dayDB = self::getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
+
+        $usernames = $dayDB->getTaUsers()->map(function($user) {return $user->getUsername();});
+        $this->assertNotContains($user->getUsername(), $usernames);
+    }
+
+    /**
      * @param string $routename
      */
     protected function _getUrl($routename, $param = null)

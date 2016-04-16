@@ -11,6 +11,7 @@ page:
     user_successful_added: "Deine Bewerbung haben wir erhalten"
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
     user_successful_accept: "Die Bewerbung wurde angenommen"
+    user_successful_signoff: "Die Bewerbung wurde zurückgezogen"
   user:
     saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
     remove_sussfully: "Verkündiger wurde erfolgreich gelöscht"
