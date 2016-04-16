@@ -15,7 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(
+ *     name="fos_user",
+ *     uniqueConstraints=@ORM\UniqueConstraint(name="autocomplete",columns={"firstlastname"})
+ * )
+ * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
