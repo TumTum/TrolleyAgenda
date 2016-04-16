@@ -1,11 +1,11 @@
 page:
-  userlist: Teilnehmerliste
-  useredit: Verkündiger bearbeiten
-  usernew: Neuen Verkündiger anlegen
-  userchangepasswort: Passwort Ändern
-  signinheading: Bitte melde dich an
+  userlist: "Teilnehmerliste"
+  useredit: "Verkündiger bearbeiten"
+  usernew: "Neuen Verkündiger anlegen"
+  userchangepasswort: "Passwort Ändern"
+  signinheading: "Bitte melde dich an"
   calendar:
-    overview: Trolley Anmeldung
+    overview: "Trolley Anmeldung"
     small_title: "Terminverwaltung um sich anzumelden am Trolley Dienst."
     daytext-gogo: "An diesem Tag gehen:"
     daytext-free: "Nicht Belegt"
@@ -13,6 +13,7 @@ page:
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
     user_successful_accept: "Die Bewerbung wurde angenommen"
     user_successful_signoff: "Die Bewerbung wurde zurückgezogen"
+
   user:
     saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
     remove_sussfully: "Verkündiger wurde erfolgreich gelöscht"
@@ -32,71 +33,72 @@ error:
   access_deny: "Zugriff verweigert"
 
 action:
-  show: Anzeigen
-  edit: Bearbeiten
-  delete: Löschen
-  sign_in: Login
+  show: "Anzeigen"
+  edit: "Bearbeiten"
+  delete: "Löschen"
+  sign_in: "Login"
   new_user: "Neuer Verkündiger"
 
 label:
   button:
-    okay: ok
-    cancel: Abbrechen
-    save: Sichern
+    okay: "ok"
+    cancel: "Abbrechen"
+    save: "Sichern"
     calendar:
-      signoff: Absagen
-      signon: Mich Bewerben
-      accept: Anerkennen
-      remind: Erinnern
-      change: Auswechseln
-  actions: Bearbeiten
-  name: Vor- und Nachname
-  adress: Adresse
-  email: E-Mail
-  username: Benutzername
-  password: Passwort
+      signoff: "Absagen"
+      signon: "Mich Bewerben"
+      accept: "Anerkennen"
+      remind: "Erinnern"
+      change: "Auswechseln"
+  preacher: "Verkündiger"
+  actions: "Bearbeiten"
+  name: "Vor- und Nachname"
+  adress: "Adresse"
+  email: "E-Mail"
+  username: "Benutzername"
+  password: "Passwort"
   role:
-    label: Verkündiger darf ...
-    admin: nutzen und verwalten
-    user: nutzen
-  street: Straße
-  plz: PLZ
-  city: Stadt
-  phone: Telefon
-  mobile: Mobile
-  mobile2: Mobile2
+    label: "Verkündiger darf ..."
+    admin: "nutzen und verwalten"
+    user: "nutzen"
+  street: "Straße"
+  plz: "PLZ"
+  city: "Stadt"
+  phone: "Telefon"
+  mobile: "Mobile"
+  mobile2: "Mobile2"
   group:
-    userinfo: Verkündiger
-    callinfo: Telefonummern
-    adress:  Anschrift
-    security: Sicherheit
+    userinfo: "Verkündiger"
+    callinfo: "Telefonummern"
+    adress:  "Anschrift"
+    security: "Sicherheit"
 
 menu:
-  home: Übersicht
-  route: Route
-  userlist: Teilnehmer
-  user: Mein Profil
+  home: "Übersicht"
+  route: "Route"
+  userlist: "Teilnehmer"
+  user: "Mein Profil"
 
 date:
-  Monday: Montag
-  Tuesday: Dienstag
-  Wednesday: Mittwoch
-  Thursday: Donnerstag
-  Friday: Freitag
-  Saturday: Samstag
-  Sunday: Sonntag
-  January: Januar
-  February: Februar
-  March: März
-  April: April
-  May: Mai
-  June: Juni
-  July: Juli
-  August: August
-  September: September
-  October: Oktober
-  November: November
-  December: Dezember
+  Monday: "Montag"
+  Tuesday: "Dienstag"
+  Wednesday: "Mittwoch"
+  Thursday: "Donnerstag"
+  Friday: "Freitag"
+  Saturday: "Samstag"
+  Sunday: "Sonntag"
+  January: "Januar"
+  February: "Februar"
+  March: "März"
+  April: "April"
+  May: "Mai"
+  June: "Juni"
+  July: "Juli"
+  August: "August"
+  September: "September"
+  October: "Oktober"
+  November: "November"
+  December: "Dezember"
 
 help:
   calendar.user.okay: "Angenommen"
