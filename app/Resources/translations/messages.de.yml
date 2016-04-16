@@ -10,6 +10,7 @@ page:
     daytext-free: "Nicht Belegt"
     user_successful_added: "Deine Bewerbung haben wir erhalten"
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
+    user_successful_accept: "Die Bewerbung wurde angenommen"
   user:
     saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
     remove_sussfully: "Verkündiger wurde erfolgreich gelöscht"

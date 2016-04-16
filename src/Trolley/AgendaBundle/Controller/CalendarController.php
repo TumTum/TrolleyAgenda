@@ -5,6 +5,7 @@ namespace Trolley\AgendaBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
@@ -84,6 +85,22 @@ class CalendarController extends Controller
 
         $this->addFlash('info', 'page.calendar.user_successful_signoff');
 
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * @Route("/accept-{user}-on-{day}")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function adminAcceptUser(User $user, Day $day)
+    {
+        $day->userAcceptToGo($user);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.user_successful_accept');
         return $this->redirectToRoute('trolley_agenda_calendar_index');
     }
 
