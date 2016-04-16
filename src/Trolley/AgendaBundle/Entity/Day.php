@@ -180,6 +180,7 @@ class Day
     public function removeUser(User $user)
     {
         $user->removeDay($this);
+        $this->userCancelToGo($user);
         $this->taUsers->removeElement($user);
     }
 
