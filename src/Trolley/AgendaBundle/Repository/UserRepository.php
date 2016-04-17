@@ -19,7 +19,8 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->select('u.id, u.firstlastname AS text')
             ->where('u.firstlastname LIKE ?1')
             ->andWhere('u.enabled = 1')
-            ->setParameter('1', '%'.$name.'%');
+            ->setParameter('1', '%'.$name.'%')
+            ->orderBy('u.firstlastname', 'asc');
 
         return $qB->getQuery()->getResult();
     }

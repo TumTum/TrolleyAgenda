@@ -25,7 +25,7 @@ class UsersController extends Controller
         $userDB = $db->getRepository("TrolleyAgendaBundle:User");
 
         return $this->render('TrolleyAgendaBundle:Users:list.html.twig',[
-            'users' => $userDB->findAll()
+            'users' => $userDB->findBy([], ['roles' => 'asc', 'firstlastname' => 'asc'])
         ]);
     }
 
