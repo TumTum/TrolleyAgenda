@@ -1,3 +1,9 @@
+/* Useage:
+    $('.js_selectuser').autocompleter({
+            url_list: '{{ path('trolley_agenda_autocomplete_searchusername') }}',
+            placeholder: '{{ 'label.preacher'|trans }}'
+    });
+ */
 (function ($) {
     'use strict';
     $.fn.autocompleter = function (options) {
