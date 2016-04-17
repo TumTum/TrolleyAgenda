@@ -173,8 +173,26 @@ class Day
      */
     public function addUser(User $user)
     {
-        $user->addDay($this);
-        $this->taUsers->add($user);
+        if ($this->canAddUser($user)) {
+            $user->addDay($this);
+            $this->taUsers->add($user);
+        }
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    protected function canAddUser(User $user)
+    {
+        $foundUser = $this->taUsers->exists(
+            function($key, $element) use ($user) {
+                return $user->getUsername() == $element->getUsername();
+            }
+        );
+
+        return $foundUser == false;
     }
 
     public function removeUser(User $user)

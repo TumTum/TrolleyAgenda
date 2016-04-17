@@ -164,6 +164,20 @@ class DayTest extends KernelTestCase
 
     }
 
+    public function testDoubleUserInDay()
+    {
+        $day = $this->createOneDay();
+        $user = $this->createUser('doubleuser');
+
+        $day->addUser($user);
+        $day->addUser($user);
+
+        $this->assertCount(1, $day->getTaUsers());
+    }
+
+    /**
+     * Test ob man das Construkt in der DB speichern kann
+     */
     public function testAcceptUserToGoPresetInDB()
     {
         /**
