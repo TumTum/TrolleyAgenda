@@ -6,9 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\Request;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Repository\DayRepository;
+use Trolley\AgendaBundle\Repository\UserRepository;
+use Trolley\AgendaBundle\Util\BulksUsersToDays;
 use Trolley\AgendaBundle\Util\MonthOverview;
 
 /**
@@ -45,7 +49,7 @@ class CalendarController extends Controller
      */
     public function addUserToDayAction(Request $request, Day $day)
     {
-           $user = $this->getUser();
+        $user = $this->getUser();
 
         if (!$user) {
             $this->addFlash('error', 'error.no_user_found');
@@ -122,6 +126,35 @@ class CalendarController extends Controller
     }
 
     /**
+     * Der Admin fügt user zu einer DB hinzu
+     *
+     * @Route("/add-users")
+     * @Method({"POST"})
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     */
+    public function adminAddUserToDay(Request $request)
+    {
+        /**
+         * @var DayRepository  $dayRepository
+         * @var UserRepository $userRepository
+         * @var Day $day
+         * @var User $user
+         */
+        $formular        = $request->get('adduserdate');
+
+        $manager = $this->getDoctrine()->getManager();
+        $bulksUsersToDays = new BulksUsersToDays($manager);
+        $bulksUsersToDays->processForm($formular);
+        array_map(function($entity) use ($manager) { $manager->persist($entity); }, $bulksUsersToDays->getEntitys());
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.admin_add_user');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
      * Alle Usernamen zurück vom Vornamen
      *
      * @return array
@@ -131,7 +164,7 @@ class CalendarController extends Controller
         $userRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User');
         return $userRepository->findAutocompleteFirstlastname('');
     }
-    
+
     /**
      * Rechnet die Monate zurück
      */
