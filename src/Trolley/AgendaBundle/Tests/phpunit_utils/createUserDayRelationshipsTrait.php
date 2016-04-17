@@ -17,6 +17,32 @@ use Trolley\AgendaBundle\Entity\User;
 trait createUserDayRelationshipsTrait
 {
     /**
+     * @return Day
+     */
+    protected function createOneDay($date = "2014-10-22")
+    {
+        return new Day($date);
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return User
+     */
+    public function createUser($username = 'testuser', $admin = false)
+    {
+        $user = new User();
+        $user->setUsername($username);
+        $user->setEmail($username.'@localhost');
+        $user->setPlainPassword($username.'passwort');
+        $user->setEnabled(true);
+        if ($admin) {
+            $user->addRole('ROLE_ADMIN');
+        }
+        return $user;
+    }
+
+    /**
      * Erstellt einen User der mit zwei Day verkünft wurde.
      *
      * @covers \Trolley\AgendaBundle\Tests\Entity\UserTest::testUserToDayInverse
@@ -25,15 +51,12 @@ trait createUserDayRelationshipsTrait
      */
     protected function createUserInTowDays()
     {
-        $user = new User();
-        $user->setUsername('testuser');
-        $user->setEmail('testuser@localhost');
-        $user->setPlainPassword('testpasswort');
+        $user = $this->createUser();
 
-        $day  = new Day("2014-10-22");
+        $day  = $this->createOneDay("2014-10-22");
         $day->addUser($user);
 
-        $day2  = new Day("2014-10-21");
+        $day2  = $this->createOneDay("2014-10-21");
         $day2->addUser($user);
 
         return [$user, $day, $day2];
@@ -48,29 +71,14 @@ trait createUserDayRelationshipsTrait
      */
     protected function createDayTowUsers()
     {
-        $user = new User();
-        $user->setUsername('testuser');
-        $user->setEmail('testuser@localhost');
-        $user->setPlainPassword('testpasswort');
+        $user  = $this->createUser('testuser');
+        $user2 = $this->createUser('testuser2');
 
-        $user2 = new User();
-        $user2->setUsername('testuser2');
-        $user2->setEmail('testuser2@localhost');
-        $user2->setPlainPassword('testpasswort2');
-
-        $day  = new Day("2014-10-22");
+        $day = $this->createOneDay("2014-10-22");
         $day->addUser($user);
         $day->addUser($user2);
 
         return [$day, $user, $user2];
-    }
-
-    /**
-     * @return Day
-     */
-    protected function createOneDay()
-    {
-        return new Day("2014-10-22");
     }
 
     /**
