@@ -103,9 +103,12 @@
     <script src="{{ asset('/bundles/trolleyagenda/js/autocompleter-select2.js') }}"></script>
     <script type="application/javascript">
         $(function(){
-            $('.js_selectuser').autocompleter({
+            $('.js_selectuser').select2({
                 url_list: '{{ path('trolley_agenda_autocomplete_searchusername') }}',
-                placeholder: '{{ 'label.preacher'|trans }}'
+                placeholder: '{{ 'label.preacher'|trans }}',
+                minimumInputLength: 1,
+                theme: 'bootstrap',
+                data: {{ controller.getListOfUserFirstname()|json_encode|raw }}
             });
         });
     </script>

@@ -34,7 +34,8 @@ class CalendarController extends Controller
         $months = $this->_createAheadMonths();
 
         return $this->render($Template, [
-            'months' => $months
+            'months'     => $months,
+            'controller' => $this,
         ]);
     }
 
@@ -120,6 +121,17 @@ class CalendarController extends Controller
         return $this->redirectToRoute('trolley_agenda_calendar_index');
     }
 
+    /**
+     * Alle Usernamen zurück vom Vornamen
+     *
+     * @return array
+     */
+    public function getListOfUserFirstname()
+    {
+        $userRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User');
+        return $userRepository->findAutocompleteFirstlastname('');
+    }
+    
     /**
      * Rechnet die Monate zurück
      */
