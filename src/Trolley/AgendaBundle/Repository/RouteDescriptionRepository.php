@@ -10,4 +10,28 @@ namespace Trolley\AgendaBundle\Repository;
  */
 class RouteDescriptionRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Findet die Default route
+     */
+    public function findDefaultRoute()
+    {
+        $qB = $this->createQueryBuilder('r')
+            ->select('r.id')
+            ->setMaxResults(1);
+
+        $query = $qB->getQuery();
+
+        $query->useQueryCache(true);
+        $query->useResultCache(true, 60*60*24);
+
+        $result = $query->getResult();
+
+        if (empty($result)) {
+            return 0;
+        }
+
+        $firstElement = array_shift($result);
+
+        return $firstElement['id'];
+    }
 }

@@ -35,7 +35,7 @@ class Builder implements ContainerAwareInterface
         }
 
         $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage'));
-        $menu->addChild($tr->trans('menu.route'), array('route' => 'trolley_agenda_route_route') );
+        $menu->addChild($tr->trans('menu.route'), $this->getDefaultRoute() );
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolley_agenda_users_list') );
 
         $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " <small>(".$this->getUsername().")</small>", $menu);
@@ -47,6 +47,21 @@ class Builder implements ContainerAwareInterface
         return $menu;
     }
 
+    /**
+     * @return array
+     */
+    protected function getDefaultRoute()
+    {
+        $doctrine = $this->getContainer()->get('doctrine');
+        $repository = $doctrine->getRepository('TrolleyAgendaBundle:RouteDescription');
+        $defaultrouteId = $repository->findDefaultRoute();
+        
+        $route = [
+            'route' => 'trolley_agenda_routedescription_show',
+            'routeParameters' => ['id' => $defaultrouteId]
+        ];
+        return $route;
+    }
     /**
      * Erstellt ein dropdown Menu
      *
