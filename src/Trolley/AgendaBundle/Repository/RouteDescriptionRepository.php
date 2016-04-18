@@ -25,9 +25,8 @@ class RouteDescriptionRepository extends \Doctrine\ORM\EntityRepository
         $query->useResultCache(true, 60*60*24);
 
         $result = $query->getResult();
-
         if (empty($result)) {
-            return 0;
+            return null;
         }
 
         $firstElement = array_shift($result);
