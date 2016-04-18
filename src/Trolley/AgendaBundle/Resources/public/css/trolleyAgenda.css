@@ -78,3 +78,7 @@ body {
 .flashbag {
     margin-top: 1.5em;
 }
+
+.sidebar .section {
+    margin-bottom: 2em;
+}

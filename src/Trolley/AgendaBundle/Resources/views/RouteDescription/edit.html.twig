@@ -1,0 +1,28 @@
+{% extends ':layouts:sidebar_right.html.twig' %}
+
+{% block title %}{{ 'page.routedescription.edit.title'|trans({'%title%': routeDescription.title}) }}{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">{{ 'label.button.save'|trans }}</button>
+            <a href="{{ path('trolley_agenda_routedescription_index') }}"> &lt;- {{ 'label.button.route.back_overview'|trans }}</a>
+        </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-block btn-lg btn-danger"><i class="fa fa-trash"></i> {{ 'action.delete'|trans }}</button>
+        {{ form_end(delete_form) }}
+    </div>
+    <div class="section">
+        <div class="well">
+            {{ 'help.route.edit'|trans }}
+        </div>
+    </div>
+{% endblock %}

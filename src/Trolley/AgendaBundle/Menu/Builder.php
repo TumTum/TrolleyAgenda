@@ -35,7 +35,8 @@ class Builder implements ContainerAwareInterface
         }
 
         $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage'));
-        $menu->addChild($tr->trans('menu.route'), array('route' => 'trolley_agenda_route_route') );
+        $this->addRouteMenu($menu);
+
         $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolley_agenda_users_list') );
 
         $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " <small>(".$this->getUsername().")</small>", $menu);
@@ -47,6 +48,40 @@ class Builder implements ContainerAwareInterface
         return $menu;
     }
 
+    /**
+     * @param ItemInterface $menu
+     */
+    protected function addRouteMenu(ItemInterface $menu)
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $route = ['route' => 'trolley_agenda_routedescription_index'];
+        } else {
+            $route = $this->getDefaultRoute();
+        }
+        /** @var Translator $tr */
+        $tr = $this->getContainer()->get('translator');
+        $menu->addChild($tr->trans('menu.route'), $route);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaultRoute()
+    {
+        $doctrine = $this->getContainer()->get('doctrine');
+        $repository = $doctrine->getRepository('TrolleyAgendaBundle:RouteDescription');
+        $defaultrouteId = $repository->findDefaultRoute();
+
+        if ($defaultrouteId === null) {
+            return ['uri' => '#'];
+        }
+
+        $route = [
+            'route' => 'trolley_agenda_routedescription_show',
+            'routeParameters' => ['id' => $defaultrouteId]
+        ];
+        return $route;
+    }
     /**
      * Erstellt ein dropdown Menu
      *

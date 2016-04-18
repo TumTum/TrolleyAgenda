@@ -10,6 +10,11 @@ page:
     daytext-free: "Nicht Belegt"
     user_successful_added: "Deine Bewerbung haben wir erhalten"
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
+  routedescription:
+    list.title: "Routen Übersicht"
+    new.title: "Neue Routen Beschreibung erstellen"
+    edit.title: "Route: '%title%' bearbeiten"
+    show.title: "Route '%title%'"
   user:
     saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
     remove_sussfully: "Verkündiger wurde erfolgreich gelöscht"
@@ -34,6 +39,7 @@ action:
   delete: Löschen
   sign_in: Login
   new_user: "Neuer Verkündiger"
+  new_route: "Neue Route Beschreibung"
 
 label:
   button:
@@ -46,6 +52,11 @@ label:
       accept: Anerkennen
       remind: Erinnern
       change: Auswechseln
+    route:
+      back_overview: "zurück zur Routen Übersicht"
+  route:
+    title: "Route"
+    html: "Beschreibung"
   actions: Bearbeiten
   name: Vor- und Nachname
   adress: Adresse
@@ -98,3 +109,6 @@ date:
 help:
   calendar.user.okay: "Angenommen"
   calendar.user.pending: "Wartet auf Zustimmung"
+  route:
+    index: "Erstelle eine neue Routen Beschreibung"
+    edit: "Der Beschreibungstext kann ruhig HTML Code enthalten"
