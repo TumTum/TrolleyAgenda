@@ -1,0 +1,43 @@
+{% extends ':layouts:sidebar_right.html.twig' %}
+
+{% block title %}{{ 'page.routedescription.list.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+<table class="table table-responsive table-hover table-condensed">
+    <colgroup>
+        <col span="1" style="width: auto">
+        <col span="1" style="width: 50%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>{{ 'label.route.title'|trans }}</th>
+        <th>{{ 'label.route.html'|trans }}</th>
+    </tr>
+    </thead>
+        <tbody>
+        {% for routeDescription in routeDescriptions %}
+            <tr>
+                <td><a href="{{ path('trolley_agenda_routedescription_show', { 'id': routeDescription.id }) }}">{{ routeDescription.title }}</a></td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a class="btn btn-primary" href="{{ path('trolley_agenda_routedescription_show', { 'id': routeDescription.id }) }}">{{ 'action.show'|trans }}</a>
+                        <a class="btn btn-default" href="{{ path('trolley_agenda_routedescription_edit', { 'id': routeDescription.id }) }}" ><i class="fa fa-edit"></i>  {{ 'action.edit'|trans }}</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a class="btn btn-success btn-block btn-lg" href="{{ path('trolley_agenda_routedescription_new') }}">{{ 'action.new_route'|trans }}</a>
+    </div>
+    <div class="section well well-sm">
+        {{ 'help.route.index'|trans }}
+    </div>
+ {% endblock %}

@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ 'page.routedescription.show.title'|trans({'%title%': routeDescription.title}) }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {{ routeDescription.html|raw }}
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ block('admin') }}
+    {% endif %}
+{% endblock %}
+
+{% block admin %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ path('trolley_agenda_routedescription_index') }}">{{ 'label.button.route.back_overview'|trans }}</a>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ 'label.actions'|trans }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="" href="{{ path('trolley_agenda_routedescription_edit', { 'id': routeDescription.id }) }}" ><i class="fa fa-edit"></i>  {{ 'action.edit'|trans }}</a>
+                        </li>
+                        <li>
+                            <a class="bg-danger" onclick="document.form.submit()"><i class="fa fa-trash"></i> {{ 'action.delete'|trans }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {{ form_start(delete_form) }}{{ form_end(delete_form) }}
+        </div>
+    </div>
+{% endblock %}
