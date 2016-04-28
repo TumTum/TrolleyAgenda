@@ -1,0 +1,7 @@
+suites:
+    TrolleyAgenda_suite:
+        namespace: Trolley\AgendaBundle
+        spec_prefix: Tests
+        src_path: %paths.config%/src/Trolley/AgendaBundle
+        spec_path: %paths.config%/src/Trolley/AgendaBundle
+        psr4_prefix: Trolley\AgendaBundle
