@@ -33,6 +33,7 @@ trait createUserDayRelationshipsTrait
     {
         $user = new User();
         $user->setUsername($username);
+        $user->setFirstlastname($username." bot");
         $user->setEmail($username.'@localhost');
         $user->setPlainPassword($username.'passwort');
         $user->setEnabled(true);
