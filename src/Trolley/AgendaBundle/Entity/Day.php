@@ -94,7 +94,7 @@ class Day
                 throw new InvalidArgumentException('It must be a String or DateTime object.');
             }
 
-            $this->setTaDay($date);
+            $this->setConformTaDay($date);
         }
     }
 
@@ -126,12 +126,22 @@ class Day
      *
      * @return Day
      */
-    public function setTaDay($taDay)
+    public function setTaDay(\DateTime $taDay)
+    {
+        $this->setConformTaDay($taDay);
+        return $this;
+    }
+
+    /**
+     * Setzt das Datum aber in ein richtiges format.
+     *
+     * @param \DateTime $taDay
+     */
+    protected function setConformTaDay(\DateTime $taDay)
     {
         $taDay->setTime(0,0,0);
         $this->taDay = $taDay;
         $this->idDate = $taDay->format(self::idDateFormat);
-        return $this;
     }
 
     /**
@@ -281,7 +291,7 @@ class Day
      * @return string
      * @link http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
      */
-    function __toString()
+    public function __toString()
     {
         return $this->getTaDay()->format("Y-m-d");
     }
