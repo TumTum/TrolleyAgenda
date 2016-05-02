@@ -87,6 +87,13 @@ class User extends BaseUser
     private $days = null;
 
     /**
+     * @var HistoryService
+     *
+     * @ORM\OneToOne(targetEntity="HistoryService", cascade={"remove"});
+     */
+    private $historyService = null;
+
+    /**
      * @return string
      */
     public function getFirstlastname()
@@ -228,6 +235,22 @@ class User extends BaseUser
     public function removeDay(Day $day)
     {
         $this->days->removeElement($day);
+    }
+
+    /**
+     * @return HistoryService
+     */
+    public function getHistoryService()
+    {
+        return $this->historyService;
+    }
+
+    /**
+     * @param HistoryService $historyService
+     */
+    public function setHistoryService($historyService)
+    {
+        $this->historyService = $historyService;
     }
 
     /**
