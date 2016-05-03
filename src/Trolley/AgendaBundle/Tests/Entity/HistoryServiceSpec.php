@@ -12,6 +12,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Tests\phpunit_utils\MockDay;
 
 /**
  * @mixin \Trolley\AgendaBundle\Entity\HistoryService
@@ -24,10 +25,9 @@ class HistoryServiceSpec extends ObjectBehavior
         $this->shouldHaveType('Trolley\AgendaBundle\Entity\HistoryService');
     }
 
-    public function it_can_add_new_date(Day $day, \DateTime $date)
+    public function it_can_add_new_date(Day $day)
     {
-        $day->getTaDay()->shouldBeCalled()->willReturn($date);
-        $day->getId()->shouldBeCalled()->willReturn(1);
+        MockDay::Day($day, '+1 Day');
 
         $this->addDate($day)->shouldReturn(true);
         $this->addDate($day)->shouldReturn(false);
@@ -39,18 +39,11 @@ class HistoryServiceSpec extends ObjectBehavior
         Day $pastDay2clone,
         Day $forwardDay
     ) {
-        $datePast1 = new \DateTime('-2 Day');
-        $datePast2 = new \DateTime('-5 Day');
-        $dateForward = new \DateTime('+2 Day');
-
-        $pastDay1->getTaDay()->shouldBeCalled()->willReturn($datePast1);
-        $pastDay1->getId()->shouldBeCalled()->willReturn(1);
-        $pastDay2->getTaDay()->shouldBeCalled()->willReturn($datePast2);
-        $pastDay2->getId()->shouldBeCalled()->willReturn(2);
-        $pastDay2clone->getTaDay()->shouldBeCalled()->willReturn($datePast2);
-        $pastDay2clone->getId()->shouldNotBeCalled()->willReturn(3);
-        $forwardDay->getTaDay()->shouldBeCalled()->willReturn($dateForward);
-        $forwardDay->getId()->shouldBeCalled()->willReturn(4);
+        MockDay::Day($pastDay1, '-2 Day');
+        MockDay::Day($pastDay2, '-5 Day');
+        MockDay::Day($pastDay2clone, '-5 Day');
+        $pastDay2clone->getId()->shouldNotBeCalled();
+        MockDay::Day($forwardDay, '+2 Day');
 
         $this->addDate($pastDay1);
         $this->addDate($pastDay2);
@@ -66,15 +59,9 @@ class HistoryServiceSpec extends ObjectBehavior
         Day $day2,
         Day $day2clone
     ) {
-        $date1 = new \DateTime('-2 Day');
-        $date2 = new \DateTime('+5 Day');
-
-        $day1->getTaDay()->shouldBeCalled()->willReturn($date1);
-        $day1->getId()->shouldBeCalled()->willReturn(1);
-        $day2->getTaDay()->shouldBeCalled()->willReturn($date2);
-        $day2->getId()->shouldBeCalled()->willReturn(2);
-        $day2clone->getTaDay()->shouldBeCalled()->willReturn($date2);
-        $day2clone->getId()->shouldBeCalled()->willReturn(3);
+        MockDay::Day($day1, '-2 Day');
+        MockDay::Day($day2, '+5 Day');
+        MockDay::Day($day2clone, '+5 Day');
 
         $this->addDate($day1);
         $this->addDate($day2);
@@ -89,19 +76,12 @@ class HistoryServiceSpec extends ObjectBehavior
         Day $day2,
         Day $day3
     ) {
-        $date1 = new \DateTime('-2 Day');
-        $date2 = new \DateTime('+5 Day');
-        $date3 = new \DateTime('-5 Day');
+        MockDay::Day($day1, '-2 Day');
+        MockDay::Day($day2, '+5 Day');
+        MockDay::Day($day3, '-5 Day');
 
         $this->getNumberPastDates()->shouldReturn(0);
         $this->getNumberforwardDates()->shouldReturn(0);
-
-        $day1->getTaDay()->shouldBeCalled()->willReturn($date1);
-        $day1->getId()->shouldBeCalled()->willReturn(1);
-        $day2->getTaDay()->shouldBeCalled()->willReturn($date2);
-        $day2->getId()->shouldBeCalled()->willReturn(2);
-        $day3->getTaDay()->shouldBeCalled()->willReturn($date3);
-        $day3->getId()->shouldBeCalled()->willReturn(3);
 
         $this->addDate($day1);
         $this->addDate($day3);
