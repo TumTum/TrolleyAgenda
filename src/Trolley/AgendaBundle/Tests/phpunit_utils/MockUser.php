@@ -16,6 +16,7 @@ use Trolley\AgendaBundle\Entity\User;
 class MockUser
 {
     use auto_increment;
+    use prophet_shoudbecalled;
 
     /**
      * @param User   $user
@@ -24,7 +25,7 @@ class MockUser
      *
      * @return mixed
      */
-    public static function User($user, $username = 'testuser', $admin = false)
+    public static function User($user, $username = 'testuser', $admin = false, $shouldBeCalled = false)
     {
         $user->getId()
             ->willReturn(self::getAutoIncrement());
@@ -38,6 +39,14 @@ class MockUser
             ->willReturn(true);
         $user->hasRole('ROLE_ADMIN')
             ->willReturn($admin);
+
+        self::markShouldBeCalled([
+            $user->getId(),
+            $user->getUsername(),
+            $user->getFirstlastname(),
+            $user->getEmail(),
+        ], $shouldBeCalled);
+
         return $user;
     }
 }

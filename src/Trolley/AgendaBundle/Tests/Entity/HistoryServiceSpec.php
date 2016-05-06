@@ -27,7 +27,7 @@ class HistoryServiceSpec extends ObjectBehavior
 
     public function it_can_add_new_date(Day $day)
     {
-        MockDay::Day($day, '+1 Day');
+        MockDay::Day($day, '+1 Day', true);
 
         $this->addDate($day)->shouldReturn(true);
         $this->addDate($day)->shouldReturn(false);
@@ -39,11 +39,11 @@ class HistoryServiceSpec extends ObjectBehavior
         Day $pastDay2clone,
         Day $forwardDay
     ) {
-        MockDay::Day($pastDay1, '-2 Day');
-        MockDay::Day($pastDay2, '-5 Day');
-        MockDay::Day($pastDay2clone, '-5 Day');
+        MockDay::Day($pastDay1, '-2 Day', true);
+        MockDay::Day($pastDay2, '-5 Day', true);
+        MockDay::Day($pastDay2clone, '-5 Day', true);
         $pastDay2clone->getId()->shouldNotBeCalled();
-        MockDay::Day($forwardDay, '+2 Day');
+        MockDay::Day($forwardDay, '+2 Day', true);
 
         $this->addDate($pastDay1);
         $this->addDate($pastDay2);
@@ -59,9 +59,9 @@ class HistoryServiceSpec extends ObjectBehavior
         Day $day2,
         Day $day2clone
     ) {
-        MockDay::Day($day1, '-2 Day');
-        MockDay::Day($day2, '+5 Day');
-        MockDay::Day($day2clone, '+5 Day');
+        MockDay::Day($day1, '-2 Day', true);
+        MockDay::Day($day2, '+5 Day', true);
+        MockDay::Day($day2clone, '+5 Day', true);
 
         $this->addDate($day1);
         $this->addDate($day2);
@@ -76,9 +76,9 @@ class HistoryServiceSpec extends ObjectBehavior
         Day $day2,
         Day $day3
     ) {
-        MockDay::Day($day1, '-2 Day');
-        MockDay::Day($day2, '+5 Day');
-        MockDay::Day($day3, '-5 Day');
+        MockDay::Day($day1, '-2 Day', true);
+        MockDay::Day($day2, '+5 Day', true);
+        MockDay::Day($day3, '-5 Day', true);
 
         $this->getNumberPastDates()->shouldReturn(0);
         $this->getNumberforwardDates()->shouldReturn(0);
