@@ -15,7 +15,7 @@ use Trolley\AgendaBundle\Entity\Day;
 /**
  * Class LinkDayAndUserHandler
  */
-class LinkDayAndUserHandler
+class DayAndUserRelationship
 {
 
     /**
@@ -77,7 +77,7 @@ class LinkDayAndUserHandler
     /**
      * @param ObjectManager $doctrineManager
      *
-     * @return LinkDayAndUserHandler
+     * @return DayAndUserRelationship
      */
     protected function setDoctrineManager($doctrineManager)
     {

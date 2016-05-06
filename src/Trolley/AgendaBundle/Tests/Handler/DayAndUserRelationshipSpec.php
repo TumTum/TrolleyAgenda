@@ -18,9 +18,9 @@ use Trolley\AgendaBundle\Tests\phpunit_utils\MockDay;
 use Trolley\AgendaBundle\Tests\phpunit_utils\MockUser;
 
 /**
- * @mixin \Trolley\AgendaBundle\Handler\LinkDayAndUserHandler
+ * @mixin \Trolley\AgendaBundle\Handler\DayAndUserRelationship
  */
-class LinkDayAndUserHandlerSpec extends ObjectBehavior
+class DayAndUserRelationshipSpec extends ObjectBehavior
 {
 
     public function let(ObjectManager $objectManager)
@@ -31,7 +31,7 @@ class LinkDayAndUserHandlerSpec extends ObjectBehavior
 
     public function it_is_initializable(ObjectManager $objectManager)
     {
-        $this->shouldHaveType('Trolley\AgendaBundle\Handler\LinkDayAndUserHandler');
+        $this->shouldHaveType('Trolley\AgendaBundle\Handler\DayAndUserRelationship');
         $objectManager->persist(Argument::any())->shouldNotBeCalled();
     }
 
@@ -39,7 +39,6 @@ class LinkDayAndUserHandlerSpec extends ObjectBehavior
      * Verlinkt den User zum Datum
      */
     public function it_can_link_user_to_date(
-        ObjectManager $objectManager,
         User $user,
         Day $day,
         HistoryService $historyService
@@ -59,7 +58,6 @@ class LinkDayAndUserHandlerSpec extends ObjectBehavior
      * Testet ob man den User wieder weg nehmen kann
      */
     public function it_can_remove_user_from_day(
-        ObjectManager $objectManager,
         User $user,
         Day $day,
         HistoryService $historyService
