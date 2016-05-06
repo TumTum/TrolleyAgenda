@@ -48,6 +48,25 @@ class LinkDayAndUserHandler
     }
 
     /**
+     * Enfernt den User vom Tag
+     *
+     * @param User $user
+     * @param Day  $day
+     */
+    public function removeUserFromDay(User $user, Day $day)
+    {
+        $day->removeUser($user);
+        $user->removeDay($day);
+
+        $historyService = $user->getHistoryService();
+        $historyService->removeDate($day);
+
+        $this->getDoctrineManager()->persist($day);
+        $this->getDoctrineManager()->persist($user);
+        $this->getDoctrineManager()->persist($historyService);
+    }
+
+    /**
      * @return ObjectManager
      */
     protected function getDoctrineManager()

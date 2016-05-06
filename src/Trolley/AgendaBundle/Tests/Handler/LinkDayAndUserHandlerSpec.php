@@ -25,12 +25,14 @@ class LinkDayAndUserHandlerSpec extends ObjectBehavior
 
     public function let(ObjectManager $objectManager)
     {
+        $objectManager->persist(Argument::any())->shouldBeCalled();
         $this->beConstructedWith($objectManager);
     }
 
-    public function it_is_initializable()
+    public function it_is_initializable(ObjectManager $objectManager)
     {
         $this->shouldHaveType('Trolley\AgendaBundle\Handler\LinkDayAndUserHandler');
+        $objectManager->persist(Argument::any())->shouldNotBeCalled();
     }
 
     /**
@@ -45,13 +47,31 @@ class LinkDayAndUserHandlerSpec extends ObjectBehavior
         MockDay::Day($day, 'now');
         MockUser::User($user);
 
-        $objectManager->persist(Argument::any())->shouldBeCalled();
-
         $day->addUser(Argument::any())->shouldBeCalled();
         $user->addDay(Argument::any())->shouldBeCalled();
         $user->getHistoryService()->shouldBeCalled()->willReturn($historyService);
         $historyService->addDate(Argument::any())->shouldBeCalled();
 
         $this->addUserToDay($user, $day);
+    }
+
+    /**
+     * Testet ob man den User wieder weg nehmen kann
+     */
+    public function it_can_remove_user_from_day(
+        ObjectManager $objectManager,
+        User $user,
+        Day $day,
+        HistoryService $historyService
+    ) {
+        MockDay::Day($day, 'now');
+        MockUser::User($user);
+
+        $day->removeUser($user)->shouldBeCalled();
+        $user->removeDay($day)->shouldBeCalled();
+        $user->getHistoryService()->shouldBeCalled()->willReturn($historyService);
+
+        $this->removeUserFromDay($user, $day);
+
     }
 }
