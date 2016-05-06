@@ -8,7 +8,7 @@
 
 namespace Tests\Trolley\AgendaBundle\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Trolley\AgendaBundle\Entity\Day;
@@ -23,13 +23,13 @@ use Trolley\AgendaBundle\Tests\phpunit_utils\MockUser;
 class DayAndUserRelationshipSpec extends ObjectBehavior
 {
 
-    public function let(ObjectManager $objectManager)
+    public function let(EntityManagerInterface $objectManager)
     {
         $objectManager->persist(Argument::any())->shouldBeCalled();
         $this->beConstructedWith($objectManager);
     }
 
-    public function it_is_initializable(ObjectManager $objectManager)
+    public function it_is_initializable(EntityManagerInterface $objectManager)
     {
         $this->shouldHaveType('Trolley\AgendaBundle\Handler\DayAndUserRelationship');
         $objectManager->persist(Argument::any())->shouldNotBeCalled();

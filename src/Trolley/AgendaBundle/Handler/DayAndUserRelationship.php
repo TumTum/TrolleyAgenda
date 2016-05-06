@@ -8,7 +8,7 @@
 
 namespace Trolley\AgendaBundle\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Trolley\AgendaBundle\Entity\User;
 use Trolley\AgendaBundle\Entity\Day;
 
@@ -19,11 +19,11 @@ class DayAndUserRelationship
 {
 
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $_doctrineManager = null;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(EntityManagerInterface $objectManager)
     {
         $this->setDoctrineManager($objectManager);
     }
@@ -67,7 +67,7 @@ class DayAndUserRelationship
     }
 
     /**
-     * @return ObjectManager
+     * @return EntityManagerInterface
      */
     protected function getDoctrineManager()
     {
@@ -75,7 +75,7 @@ class DayAndUserRelationship
     }
 
     /**
-     * @param ObjectManager $doctrineManager
+     * @param EntityManagerInterface $doctrineManager
      *
      * @return DayAndUserRelationship
      */
