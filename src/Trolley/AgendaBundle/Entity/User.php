@@ -242,6 +242,9 @@ class User extends BaseUser
      */
     public function getHistoryService()
     {
+        if ($this->historyService === null) {
+            $this->historyService = new HistoryService();
+        }
         return $this->historyService;
     }
 
