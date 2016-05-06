@@ -10,15 +10,14 @@
 
 namespace Trolley\AgendaBundle\Util;
 
-
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Trolley\AgendaBundle\Entity\Day;
 
 class BulksUsersToDays
 {
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
@@ -30,7 +29,7 @@ class BulksUsersToDays
     /**
      * @inheritDoc
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -62,6 +61,7 @@ class BulksUsersToDays
                     $this->addUserToDay($matchuser[0], $day);
                 }
             }
+
             $this->entitys[] = $day;
         }
     }
