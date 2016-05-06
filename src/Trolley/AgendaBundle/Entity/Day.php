@@ -184,7 +184,6 @@ class Day
     public function addUser(User $user)
     {
         if ($this->canAddUser($user)) {
-            $user->addDay($this);
             $this->taUsers->add($user);
         }
     }
