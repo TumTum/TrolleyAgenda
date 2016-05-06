@@ -58,7 +58,8 @@ class UserTest extends KernelTestCase
          */
         list($user, $day, $day2) = $this->createUserInTowDays();
 
-        $day2->removeUser($user);
+        $handler = $this->getDayAndUserRelationship();
+        $handler->removeUserFromDay($user, $day2);
 
         $this->assertCount(1, $user->getDays());
 

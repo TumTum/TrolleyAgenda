@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\Request;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
 use Trolley\AgendaBundle\Repository\DayRepository;
 use Trolley\AgendaBundle\Repository\UserRepository;
 use Trolley\AgendaBundle\Util\BulksUsersToDays;
@@ -54,10 +55,10 @@ class CalendarController extends Controller
         if (!$user) {
             $this->addFlash('error', 'error.no_user_found');
         }
-        $day->addUser($user);
 
         $manager =$this->getDoctrine()->getManager();
-        $manager->persist($day);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->addUserToDay($user, $day);
         $manager->flush();
 
         $this->addFlash('info', 'page.calendar.user_successful_added');
@@ -82,10 +83,10 @@ class CalendarController extends Controller
         if (!$user) {
             $this->addFlash('error', 'error.no_user_found');
         }
-        $day->removeUser($user);
 
         $manager =$this->getDoctrine()->getManager();
-        $manager->persist($day);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->removeUserFromDay($user, $day);
         $manager->flush();
 
         $this->addFlash('info', 'page.calendar.user_successful_signoff');
@@ -115,10 +116,9 @@ class CalendarController extends Controller
      */
     public function adminSignOffUser(User $user, Day $day)
     {
-        $day->removeUser($user);
-
         $manager = $this->getDoctrine()->getManager();
-        $manager->persist($day);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->removeUserFromDay($user, $day);
         $manager->flush();
 
         $this->addFlash('success', 'page.calendar.user_successful_signoff');
@@ -145,9 +145,9 @@ class CalendarController extends Controller
         $formular        = $request->get('adduserdate');
 
         $manager = $this->getDoctrine()->getManager();
-        $bulksUsersToDays = new BulksUsersToDays($manager);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $bulksUsersToDays = new BulksUsersToDays($manager, $dayAndUserRelationship);
         $bulksUsersToDays->processForm($formular);
-        array_map(function($entity) use ($manager) { $manager->persist($entity); }, $bulksUsersToDays->getEntitys());
         $manager->flush();
 
         $this->addFlash('success', 'page.calendar.admin_add_user');

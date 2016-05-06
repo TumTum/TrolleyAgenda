@@ -12,6 +12,7 @@ namespace Trolley\AgendaBundle\Util;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Trolley\AgendaBundle\Entity\Day;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
 
 class BulksUsersToDays
 {
@@ -22,6 +23,11 @@ class BulksUsersToDays
     protected $entityManager;
 
     /**
+     * @var DayAndUserRelationship
+     */
+    protected $dayAndUserRelationship;
+
+    /**
      * @var array
      */
     protected $entitys = [];
@@ -29,9 +35,10 @@ class BulksUsersToDays
     /**
      * @inheritDoc
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, DayAndUserRelationship $dayAndUserRelationship)
     {
-        $this->entityManager = $entityManager;
+        $this->entityManager          = $entityManager;
+        $this->dayAndUserRelationship = $dayAndUserRelationship;
     }
 
     /**
@@ -77,7 +84,7 @@ class BulksUsersToDays
         $userRepository = $this->getUserRepository();
         $user = $userRepository->find($userid);
         if ($user) {
-            $day->addUser($user);
+            $this->dayAndUserRelationship->addUserToDay($user, $day);
         }
     }
 

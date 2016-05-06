@@ -13,6 +13,7 @@ namespace Trolley\AgendaBundle\Tests\Util;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
 use Trolley\AgendaBundle\Tests\phpunit_utils\autoClearEntityTrait;
 use Trolley\AgendaBundle\Tests\phpunit_utils\createUserDayRelationshipsTrait;
 use Trolley\AgendaBundle\Util\BulksUsersToDays;
@@ -63,7 +64,9 @@ class BulksUsersToDaysTest extends KernelTestCase
 
         $manager = $this->getDoctrine()->getManager();
 
-        $bulksUsersToDays = new BulksUsersToDays($manager);
+        $handler = new DayAndUserRelationship($manager);
+
+        $bulksUsersToDays = new BulksUsersToDays($manager, $handler);
         $bulksUsersToDays->processForm($formular);
         $day2toSave = $bulksUsersToDays->getEntitys();
 

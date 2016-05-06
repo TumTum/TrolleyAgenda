@@ -13,8 +13,11 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
 use Trolley\AgendaBundle\Repository\DayRepository;
 use Trolley\AgendaBundle\Repository\UserRepository;
+use Trolley\AgendaBundle\Tests\phpunit_utils\MockDay;
+use Trolley\AgendaBundle\Tests\phpunit_utils\MockUser;
 
 /**
  * @mixin \Trolley\AgendaBundle\Util\BulksUsersToDays
@@ -22,9 +25,10 @@ use Trolley\AgendaBundle\Repository\UserRepository;
 class BulksUsersToDaysSpec extends ObjectBehavior
 {
     public function let(
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        DayAndUserRelationship $dayAndUserRelationship
     ) {
-        $this->beConstructedWith($entityManager);
+        $this->beConstructedWith($entityManager, $dayAndUserRelationship);
     }
 
     public function it_is_initializable()
@@ -36,18 +40,21 @@ class BulksUsersToDaysSpec extends ObjectBehavior
         EntityManagerInterface $entityManager,
         DayRepository $dayRepository,
         UserRepository $userRepository,
+        DayAndUserRelationship $dayAndUserRelationship,
         Day $day,
         User $user
     ) {
         $entityManager->getRepository(Argument::is("TrolleyAgendaBundle:Day"))->willReturn($dayRepository)->shouldBeCalled();
         $entityManager->getRepository(Argument::is("TrolleyAgendaBundle:User"))->willReturn($userRepository)->shouldBeCalled();
 
-
         $dayRepository->find('31')->willReturn($day)->shouldBeCalled();
         $userRepository->find('20')->willReturn($user)->shouldBeCalled();
         $userRepository->find('errorID')->shouldNotBeCalled();
 
-        $day->addUser(Argument::any())->shouldBeCalled();
+        $dayAndUserRelationship->addUserToDay(
+            Argument::is($user->getWrappedObject()),
+            Argument::is($day->getWrappedObject())
+        )->shouldBeCalled();
 
         $formular = [
             'dayid_31' => [
@@ -58,7 +65,4 @@ class BulksUsersToDaysSpec extends ObjectBehavior
 
         $this->processForm($formular);
     }
-
-
-
 }

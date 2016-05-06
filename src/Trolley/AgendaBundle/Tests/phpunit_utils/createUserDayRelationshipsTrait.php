@@ -10,9 +10,9 @@
 
 namespace Trolley\AgendaBundle\Tests\phpunit_utils;
 
-
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
 
 trait createUserDayRelationshipsTrait
 {
@@ -54,11 +54,13 @@ trait createUserDayRelationshipsTrait
     {
         $user = $this->createUser();
 
+        $handler = $this->getDayAndUserRelationship();
+
         $day  = $this->createOneDay("2014-10-22");
-        $day->addUser($user);
+        $handler->addUserToDay($user, $day);
 
         $day2  = $this->createOneDay("2014-10-21");
-        $day2->addUser($user);
+        $handler->addUserToDay($user, $day2);
 
         return [$user, $day, $day2];
     }
@@ -72,12 +74,14 @@ trait createUserDayRelationshipsTrait
      */
     protected function createDayTowUsers()
     {
+        $handler = $this->getDayAndUserRelationship();
+
         $user  = $this->createUser('testuser');
         $user2 = $this->createUser('testuser2');
 
         $day = $this->createOneDay("2014-10-22");
-        $day->addUser($user);
-        $day->addUser($user2);
+        $handler->addUserToDay($user, $day);
+        $handler->addUserToDay($user2, $day);
 
         return [$day, $user, $user2];
     }
@@ -97,5 +101,14 @@ trait createUserDayRelationshipsTrait
         self::bootKernel();
         global $kernel;
         $kernel = self::$kernel;
+    }
+
+    /**
+     * @return DayAndUserRelationship
+     */
+    protected function getDayAndUserRelationship()
+    {
+        $entityManager = $this->getDoctrine()->getManager();;
+        return new DayAndUserRelationship($entityManager);
     }
 }
