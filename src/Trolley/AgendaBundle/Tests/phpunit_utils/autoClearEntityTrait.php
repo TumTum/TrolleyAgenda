@@ -46,7 +46,8 @@ trait autoClearEntityTrait
         try {
             $this->clearTable([
                 'day',
-                'fos_user'
+                'fos_user',
+                'history_service',
             ]);
         } catch (\Exception $e){}
         parent::tearDown();
