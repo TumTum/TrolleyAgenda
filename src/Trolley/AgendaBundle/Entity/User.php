@@ -257,6 +257,26 @@ class User extends BaseUser
     }
 
     /**
+     * Wie oft er gegangen ist, zum trolley dienst.
+     *
+     * @return int
+     */
+    public function getNumberPastDates()
+    {
+        return $this->getHistoryService()->getNumberPastDates();
+    }
+
+    /**
+     * Wie oft der User noch gehen wird zum trolley dienst.
+     *
+     * @return int
+     */
+    public function getNumberforwardDates()
+    {
+        return $this->getHistoryService()->getNumberforwardDates();
+    }
+
+    /**
      * Wird gebrauch wird das Formialar
      *
      * @return string
@@ -287,6 +307,4 @@ class User extends BaseUser
         $this->days = new ArrayCollection();
         parent::__construct();
     }
-
-
 }
