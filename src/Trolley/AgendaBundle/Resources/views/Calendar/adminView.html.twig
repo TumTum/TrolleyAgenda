@@ -24,7 +24,7 @@
     {% for user in day.taUsers %}
         {% if day.canUserGo(user) %}
             {% set bg_color = 'bg-success' %}
-            {% set signon_button  %}<a href="#" class="btn btn-default">{{ ('label.button.calendar.change')|trans }}</a>{% endset %}
+            {% set signon_button  %}{% endset %}
         {% else %}
             {% set bg_color = 'bg-warning' %}
             {% set signon_button  %}<a href="{{ path('trolley_agenda_calendar_adminacceptuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-default">{{ ('label.button.calendar.accept')|trans }}</a>{% endset %}
