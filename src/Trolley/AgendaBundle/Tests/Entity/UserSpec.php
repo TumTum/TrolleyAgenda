@@ -35,4 +35,17 @@ class UserSpec extends ObjectBehavior
         $this->setHistoryService($historyService);
         $this->getNumberforwardDates()->shouldReturn(3);
     }
+
+    public function it_can_upgrade_to_admin()
+    {
+        $this->setAdminRole('yes');
+        $this->getAdminRole()->shouldBe('yes');
+    }
+
+    public function it_can_downgrade_to_admin()
+    {
+        $this->setAdminRole('yes');
+        $this->setAdminRole('no');
+        $this->getAdminRole()->shouldBe('no');
+    }
 }
