@@ -53,7 +53,7 @@ class CalendarController extends Controller
         $user = $this->getUser();
 
         if (!$user) {
-            $this->addFlash('error', 'error.no_user_found');
+            $this->addFlash('danger', 'error.no_user_found');
         }
 
         $manager =$this->getDoctrine()->getManager();
@@ -81,7 +81,7 @@ class CalendarController extends Controller
         $user = $this->getUser();
 
         if (!$user) {
-            $this->addFlash('error', 'error.no_user_found');
+            $this->addFlash('danger', 'error.no_user_found');
         }
 
         $manager =$this->getDoctrine()->getManager();
