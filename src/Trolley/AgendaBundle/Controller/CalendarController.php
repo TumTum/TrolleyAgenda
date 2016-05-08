@@ -144,6 +144,11 @@ class CalendarController extends Controller
          */
         $formular        = $request->get('adduserdate');
 
+        if (empty($error)) {
+            $this->addFlash('danger', 'page.calendar.admin_empty_form');
+            return $this->redirectToRoute('trolley_agenda_calendar_index');
+        }
+
         $manager = $this->getDoctrine()->getManager();
         $dayAndUserRelationship = new DayAndUserRelationship($manager);
         $bulksUsersToDays = new BulksUsersToDays($manager, $dayAndUserRelationship);
