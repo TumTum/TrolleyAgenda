@@ -10,12 +10,39 @@
 
 namespace Trolley\AgendaBundle\Tests\phpunit_utils;
 
-
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
 
 trait createUserDayRelationshipsTrait
 {
+    /**
+     * @return Day
+     */
+    protected function createOneDay($date = "2014-10-22")
+    {
+        return new Day($date);
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return User
+     */
+    public function createUser($username = 'testuser', $admin = false)
+    {
+        $user = new User();
+        $user->setUsername($username);
+        $user->setFirstlastname($username." bot");
+        $user->setEmail($username.'@localhost');
+        $user->setPlainPassword($username.'passwort');
+        $user->setEnabled(true);
+        if ($admin) {
+            $user->addRole('ROLE_ADMIN');
+        }
+        return $user;
+    }
+
     /**
      * Erstellt einen User der mit zwei Day verkünft wurde.
      *
@@ -25,16 +52,15 @@ trait createUserDayRelationshipsTrait
      */
     protected function createUserInTowDays()
     {
-        $user = new User();
-        $user->setUsername('testuser');
-        $user->setEmail('testuser@localhost');
-        $user->setPlainPassword('testpasswort');
+        $user = $this->createUser();
 
-        $day  = new Day("2014-10-22");
-        $day->addUser($user);
+        $handler = $this->getDayAndUserRelationship();
 
-        $day2  = new Day("2014-10-21");
-        $day2->addUser($user);
+        $day  = $this->createOneDay("2014-10-22");
+        $handler->addUserToDay($user, $day);
+
+        $day2  = $this->createOneDay("2014-10-21");
+        $handler->addUserToDay($user, $day2);
 
         return [$user, $day, $day2];
     }
@@ -48,29 +74,16 @@ trait createUserDayRelationshipsTrait
      */
     protected function createDayTowUsers()
     {
-        $user = new User();
-        $user->setUsername('testuser');
-        $user->setEmail('testuser@localhost');
-        $user->setPlainPassword('testpasswort');
+        $handler = $this->getDayAndUserRelationship();
 
-        $user2 = new User();
-        $user2->setUsername('testuser2');
-        $user2->setEmail('testuser2@localhost');
-        $user2->setPlainPassword('testpasswort2');
+        $user  = $this->createUser('testuser');
+        $user2 = $this->createUser('testuser2');
 
-        $day  = new Day("2014-10-22");
-        $day->addUser($user);
-        $day->addUser($user2);
+        $day = $this->createOneDay("2014-10-22");
+        $handler->addUserToDay($user, $day);
+        $handler->addUserToDay($user2, $day);
 
         return [$day, $user, $user2];
-    }
-
-    /**
-     * @return Day
-     */
-    protected function createOneDay()
-    {
-        return new Day("2014-10-22");
     }
 
     /**
@@ -88,5 +101,14 @@ trait createUserDayRelationshipsTrait
         self::bootKernel();
         global $kernel;
         $kernel = self::$kernel;
+    }
+
+    /**
+     * @return DayAndUserRelationship
+     */
+    protected function getDayAndUserRelationship()
+    {
+        $entityManager = $this->getDoctrine()->getManager();;
+        return new DayAndUserRelationship($entityManager);
     }
 }

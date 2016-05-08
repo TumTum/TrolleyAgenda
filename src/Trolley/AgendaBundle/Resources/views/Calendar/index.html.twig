@@ -4,7 +4,7 @@
 
 {% block body %}
     {{ parent() }}
-    <p class="lead">Terminverwaltung um sich anzumelden am Trolley Dienst.</p>
+    <p class="lead">{{ 'page.calendar.small_title'|trans }}</p>
 
     <div class="container calendar">
         {% for monthname, month in months %}

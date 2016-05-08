@@ -5,9 +5,15 @@ namespace Trolley\AgendaBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\Request;
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\User;
+use Trolley\AgendaBundle\Handler\DayAndUserRelationship;
+use Trolley\AgendaBundle\Repository\DayRepository;
+use Trolley\AgendaBundle\Repository\UserRepository;
+use Trolley\AgendaBundle\Util\BulksUsersToDays;
 use Trolley\AgendaBundle\Util\MonthOverview;
 
 /**
@@ -33,7 +39,8 @@ class CalendarController extends Controller
         $months = $this->_createAheadMonths();
 
         return $this->render($Template, [
-            'months' => $months
+            'months'     => $months,
+            'controller' => $this,
         ]);
     }
 
@@ -43,15 +50,15 @@ class CalendarController extends Controller
      */
     public function addUserToDayAction(Request $request, Day $day)
     {
-           $user = $this->getUser();
+        $user = $this->getUser();
 
         if (!$user) {
-            $this->addFlash('error', 'error.no_user_found');
+            $this->addFlash('danger', 'error.no_user_found');
         }
-        $day->addUser($user);
 
         $manager =$this->getDoctrine()->getManager();
-        $manager->persist($day);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->addUserToDay($user, $day);
         $manager->flush();
 
         $this->addFlash('info', 'page.calendar.user_successful_added');
@@ -74,17 +81,93 @@ class CalendarController extends Controller
         $user = $this->getUser();
 
         if (!$user) {
-            $this->addFlash('error', 'error.no_user_found');
+            $this->addFlash('danger', 'error.no_user_found');
         }
-        $day->removeUser($user);
 
         $manager =$this->getDoctrine()->getManager();
-        $manager->persist($day);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->removeUserFromDay($user, $day);
         $manager->flush();
 
         $this->addFlash('info', 'page.calendar.user_successful_signoff');
 
         return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * @Route("/accept-{user}-on-{day}")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function adminAcceptUser(User $user, Day $day)
+    {
+        $day->userAcceptToGo($user);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.user_successful_accept');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * @Route("/signoff-{user}-on-{day}")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function adminSignOffUser(User $user, Day $day)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->removeUserFromDay($user, $day);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.user_successful_signoff');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * Der Admin fügt user zu einer DB hinzu
+     *
+     * @Route("/add-users")
+     * @Method({"POST"})
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     */
+    public function adminAddUserToDay(Request $request)
+    {
+        /**
+         * @var DayRepository  $dayRepository
+         * @var UserRepository $userRepository
+         * @var Day $day
+         * @var User $user
+         */
+        $formular        = $request->get('adduserdate');
+
+        if (empty($formular)) {
+            $this->addFlash('danger', 'page.calendar.admin_empty_form');
+            return $this->redirectToRoute('trolley_agenda_calendar_index');
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $bulksUsersToDays = new BulksUsersToDays($manager, $dayAndUserRelationship);
+        $bulksUsersToDays->processForm($formular);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.admin_add_user');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * Alle Usernamen zurück vom Vornamen
+     *
+     * @return array
+     */
+    public function getListOfUserFirstname()
+    {
+        $userRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User');
+        return $userRepository->findAutocompleteFirstlastname('');
     }
 
     /**

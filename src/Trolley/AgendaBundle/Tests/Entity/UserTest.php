@@ -58,7 +58,8 @@ class UserTest extends KernelTestCase
          */
         list($user, $day, $day2) = $this->createUserInTowDays();
 
-        $day2->removeUser($user);
+        $handler = $this->getDayAndUserRelationship();
+        $handler->removeUserFromDay($user, $day2);
 
         $this->assertCount(1, $user->getDays());
 
@@ -66,27 +67,4 @@ class UserTest extends KernelTestCase
             $this->assertNotEquals($day2->getIdDate(), $dayInUser->getIdDate());
         }
     }
-
-    /**
-     * Kann den User zu einem Admin user macher
-     */
-    public function testUpgrateToAdmin()
-    {
-        $user = new User();
-        $user->setAdminRole('yes');
-        $this->assertEquals('yes', $user->getAdminRole());
-    }
-
-    /**
-     * Prueft ob den Admin auch wieder runtersetzen kann
-     */
-    public function testDowngradeAdmin()
-    {
-        $user = new User();
-        $user->setAdminRole('yes');
-        $user->setAdminRole('no');
-        $this->assertEquals('no', $user->getAdminRole());
-    }
-
-
 }

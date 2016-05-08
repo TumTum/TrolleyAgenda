@@ -143,6 +143,41 @@ class DayTest extends KernelTestCase
         $this->assertFalse($day->canUserGo($user));
     }
 
+    /**
+     * Der User konnte gehen, wurde gecancelt.
+     * Daraufhin bewarb er sich erneut, und bekommt den nicht angenommen Status
+     */
+    public function testUsersCouldGoWasCanceledCompetitionRenewed()
+    {
+        $day = new Day('2014-02-03');
+
+        $user = new User();
+        $user->setUsername('UserCanGo');
+
+        $day->addUser($user);
+        $day->userAcceptToGo($user);
+
+        $day->removeUser($user);
+        $day->addUser($user);
+
+        $this->assertFalse($day->canUserGo($user));
+
+    }
+
+    public function testDoubleUserInDay()
+    {
+        $day = $this->createOneDay();
+        $user = $this->createUser('doubleuser');
+
+        $day->addUser($user);
+        $day->addUser($user);
+
+        $this->assertCount(1, $day->getTaUsers());
+    }
+
+    /**
+     * Test ob man das Construkt in der DB speichern kann
+     */
     public function testAcceptUserToGoPresetInDB()
     {
         /**

@@ -12,8 +12,8 @@
             <tr>
                 <th></th>
                 <th></th>
-                <th class="text-center">letzte Monate</th>
-                <th class="text-center">Zukunft</th>
+                <th class="text-center">{{ "page.calendar.admin_last_go"|trans }}</th>
+                <th class="text-center">{{ "page.calendar.admin_will_go"|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -24,21 +24,16 @@
     {% for user in day.taUsers %}
         {% if day.canUserGo(user) %}
             {% set bg_color = 'bg-success' %}
-            {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.change')|trans }}</button>{% endset %}
+            {% set signon_button  %}{% endset %}
         {% else %}
             {% set bg_color = 'bg-warning' %}
-            {% set signon_button  %}<button type="button" class="btn btn-default">{{ ('label.button.calendar.accept')|trans }}</button>{% endset %}
+            {% set signon_button  %}<a href="{{ path('trolley_agenda_calendar_adminacceptuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-default">{{ ('label.button.calendar.accept')|trans }}</a>{% endset %}
         {% endif %}
 
         <tr>
             {% if loop.first %}
-                <td rowspan="{{ day.taUsers|length }}">
+                <td rowspan="{{ day.taUsers|length+1 }}">
                     <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
-
-                    <div class="input-group input-group-sm" style="margin-top: 1em">
-                        <input type="text" class="form-control" placeholder="Bruder/Schwester">
-                        <span class="input-group-addon">Hinzufügen</span>
-                    </div>
                 </td>
             {% endif %}
             <td class="{{ bg_color }}">
@@ -49,39 +44,74 @@
                     <div class="col-sm-5 text-right">
                         <div class="btn-group btn-group-xs" role="group">
                             {{ signon_button }}
-                            <button type="button" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</button>
+                            <a href="{{ path('trolley_agenda_calendar_adminsignoffuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</a>
                         </div>
                     </div>
                 </div>
             </td>
             <td class="text-center">
-                ??
+                {{ user.getNumberPastDates }}
             </td>
             <td class="text-center">
-                ??
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td >
-                <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
-            </td>
-            <td colspan="3">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="{{ 'page.calendar.daytext-free'|trans }}">
-                    <span class="input-group-addon">Hinzufügen</span>
-                </div>
+                {{ user.getNumberforwardDates }}
             </td>
         </tr>
     {% endfor %}
-
-
-
-
-
+    <tr>
+        {% if day.taUsers|length == 0 %}
+            <td>
+                <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
+            </td>
+        {% endif %}
+        <td colspan="3">
+            <div class="row">
+                <div class="col-sm-8 col-xs-12">
+                    {{ block('autocomplete_user') }}
+                </div>
+            </div>
+        </td>
+    </tr>
 {% endblock %}
 
 {% block day_after %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block autocomplete_user %}
+    <form action="{{ path('trolley_agenda_calendar_adminaddusertoday') }}" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="input-group input-group-sm select2-bootstrap-append">
+            <select class="form-control js_selectuser" id="adduserdate_{{ day.id }}" name="adduserdate[dayid_{{ day.id }}][]" multiple="multiple" style="width: 100%"></select>
+            <span class="input-group-btn"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></span>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block stylesheets %}
+    <link href="{{ asset('/bundles/trolleyagenda/select2-4.0.2/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/bundles/trolleyagenda/select2-4.0.2/css/select2-bootstrap.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% set lang = app.request.defaultLocale %}
+{% if app.request.locale != null %}
+    {% set lang = app.request.locale %}
+{% endif %}
+
+{% block javascript %}
+    <script src="{{ asset('/bundles/trolleyagenda/select2-4.0.2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/select2-4.0.2/js/i18n/'~lang~'.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/autocompleter-select2.js') }}"></script>
+    <script type="application/javascript">
+        $(function(){
+            $('.js_selectuser').select2({
+                url_list: '{{ path('trolley_agenda_autocomplete_searchusername') }}',
+                placeholder: '{{ 'label.preacher'|trans }}',
+                minimumInputLength: 1,
+                theme: 'bootstrap',
+                data: {{ controller.getListOfUserFirstname()|json_encode|raw }}
+            });
+        });
+    </script>
+    {{ parent() }}
 {% endblock %}

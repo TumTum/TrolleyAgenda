@@ -15,7 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(
+ *     name="fos_user",
+ *     uniqueConstraints=@ORM\UniqueConstraint(name="autocomplete",columns={"firstlastname", "enabled"})
+ * )
+ * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -81,6 +85,13 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="Day", mappedBy="taUsers")
      */
     private $days = null;
+
+    /**
+     * @var HistoryService
+     *
+     * @ORM\OneToOne(targetEntity="HistoryService", cascade={"remove"});
+     */
+    private $historyService = null;
 
     /**
      * @return string
@@ -227,6 +238,45 @@ class User extends BaseUser
     }
 
     /**
+     * @return HistoryService
+     */
+    public function getHistoryService()
+    {
+        if ($this->historyService === null) {
+            $this->historyService = new HistoryService();
+        }
+        return $this->historyService;
+    }
+
+    /**
+     * @param HistoryService $historyService
+     */
+    public function setHistoryService($historyService)
+    {
+        $this->historyService = $historyService;
+    }
+
+    /**
+     * Wie oft er gegangen ist, zum trolley dienst.
+     *
+     * @return int
+     */
+    public function getNumberPastDates()
+    {
+        return $this->getHistoryService()->getNumberPastDates();
+    }
+
+    /**
+     * Wie oft der User noch gehen wird zum trolley dienst.
+     *
+     * @return int
+     */
+    public function getNumberforwardDates()
+    {
+        return $this->getHistoryService()->getNumberforwardDates();
+    }
+
+    /**
      * Wird gebrauch wird das Formialar
      *
      * @return string
@@ -257,6 +307,4 @@ class User extends BaseUser
         $this->days = new ArrayCollection();
         parent::__construct();
     }
-
-
 }
