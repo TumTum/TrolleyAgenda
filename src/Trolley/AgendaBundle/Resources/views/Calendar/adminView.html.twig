@@ -32,10 +32,8 @@
 
         <tr>
             {% if loop.first %}
-                <td rowspan="{{ day.taUsers|length }}">
+                <td rowspan="{{ day.taUsers|length+1 }}">
                     <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
-
-                    {{ block('autocomplete_user') }}
                 </td>
             {% endif %}
             <td class="{{ bg_color }}">
@@ -58,20 +56,21 @@
                 {{ user.getNumberforwardDates }}
             </td>
         </tr>
-    {% else %}
-        <tr>
-            <td >
+    {% endfor %}
+    <tr>
+        {% if day.taUsers|length == 0 %}
+            <td>
                 <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
             </td>
-            <td colspan="3">
-                <div class="row">
-                    <div class="col-sm-8 col-xs-12">
-                        {{ block('autocomplete_user') }}
-                    </div>
+        {% endif %}
+        <td colspan="3">
+            <div class="row">
+                <div class="col-sm-8 col-xs-12">
+                    {{ block('autocomplete_user') }}
                 </div>
-            </td>
-        </tr>
-    {% endfor %}
+            </div>
+        </td>
+    </tr>
 {% endblock %}
 
 {% block day_after %}
