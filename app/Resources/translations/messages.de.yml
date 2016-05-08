@@ -1,73 +1,121 @@
 page:
-  userlist: Teilnehmerliste
-  useredit: Teilnemer Bearbeiten
-  userchangepasswort: Passwort Ändern
-  signinheading: Bitte melde dich an
+  userlist: "Teilnehmerliste"
+  useredit: "Verkündiger bearbeiten"
+  usernew: "Neuen Verkündiger anlegen"
+  userchangepasswort: "Passwort Ändern"
+  signinheading: "Bitte melde dich an"
   calendar:
-    overview: Trolley Anmeldung
+    overview: "Trolley Anmeldung"
+    small_title: "Terminverwaltung um sich anzumelden am Trolley Dienst."
     daytext-gogo: "An diesem Tag gehen:"
     daytext-free: "Nicht Belegt"
+    user_successful_added: "Deine Bewerbung haben wir erhalten"
+    user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"
+    user_successful_accept: "Die Bewerbung wurde angenommen"
+    user_successful_signoff: "Die Bewerbung wurde zurückgezogen"
+    admin_add_user: "Die Verkündiger wurden erfolgreich hinzugefügt"
+    admin_empty_form: "Es wurde kein Namen zum Verkündiger übermittelt"
+    admin_last_go: "War schon"
+    admin_will_go: "Geht noch"
+  routedescription:
+    list.title: "Routen Übersicht"
+    new.title: "Neue Routen Beschreibung erstellen"
+    edit.title: "Route: '%title%' bearbeiten"
+    show.title: "Route '%title%'"
+  user:
+    saved_sussfully: "Die Daten wurden erfolgreich gespeichert"
+    remove_sussfully: "Verkündiger wurde erfolgreich gelöscht"
+    modal:
+      title_delete_user: "Teilnehmer entfernen"
+      ask_for_delete_user: >
+        Bist du dir <strong>sicher</strong> das du den Verkündiger '%name%' entfernen möchtest?<br/>
+        Die Termine vom Verkündiger werden somit frei gegeben.
+      button_sure_remove: "ja entfernen"
+    error:
+      remove_self: "Du kannst dich selbst nicht entfernen"
+      unknown_user: "Unbekannter Verkündiger"
+      user_edit_save_faild: "Verkündiger konnte nicht gespeichert werden. Username oder Email sind bereit vorhanden"
+
+error:
+  no_user_found: "Sie sind nicht Angemeldet. Bitte melden Sie sich an"
+  access_deny: "Zugriff verweigert"
 
 action:
-  show: Anzeigen
-  edit: Bearbeiten
-  sign_in: Login
+  show: "Anzeigen"
+  edit: "Bearbeiten"
+  delete: "Löschen"
+  sign_in: "Login"
+  new_user: "Neuer Verkündiger"
+  new_route: "Neue Route Beschreibung"
 
 label:
   button:
-    okay: ok
-    cancel: Abbrechen
-    save: Sichern
+    okay: "ok"
+    cancel: "Abbrechen"
+    save: "Sichern"
     calendar:
-      signoff: Absagen
-      signon: Mich Bewerben
-      accept: Anerkennen
-      remind: Erinnern
-      change: Auswechseln
-  actions: Bearbeiten
-  name: Vor- und Nachname
-  adress: Adresse
-  email: E-Mail
-  username: Benutzername
-  password: Passwort
+      signoff: "Absagen"
+      signon: "Mich Bewerben"
+      accept: "Anerkennen"
+      remind: "Erinnern"
+    route:
+      back_overview: "zurück zur Routen Übersicht"
+  route:
+    title: "Route"
+    html: "Beschreibung"
+  preacher: "Verkündiger"
+  actions: "Bearbeiten"
+  name: "Vor- und Nachname"
+  adress: "Adresse"
+  email: "E-Mail"
+  username: "Benutzername"
+  password: "Passwort"
   role:
-    label: Berechtigungen
-    admin: Verwalter
-    user: Benutzer
-  street: Straße
-  plz: PLZ
-  city: Stadt
-  phone: Telefon
-  mobile: Mobile
-  mobile2: Mobile2
+    label: "Verkündiger darf ..."
+    admin: "nutzen und verwalten"
+    user: "nutzen"
+  street: "Straße"
+  plz: "PLZ"
+  city: "Stadt"
+  phone: "Telefon"
+  mobile: "Mobile"
+  mobile2: "Mobile2"
+  group:
+    userinfo: "Verkündiger"
+    callinfo: "Telefonummern"
+    adress:  "Anschrift"
+    security: "Sicherheit"
 
 menu:
-  home: Übersicht
-  route: Route
-  userlist: Teilnehmer
-  user: Mein Profil
+  home: "Übersicht"
+  route: "Route"
+  userlist: "Teilnehmer"
+  user: "Mein Profil"
 
 date:
-  Monday: Montag
-  Tuesday: Dienstag
-  Wednesday: Mittwoch
-  Thursday: Donnerstag
-  Friday: Freitag
-  Saturday: Samstag
-  Sunday: Sonntag
-  January: Januar
-  February: Februar
-  March: März
-  April: April
-  May: Mai
-  June: June
-  July: Juli
-  August: August
-  September: September
-  October: Oktober
-  November: November
-  December: Dezember
+  Monday: "Montag"
+  Tuesday: "Dienstag"
+  Wednesday: "Mittwoch"
+  Thursday: "Donnerstag"
+  Friday: "Freitag"
+  Saturday: "Samstag"
+  Sunday: "Sonntag"
+  January: "Januar"
+  February: "Februar"
+  March: "März"
+  April: "April"
+  May: "Mai"
+  June: "Juni"
+  July: "Juli"
+  August: "August"
+  September: "September"
+  October: "Oktober"
+  November: "November"
+  December: "Dezember"
 
 help:
   calendar.user.okay: "Angenommen"
   calendar.user.pending: "Wartet auf Zustimmung"
+  route:
+    index: "Erstelle eine neue Routen Beschreibung"
+    edit: "Der Beschreibungstext kann ruhig HTML Code enthalten"

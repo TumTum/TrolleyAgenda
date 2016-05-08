@@ -12,8 +12,8 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="TrolleyAgendaBundle">
+            <directory>src/Trolley/AgendaBundle/Tests</directory>
         </testsuite>
     </testsuites>
 

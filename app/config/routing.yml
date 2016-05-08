@@ -5,3 +5,7 @@ trolley_agenda:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+startpage:
+    path: /
+    defaults: { _controller: TrolleyAgendaBundle:Calendar:index }

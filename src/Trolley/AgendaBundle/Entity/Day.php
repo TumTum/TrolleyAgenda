@@ -2,13 +2,21 @@
 
 namespace Trolley\AgendaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Prophecy\Exception\InvalidArgumentException;
+
+
 
 /**
  * Day
  *
- * @ORM\Table(name="day")
+ * @ORM\Table(
+ *     name="day",
+ *     uniqueConstraints=@ORM\UniqueConstraint(name="OnlyOneDateAllow",columns={"taDay"})
+ * )
  * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\DayRepository")
+ *
  */
 class Day
 {
@@ -24,31 +32,71 @@ class Day
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="taMonth", type="date")
-     */
-    private $taMonth;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="taDay", type="date")
+     * @ORM\Column(name="taDay", type="datetime")
      */
     private $taDay;
 
     /**
-     * @var array
+     * @var ArrayCollection
      *
-     * @ORM\Column(name="taUsers", type="array", nullable=true)
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="days")
      */
     private $taUsers;
 
     /**
-     * @var int
+     * @var array
      *
-     * @ORM\Column(name="taIsAccept", type="smallint", nullable=true)
+     * @ORM\Column(name="taAcceptUsers", type="json_array", nullable=true)
      */
-    private $taIsAccept;
+    private $taAcceptUsers = [];
 
+    /**
+     * Id nach Datum
+     * @var string
+     */
+    private $idDate = "";
+
+    /**
+     * @var string
+     */
+    private $monthName = "";
+
+    /**
+     * Ist das datum Format für das Array key des $daysList
+     */
+    const idDateFormat = "YmdHi";
+
+
+    /**
+     * Day constructor.
+     *
+     * @param null $datestring
+     */
+    public function __construct($datestring = null)
+    {
+        $this->taUsers = new ArrayCollection();
+        $this->initDay($datestring);
+    }
+
+    /**
+     * Erstellt das Datum dieses Object
+     *
+     * @param $datestring
+     */
+    protected function initDay($datestring)
+    {
+        if ($datestring !== null) {
+            if (is_scalar($datestring)) {
+                $date = date_create($datestring);
+            } elseif ($datestring instanceof \DateTime ) {
+                $date = $datestring;
+            } else {
+                throw new InvalidArgumentException('It must be a String or DateTime object.');
+            }
+
+            $this->setConformTaDay($date);
+        }
+    }
 
     /**
      * Get id
@@ -61,27 +109,14 @@ class Day
     }
 
     /**
-     * Set taMonth
-     *
-     * @param \DateTime $taMonth
-     *
-     * @return Day
+     * @return string
      */
-    public function setTaMonth($taMonth)
+    public function getIdDate()
     {
-        $this->taMonth = $taMonth;
-
-        return $this;
-    }
-
-    /**
-     * Get taMonth
-     *
-     * @return \DateTime
-     */
-    public function getTaMonth()
-    {
-        return $this->taMonth;
+        if ($this->idDate == '' && !empty($this->taDay)) {
+            $this->idDate = $this->taDay->format(self::idDateFormat);
+        }
+        return $this->idDate;
     }
 
     /**
@@ -91,11 +126,22 @@ class Day
      *
      * @return Day
      */
-    public function setTaDay($taDay)
+    public function setTaDay(\DateTime $taDay)
     {
-        $this->taDay = $taDay;
-
+        $this->setConformTaDay($taDay);
         return $this;
+    }
+
+    /**
+     * Setzt das Datum aber in ein richtiges format.
+     *
+     * @param \DateTime $taDay
+     */
+    protected function setConformTaDay(\DateTime $taDay)
+    {
+        $taDay->setTime(0,0,0);
+        $this->taDay = $taDay;
+        $this->idDate = $taDay->format(self::idDateFormat);
     }
 
     /**
@@ -133,50 +179,120 @@ class Day
     }
 
     /**
-     * Set taIsAccept
-     *
-     * @param integer $taIsAccept
-     *
-     * @return Day
+     * Add User To Dat
      */
-    public function setTaIsAccept($taIsAccept)
+    public function addUser(User $user)
     {
-        $this->taIsAccept = $taIsAccept;
-
-        return $this;
-    }
-
-    /**
-     * Get taIsAccept
-     *
-     * @return int
-     */
-    public function getTaIsAccept()
-    {
-        return $this->taIsAccept;
-    }
-
-    /**
-     * PHP 5 allows developers to declare constructor methods for classes.
-     * Classes which have a constructor method call this method on each newly-created object,
-     * so it is suitable for any initialization that the object may need before it is used.
-     *
-     * Note: Parent constructors are not called implicitly if the child class defines a constructor.
-     * In order to run a parent constructor, a call to parent::__construct() within the child constructor is required.
-     *
-     * param [ mixed $args [, $... ]]
-     *
-     * @return void
-     * @link http://php.net/manual/en/language.oop5.decon.php
-     */
-    public function __construct($datestring = null)
-    {
-        if ($datestring !== null) {
-            $date = date_create($datestring);
-            $this->setTaDay($date);
+        if ($this->canAddUser($user)) {
+            $this->taUsers->add($user);
         }
     }
 
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    protected function canAddUser(User $user)
+    {
+        $foundUser = $this->taUsers->exists(
+            function($key, $element) use ($user) {
+                return $user->getUsername() == $element->getUsername();
+            }
+        );
+
+        return $foundUser == false;
+    }
+
+    public function removeUser(User $user)
+    {
+        $this->userCancelToGo($user);
+        $this->taUsers->removeElement($user);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTaAcceptUsers()
+    {
+        return $this->taAcceptUsers;
+    }
+
+    /**
+     * @param ArrayCollection $taAcceptUsers
+     */
+    public function setTaAcceptUsers($taAcceptUsers)
+    {
+        $this->taAcceptUsers = $taAcceptUsers;
+    }
+
+    /**
+     * Gibt das Formatierte Datum zurück
+     *
+     * @param $format
+     *
+     * @return string
+     */
+    public function format($format)
+    {
+        return $this->getTaDay()->format($format);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMonthName()
+    {
+        if ($this->monthName == '' && !empty($this->taDay)) {
+            $this->monthName = $this->taDay->format('F');
+        }
+
+        return $this->monthName;
+    }
+
+    /**
+     * Prüft ob der User gehen darf
+     *
+     * @return bool
+     */
+    public function canUserGo(User $user)
+    {
+        return (array_search($user->getUsername(), $this->taAcceptUsers) !== false);
+    }
+
+    /**
+     * User darf gehen
+     *
+     * @param User $user
+     */
+    public function userAcceptToGo(User $user)
+    {
+        $this->taAcceptUsers[] = $user->getUsername();
+    }
+
+    /**
+     * User kann geht doch nicht mit zum Trolley
+     *
+     * @param User $user
+     */
+    public function userCancelToGo(User $user)
+    {
+        $key = array_search($user->getUsername(), $this->taAcceptUsers);
+        if ($key !== false) {
+            unset($this->taAcceptUsers[$key]);
+        }
+    }
+
+    /**
+     * The __toString method allows a class to decide how it will react when it is converted to a string.
+     *
+     * @return string
+     * @link http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
+     */
+    public function __toString()
+    {
+        return $this->getTaDay()->format("Y-m-d");
+    }
 
 }
 

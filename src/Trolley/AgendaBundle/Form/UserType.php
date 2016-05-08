@@ -14,42 +14,43 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstlastname', TextType::class, array('label' =>'label.name'))
-            ->add('username', TextType::class, array('label' =>'label.username'))
-            ->add('email', EmailType::class, array('label' =>'label.email'))
-            ->add('plainPassword', PasswordType::class, array('label' => 'label.password', "required" => false))
-//            ->add('roles', ChoiceType::class, array(
-//                'label' =>'label.role.label',
-//                'choices' => array(
-//                    'label.role.admin' => 'ROLE_ADMIN',
-//                    'label.role.user' => 'ROLE_USER',
-//                ),
-//                'choices_as_values' => true,
-//            ))
-            ->add('street', TextType::class, array('label' =>'label.street'))
-            ->add('plz', TextType::class, array('label' =>'label.plz'))
-            ->add('city', TextType::class, array('label' =>'label.city'))
-            ->add('phone', TextType::class, array('label' =>'label.phone', "required" => false))
-            ->add('mobile', TextType::class, array('label' =>'label.mobile', "required" => false))
-            ->add('mobile2', TextType::class, array('label' =>'label.mobile', "required" => false))
-        ;
-
+            ->add('firstlastname', TextType::class, ['label' => 'label.name'])
+            ->add('username', TextType::class, ['label' => 'label.username'])
+            ->add('email', EmailType::class, ['label' => 'label.email'])
+            ->add('plainPassword', PasswordType::class, ['label' => 'label.password', "required" => false])
+            ->add('adminRole', ChoiceType::class, [
+                'label' =>'label.role.label',
+                'choices' => [
+                    'label.role.user' => 'no',
+                    'label.role.admin' => 'yes'
+                ],
+            ])
+            ->add('street', TextType::class, ['label' => 'label.street'])
+            ->add('plz', TextType::class, ['label' => 'label.plz'])
+            ->add('city', TextType::class, ['label' => 'label.city'])
+            ->add('phone', TextType::class, ['label' => 'label.phone', "required" => false])
+            ->add('mobile', TextType::class, ['label' => 'label.mobile', "required" => false])
+            ->add('mobile2', TextType::class, ['label' => 'label.mobile', "required" => false]);
     }
-    
+
+
+
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Trolley\AgendaBundle\Entity\User'
-        ));
+        $resolver->setDefaults([
+                'data_class' => 'Trolley\AgendaBundle\Entity\User'
+        ]);
     }
 }

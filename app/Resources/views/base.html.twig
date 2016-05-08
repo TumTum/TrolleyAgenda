@@ -36,23 +36,17 @@
         </div>
     </nav>
 
-    {% if app.request.hasPreviousSession %}
-        {% for type, messages in app.session.flashbag.all() %}
-            {% for message in messages %}
-                <div class="flash-{{ type }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
-
     <div class="container-fluid">
+
+        {{ include('common/_flash_messages.html.twig') }}
+
         {% block body %}<h1>{{ block('title') }}</h1>{% endblock %}
     </div>
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="{{ asset('/bundles/trolleyagenda/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/TrolleyAgenda.js') }}"></script>
     {% block javascript %}{% endblock %}
 </body>
 </html>

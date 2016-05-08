@@ -9,12 +9,17 @@
 
 namespace Trolley\AgendaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(
+ *     name="fos_user",
+ *     uniqueConstraints=@ORM\UniqueConstraint(name="autocomplete",columns={"firstlastname", "enabled"})
+ * )
+ * @ORM\Entity(repositoryClass="Trolley\AgendaBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -73,6 +78,20 @@ class User extends BaseUser
      * @ORM\Column(name="mobile2", type="string", nullable=true)
      */
     private $mobile2 = "";
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Day", mappedBy="taUsers")
+     */
+    private $days = null;
+
+    /**
+     * @var HistoryService
+     *
+     * @ORM\OneToOne(targetEntity="HistoryService", cascade={"remove"});
+     */
+    private $historyService = null;
 
     /**
      * @return string
@@ -184,5 +203,108 @@ class User extends BaseUser
     public function setMobile2($mobile2)
     {
         $this->mobile2 = $mobile2;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDays()
+    {
+        return $this->days;
+    }
+
+    /**
+     * @param ArrayCollection $days
+     */
+    public function setDays($days)
+    {
+        $this->days = $days;
+    }
+
+    /**
+     * @param Day $user
+     */
+    public function addDay(Day $user)
+    {
+        $this->days->add($user);
+    }
+
+    /**
+     * @param Day $day
+     */
+    public function removeDay(Day $day)
+    {
+        $this->days->removeElement($day);
+    }
+
+    /**
+     * @return HistoryService
+     */
+    public function getHistoryService()
+    {
+        if ($this->historyService === null) {
+            $this->historyService = new HistoryService();
+        }
+        return $this->historyService;
+    }
+
+    /**
+     * @param HistoryService $historyService
+     */
+    public function setHistoryService($historyService)
+    {
+        $this->historyService = $historyService;
+    }
+
+    /**
+     * Wie oft er gegangen ist, zum trolley dienst.
+     *
+     * @return int
+     */
+    public function getNumberPastDates()
+    {
+        return $this->getHistoryService()->getNumberPastDates();
+    }
+
+    /**
+     * Wie oft der User noch gehen wird zum trolley dienst.
+     *
+     * @return int
+     */
+    public function getNumberforwardDates()
+    {
+        return $this->getHistoryService()->getNumberforwardDates();
+    }
+
+    /**
+     * Wird gebrauch wird das Formialar
+     *
+     * @return string
+     */
+    public function getAdminRole()
+    {
+        return $this->hasRole('ROLE_ADMIN') ? 'yes' : 'no';
+    }
+
+    /**
+     * Upgrade oder Degrade den User
+     * @param $upgrade
+     */
+    public function setAdminRole($upgrade)
+    {
+        if ($upgrade == 'yes') {
+            $this->addRole('ROLE_ADMIN');
+        } else {
+            $this->removeRole('ROLE_ADMIN');
+        }
+    }
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->days = new ArrayCollection();
+        parent::__construct();
     }
 }

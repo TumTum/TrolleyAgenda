@@ -1,0 +1,19 @@
+<div class="modal fade" id="global_modal" tabindex="-1" role="dialog" aria-labelledby="global_modal_label">
+    <div class="modal-dialog" role="document">
+        <form action="{{ form_action }}" method="POST" enctype="application/x-www-form-urlencoded">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="global_modal_label">{{ modal_title|raw }}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ modal_body|raw }}
+                </div>
+                <div class="modal-footer">
+                    {{ modal_buttons|raw }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
