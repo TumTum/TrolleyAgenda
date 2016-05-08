@@ -144,7 +144,7 @@ class CalendarController extends Controller
          */
         $formular        = $request->get('adduserdate');
 
-        if (empty($error)) {
+        if (empty($formular)) {
             $this->addFlash('danger', 'page.calendar.admin_empty_form');
             return $this->redirectToRoute('trolley_agenda_calendar_index');
         }
