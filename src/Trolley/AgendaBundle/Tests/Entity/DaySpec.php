@@ -21,7 +21,7 @@ class DaySpec extends ObjectBehavior
     {
         $this->beConstructedWith('2016-10-20');
     }
-    
+
     public function it_is_initializable()
     {
         $this->shouldHaveType('Trolley\AgendaBundle\Entity\Day');
@@ -106,5 +106,22 @@ class DaySpec extends ObjectBehavior
         $this->addUser($user);
 
         $this->canUserGo($user)->shouldReturn(false);
+    }
+
+    public function it_day_can_be_closed()
+    {
+        $this->closeDayWithMessage('Kreiskongress');
+
+        $this->getClosedMessage()->shouldReturn('Kreiskongress');
+        $this->isDayClosed()->shouldReturn(true);
+    }
+
+    public function it_day_can_open_agean()
+    {
+        $this->closeDayWithMessage('Kreiskongress');
+        $this->openDay();
+
+        $this->getClosedMessage()->shouldReturn('');
+        $this->isDayClosed()->shouldReturn(false);
     }
 }

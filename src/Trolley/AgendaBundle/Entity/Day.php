@@ -51,6 +51,20 @@ class Day
     private $taAcceptUsers = [];
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="taClose", type="boolean")
+     */
+    private $taClose = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="taCloseMessage", type="string", length=255)
+     */
+    private $taCloseMessage = '';
+
+    /**
      * Id nach Datum
      * @var string
      */
@@ -227,6 +241,38 @@ class Day
     }
 
     /**
+     * @return bool
+     */
+    protected function _getTaClose()
+    {
+        return $this->taClose;
+    }
+
+    /**
+     * @param bool $taClose
+     */
+    protected function _setTaClose($taClose)
+    {
+        $this->taClose = $taClose;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getTaCloseMessage()
+    {
+        return $this->taCloseMessage;
+    }
+
+    /**
+     * @param string $taCloseMessage
+     */
+    protected function _setTaCloseMessage($taCloseMessage)
+    {
+        $this->taCloseMessage = $taCloseMessage;
+    }
+
+    /**
      * Gibt das Formatierte Datum zurück
      *
      * @param $format
@@ -294,5 +340,38 @@ class Day
         return $this->getTaDay()->format("Y-m-d");
     }
 
+    /**
+     * @param string $message
+     */
+    public function closeDayWithMessage($message)
+    {
+        $this->_setTaClose(true);
+        $this->_setTaCloseMessage($message);
+    }
+
+    /**
+     * @return string
+     */
+    public function getClosedMessage()
+    {
+        return $this->_getTaCloseMessage();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDayClosed()
+    {
+        return $this->_getTaClose() == true;
+    }
+
+    /**
+     * Öffnet den Tag
+     */
+    public function openDay()
+    {
+        $this->_setTaClose(false);
+        $this->_setTaCloseMessage('');
+    }
 }
 
