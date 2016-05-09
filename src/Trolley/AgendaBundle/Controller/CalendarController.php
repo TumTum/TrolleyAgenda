@@ -155,6 +155,7 @@ class CalendarController extends Controller
 
     /**
      * Schliest einen Tag um sich dort nicht anmelden zu können
+     * 
      * @Route("/close-day-{day}")
      * @Method({"POST"})
      * @Security("has_role('ROLE_ADMIN')")
@@ -181,7 +182,8 @@ class CalendarController extends Controller
     }
 
     /**
-     * Öffnet dein einen Tag um sich dort nicht anmelden zu können
+     * Öffnet den einen Tag um sich dort anmelden zu können
+     *
      * @Route("/open-day-{day}")
      * @Security("has_role('ROLE_ADMIN')")
      *
