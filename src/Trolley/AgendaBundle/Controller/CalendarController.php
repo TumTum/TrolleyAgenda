@@ -136,13 +136,7 @@ class CalendarController extends Controller
      */
     public function adminAddUserToDay(Request $request)
     {
-        /**
-         * @var DayRepository  $dayRepository
-         * @var UserRepository $userRepository
-         * @var Day $day
-         * @var User $user
-         */
-        $formular        = $request->get('adduserdate');
+        $formular = $request->get('adduserdate');
 
         if (empty($formular)) {
             $this->addFlash('danger', 'page.calendar.admin_empty_form');
@@ -156,6 +150,52 @@ class CalendarController extends Controller
         $manager->flush();
 
         $this->addFlash('success', 'page.calendar.admin_add_user');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * Schliest einen Tag um sich dort nicht anmelden zu können
+     * @Route("/close-day-{day}")
+     * @Method({"POST"})
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     */
+    public function adminCloseDayAction(Request $request, Day $day)
+    {
+        $message = $request->get('message');
+
+        if (empty($message)) {
+            $this->addFlash('danger', 'page.calendar.admin_empty_closed_message');
+            return $this->redirectToRoute('trolley_agenda_calendar_index');
+        }
+
+        $day->closeDayWithMessage($message);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.admin_day_closed');
+        return $this->redirectToRoute('trolley_agenda_calendar_index');
+    }
+
+    /**
+     * Öffnet dein einen Tag um sich dort nicht anmelden zu können
+     * @Route("/open-day-{day}")
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     */
+    public function adminOpenDayAction(Day $day)
+    {
+        $day->openDay();
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($day);
+        $manager->flush();
+
+        $this->addFlash('success', 'page.calendar.admin_day_open_agean');
         return $this->redirectToRoute('trolley_agenda_calendar_index');
     }
 

@@ -135,6 +135,68 @@ class CalendarControllerTest extends WebTestCase
         $this->assertNotContains($user->getUsername(), $usernames);
     }
 
+    public function testCloseDay()
+    {
+        $day = $this->createOneDay('2014-10-22');
+        $this->saveInDb([$day]);
+
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday', [
+            'day' => $day->getId(),
+        ]);
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('POST', $url, ['message' => '#@Kreiskongress_phpunitTest-#@']);
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_admincloseday');
+        $dayDB = self::getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
+
+        $this->assertTrue($dayDB->isDayClosed());
+        $flashMessage = $this->_translate('page.calendar.admin_day_closed');
+        $this->assertContains($flashMessage, $client->getResponse()->getContent());
+    }
+
+    public function testCloseDayWihtOutMessage()
+    {
+        $day = $this->createOneDay('2014-10-22');
+        $this->saveInDb([$day]);
+
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday', [
+            'day' => $day->getId(),
+        ]);
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('POST', $url);
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_admincloseday');
+
+        $flashMessage = $this->_translate('page.calendar.admin_empty_closed_message');
+        $this->assertContains($flashMessage, $client->getResponse()->getContent());
+    }
+
+    public function testOpenDay()
+    {
+        $day = $this->createOneDay('2014-10-22');
+        $day->closeDayWithMessage('#@Kreiskongress_phpunitTest-#@');
+        $this->saveInDb([$day]);
+
+        $url = $this->_getUrl('trolley_agenda_calendar_adminopenday', [
+            'day' => $day->getId(),
+        ]);
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_adminopenday');
+        $dayDB = self::getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
+
+        $this->assertFalse($dayDB->isDayClosed());
+        $flashMessage = $this->_translate('page.calendar.admin_day_open_agean');
+        $this->assertContains($flashMessage, $client->getResponse()->getContent());
+    }
+
     /**
      * @param string $routename
      */
@@ -143,6 +205,15 @@ class CalendarControllerTest extends WebTestCase
         $kernel = self::$kernel->getContainer();
         $router = $kernel->get('router');
         return $router->generate($routename, $param);
+    }
+
+    protected function _translate($textId)
+    {
+        $kernel = self::$kernel->getContainer();
+        /** @var \Symfony\Component\Translation\DataCollectorTranslator  $tr */
+        $tr = $kernel->get('translator');
+        return $tr->trans($textId);
+
     }
 
 }

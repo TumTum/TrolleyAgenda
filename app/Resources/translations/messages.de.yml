@@ -17,6 +17,10 @@ page:
     admin_empty_form: "Es wurde kein Namen zum Verkündiger übermittelt"
     admin_last_go: "War schon"
     admin_will_go: "Geht noch"
+    admin_empty_closed_message: "Bitte gebe Nachricht ein um den Tag zu schließen"
+    admin_day_closed: "Der Tag wurde geschlossen"
+    admin_day_open_agean: "Der Tag wurde geöffnet"
+
   routedescription:
     list.title: "Routen Übersicht"
     new.title: "Neue Routen Beschreibung erstellen"
