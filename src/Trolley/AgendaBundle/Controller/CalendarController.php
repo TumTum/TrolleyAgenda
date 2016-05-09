@@ -170,10 +170,10 @@ class CalendarController extends Controller
             return $this->redirectToRoute('trolley_agenda_calendar_index');
         }
 
-        $day->closeDayWithMessage($message);
-
         $manager = $this->getDoctrine()->getManager();
-        $manager->persist($day);
+        $dayAndUserRelationship = new DayAndUserRelationship($manager);
+        $dayAndUserRelationship->removeAllUserFromDay($day);
+        $day->closeDayWithMessage($message);
         $manager->flush();
 
         $this->addFlash('success', 'page.calendar.admin_day_closed');

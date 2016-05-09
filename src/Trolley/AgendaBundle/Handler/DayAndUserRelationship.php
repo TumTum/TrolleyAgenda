@@ -67,6 +67,19 @@ class DayAndUserRelationship
     }
 
     /**
+     * Löscht alle User von diesem Tag
+     *
+     * @param Day $day
+     */
+    public function removeAllUserFromDay(Day $day)
+    {
+        $users = $day->getTaUsers();
+        foreach ($users as $user) {
+            $this->removeUserFromDay($user, $day);
+        }
+    }
+
+    /**
      * @return EntityManagerInterface
      */
     protected function getDoctrineManager()

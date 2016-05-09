@@ -175,6 +175,32 @@ class CalendarControllerTest extends WebTestCase
         $this->assertContains($flashMessage, $client->getResponse()->getContent());
     }
 
+    public function testCloseDayWithUsers()
+    {
+        /**
+         * @var User   $user
+         * @var User   $user2
+         * @var Day    $day
+         * @var Day    $dayDB
+         */
+        list($day, $user, $user2) = $this->createDayTowUsers();
+        $this->saveInDb([$day, $user, $user2]);
+
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday', [
+            'day' => $day->getId(),
+        ]);
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('POST', $url, ['message' => '#@Kreiskongress_phpunitTest-#@']);
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_admincloseday');
+        $dayDB = self::getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
+
+        $this->assertTrue($dayDB->isDayClosed());
+        $this->assertCount(0, $dayDB->getTaUsers());
+    }
+
     public function testOpenDay()
     {
         $day = $this->createOneDay('2014-10-22');
