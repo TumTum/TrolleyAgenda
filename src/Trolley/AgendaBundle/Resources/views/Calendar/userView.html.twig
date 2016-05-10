@@ -8,6 +8,7 @@
             </div>
 
             {% set show_button_type       = 'signon'%}
+            {% set show_button_color      = 'btn-primary'%}
             {% set add_signoff_controller = 'trolley_agenda_calendar_addusertoday'%}
             {% set show_buttons           = false %}
             {% set force_hide_buttons     = false %}
@@ -39,6 +40,11 @@
                         <span class="user-name-box {{ bg_color }} {{ markActivUser }}" data-toggle="tooltip" data-placement="right">{{ user.firstlastname }}</span>
                         {% if isLoginUser  %}
                             {% set show_button_type = 'signoff'%}
+                            {% if day.canUserGo(user) %}
+                                {% set show_button_color = 'btn-danger'%}
+                            {% else %}
+                                {% set show_button_color = 'btn-warning'%}
+                            {% endif %}
                             {% set add_signoff_controller = 'trolley_agenda_calendar_signoffuserfromday' %}
                             {% set show_buttons = true %}
                         {% endif %}
@@ -51,7 +57,7 @@
             {% if not force_hide_buttons and (show_buttons or day.taUsers|length < 2) %}
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <a href="{{ path(add_signoff_controller, {"day": day.id}) }}" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
+                        <a href="{{ path(add_signoff_controller, {"day": day.id}) }}" class="btn {{ show_button_color }} btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
                         {#<a href="#" class="btn btn-default btn-xs">absagen</a>#}
                     </li>
                 </ul>
