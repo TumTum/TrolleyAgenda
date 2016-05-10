@@ -1,0 +1,33 @@
+{% block modal_closeDay_title %}
+    {{ 'page.calendar.modal.title_close_day'|trans()|raw }}
+{% endblock %}
+
+{% block modal_closeDay_body %}
+    <input type="hidden" name="params[day]" id="js_modal_dayid" value="">
+    <input type="hidden" name="params[csrf_token]" value="{{ csrf_token('delete_user') }}">
+    <label for="params_message" style="font-weight: normal">
+        {{ 'page.calendar.modal.ask_to_close_day'|trans({'%day%': '<strong class="js_modal_dayname"></strong>'})|raw }}
+    </label>
+    <div>
+        <textarea class="form-control" id="params_message" name="params[message]" required="required"></textarea>
+    </div>
+{% endblock %}
+
+{% block modal_closeDay_footer %}
+    <button type="button" class="btn btn-default" data-dismiss="modal">{{ "label.button.cancel"|trans }}</button>
+    <button type="submit" class="btn btn-primary" >{{ "label.button.save"|trans }}</button>
+{% endblock %}
+
+{% block modal_closeDay_javascript %}
+    <script type="application/javascript">
+        $('#global_modal').on('show.bs.modal', function (event) {
+            var button     = $(event.relatedTarget);
+            var dayname = button.data('dayname');
+            var dayid      = button.data('dayid');
+            var modal      = $(this);
+
+            modal.find('#js_modal_dayid').val(dayid);
+            modal.find('.js_modal_dayname').text(dayname);
+        });
+    </script>
+{% endblock %}

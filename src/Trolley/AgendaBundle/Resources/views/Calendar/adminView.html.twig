@@ -110,6 +110,15 @@
 {% block day_after %}
         </tbody>
     </table>
+
+    {% use "TrolleyAgendaBundle:Calendar:_closeDayModal.html.twig" %}
+    {% include 'common/_bootstrap_modal.html.twig' with {
+        'form_action': path('trolley_agenda_calendar_admincloseday'),
+        'modal_title': block('modal_closeDay_title'),
+        'modal_body': block('modal_closeDay_body'),
+        'modal_buttons': block('modal_closeDay_footer')
+        }
+    %}
 {% endblock %}
 
 {% block autocomplete_user %}
@@ -158,5 +167,6 @@
             });
         });
     </script>
+    {{ block('modal_closeDay_javascript') }}
     {{ parent() }}
 {% endblock %}
