@@ -21,13 +21,17 @@
 {% block modal_closeDay_javascript %}
     <script type="application/javascript">
         $('#global_modal').on('show.bs.modal', function (event) {
-            var button     = $(event.relatedTarget);
+            var button  = $(event.relatedTarget);
             var dayname = button.data('dayname');
-            var dayid      = button.data('dayid');
-            var modal      = $(this);
+            var dayid   = button.data('dayid');
+            var modal   = $(this);
 
             modal.find('#js_modal_dayid').val(dayid);
             modal.find('.js_modal_dayname').text(dayname);
+            $('#params_message').val('');
+
+        }).on('shown.bs.modal', function (event) {
+            $('#params_message').focus();
         });
     </script>
 {% endblock %}
