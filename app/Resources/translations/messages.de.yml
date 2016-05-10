@@ -17,6 +17,15 @@ page:
     admin_empty_form: "Es wurde kein Namen zum Verkündiger übermittelt"
     admin_last_go: "War schon"
     admin_will_go: "Geht noch"
+    admin_empty_closed_message: "Bitte gebe Nachricht ein um den Tag zu schließen"
+    admin_empty_day_id: "Technischer Fehler: Der Tag konnte nicht identifziert werden"
+    admin_day_closed: "Der Tag wurde geschlossen"
+    admin_day_open_agean: "Der Tag wurde geöffnet"
+    modal:
+      title_close_day: "Tag schließen"
+      ask_to_close_day: "Warum wird der Tag, %day%, geschlossen?"
+
+
   routedescription:
     list.title: "Routen Übersicht"
     new.title: "Neue Routen Beschreibung erstellen"
@@ -50,7 +59,7 @@ action:
 
 label:
   button:
-    okay: "ok"
+    okay: "OK"
     cancel: "Abbrechen"
     save: "Sichern"
     calendar:

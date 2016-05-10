@@ -10,9 +10,15 @@
             {% set show_button_type       = 'signon'%}
             {% set add_signoff_controller = 'trolley_agenda_calendar_addusertoday'%}
             {% set show_buttons           = false %}
+            {% set force_hide_buttons     = false %}
 
             <div class="panel-body">
-                {% if day.taUsers.count > 0 %}
+                {% if day.isDayClosed %}
+                    <div class="user-name-box bg-info text-center">
+                        {{ day.getClosedMessage }}
+                    </div>
+                    {% set force_hide_buttons = true %}
+                {% elseif day.taUsers.count > 0 %}
                     <p>
                         {{ 'page.calendar.daytext-gogo'|trans }}
                     </p>
@@ -42,7 +48,7 @@
                 {% endif %}
             </div>
 
-            {% if show_buttons or day.taUsers|length < 2 %}
+            {% if not force_hide_buttons and (show_buttons or day.taUsers|length < 2) %}
                 <ul class="list-group">
                     <li class="list-group-item">
                         <a href="{{ path(add_signoff_controller, {"day": day.id}) }}" class="btn btn-default btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
