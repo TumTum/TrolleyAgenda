@@ -55,7 +55,7 @@
             {% set signon_button  %}{% endset %}
         {% else %}
             {% set bg_color = 'bg-warning' %}
-            {% set signon_button  %}<a href="{{ path('trolley_agenda_calendar_adminacceptuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-default">{{ ('label.button.calendar.accept')|trans }}</a>{% endset %}
+            {% set signon_button  %}<a href="{{ path('trolley_agenda_calendar_adminacceptuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-success">{{ ('label.button.calendar.accept')|trans }}</a>{% endset %}
         {% endif %}
 
         <tr>
@@ -75,7 +75,7 @@
                     <div class="col-sm-5 text-right">
                         <div class="btn-group btn-group-xs" role="group">
                             {{ signon_button }}
-                            <a href="{{ path('trolley_agenda_calendar_adminsignoffuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-default">{{ ('label.button.calendar.signoff')|trans }}</a>
+                            <a href="{{ path('trolley_agenda_calendar_adminsignoffuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-danger">{{ ('label.button.calendar.signoff')|trans }}</a>
                         </div>
                     </div>
                 </div>
