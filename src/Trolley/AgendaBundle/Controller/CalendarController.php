@@ -156,25 +156,38 @@ class CalendarController extends Controller
     /**
      * Schliest einen Tag um sich dort nicht anmelden zu können
      * 
-     * @Route("/close-day-{day}")
+     * @Route("/close-day")
      * @Method({"POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request $request
      */
-    public function adminCloseDayAction(Request $request, Day $day)
+    public function adminCloseDayAction(Request $request)
     {
-        $message = $request->get('message');
+        $params = $request->get('params');
 
-        if (empty($message)) {
+        if (empty($params['message'])) {
             $this->addFlash('danger', 'page.calendar.admin_empty_closed_message');
+            return $this->redirectToRoute('trolley_agenda_calendar_index');
+        }
+
+        if (empty($params['day'])) {
+            $this->addFlash('danger', 'page.calendar.admin_empty_day_id');
+            return $this->redirectToRoute('trolley_agenda_calendar_index');
+        }
+
+        $dayRepo = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
+        $day = $dayRepo->find($params['day']);
+
+        if (empty($day)) {
+            $this->addFlash('danger', 'page.calendar.admin_empty_day_id');
             return $this->redirectToRoute('trolley_agenda_calendar_index');
         }
 
         $manager = $this->getDoctrine()->getManager();
         $dayAndUserRelationship = new DayAndUserRelationship($manager);
         $dayAndUserRelationship->removeAllUserFromDay($day);
-        $day->closeDayWithMessage($message);
+        $day->closeDayWithMessage($params['message']);
         $manager->flush();
 
         $this->addFlash('success', 'page.calendar.admin_day_closed');

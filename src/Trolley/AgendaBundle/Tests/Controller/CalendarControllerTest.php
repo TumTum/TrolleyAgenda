@@ -140,13 +140,14 @@ class CalendarControllerTest extends WebTestCase
         $day = $this->createOneDay('2014-10-22');
         $this->saveInDb([$day]);
 
-        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday', [
-            'day' => $day->getId(),
-        ]);
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday');
+
+        $form['params']['day']     = $day->getId();
+        $form['params']['message'] = '#@Kreiskongress_phpunitTest-#@';
 
         $client = static::createClient();
         $this->loginAsAdmin($client);
-        $client->request('POST', $url, ['message' => '#@Kreiskongress_phpunitTest-#@']);
+        $client->request('POST', $url, $form);
 
         $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_admincloseday');
         $dayDB = self::getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
@@ -156,22 +157,51 @@ class CalendarControllerTest extends WebTestCase
         $this->assertContains($flashMessage, $client->getResponse()->getContent());
     }
 
-    public function testCloseDayWihtOutMessage()
+    public function testCloseDayWithoutMessage()
     {
         $day = $this->createOneDay('2014-10-22');
         $this->saveInDb([$day]);
 
-        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday', [
-            'day' => $day->getId(),
-        ]);
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday');
+
+        $form['params']['day']     = $day->getId();
+        $form['params']['message'] = '';
 
         $client = static::createClient();
         $this->loginAsAdmin($client);
-        $client->request('POST', $url);
-
-        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_admincloseday');
+        $client->request('POST', $url, $form);
 
         $flashMessage = $this->_translate('page.calendar.admin_empty_closed_message');
+        $this->assertContains($flashMessage, $client->getResponse()->getContent());
+    }
+
+    public function testCloseDayWithoutDayId()
+    {
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday');
+
+        $form['params']['day']     = '';
+        $form['params']['message'] = '#@Kreiskongress_phpunitTest-#@';
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('POST', $url, $form);
+
+        $flashMessage = $this->_translate('page.calendar.admin_empty_day_id');
+        $this->assertContains($flashMessage, $client->getResponse()->getContent());
+    }
+
+    public function testCloseDayWithWrongDayId()
+    {
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday');
+
+        $form['params']['day']     = 'WrongNr';
+        $form['params']['message'] = '#@Kreiskongress_phpunitTest-#@';
+
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+        $client->request('POST', $url, $form);
+
+        $flashMessage = $this->_translate('page.calendar.admin_empty_day_id');
         $this->assertContains($flashMessage, $client->getResponse()->getContent());
     }
 
@@ -186,15 +216,15 @@ class CalendarControllerTest extends WebTestCase
         list($day, $user, $user2) = $this->createDayTowUsers();
         $this->saveInDb([$day, $user, $user2]);
 
-        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday', [
-            'day' => $day->getId(),
-        ]);
+        $url = $this->_getUrl('trolley_agenda_calendar_admincloseday');
+
+        $form['params']['day']     = $day->getId();
+        $form['params']['message'] = '#@Kreiskongress_phpunitTest-#@';
 
         $client = static::createClient();
         $this->loginAsAdmin($client);
-        $client->request('POST', $url, ['message' => '#@Kreiskongress_phpunitTest-#@']);
+        $client->request('POST', $url, $form);
 
-        $this->assertTrue($client->getResponse()->isSuccessful(), 'Seite konnte nicht auf gerufen werden: (' . $client->getResponse()->getStatusCode() . ') trolley_agenda_calendar_admincloseday');
         $dayDB = self::getDoctrine()->getRepository('TrolleyAgendaBundle:Day')->find($day->getId());
 
         $this->assertTrue($dayDB->isDayClosed());
@@ -226,7 +256,7 @@ class CalendarControllerTest extends WebTestCase
     /**
      * @param string $routename
      */
-    protected function _getUrl($routename, $param = null)
+    protected function _getUrl($routename, $param = [])
     {
         $kernel = self::$kernel->getContainer();
         $router = $kernel->get('router');

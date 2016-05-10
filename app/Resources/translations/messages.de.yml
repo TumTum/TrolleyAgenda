@@ -18,6 +18,7 @@ page:
     admin_last_go: "War schon"
     admin_will_go: "Geht noch"
     admin_empty_closed_message: "Bitte gebe Nachricht ein um den Tag zu schließen"
+    admin_empty_day_id: "Technischer Fehler: Der Tag konnte nicht identifziert werden"
     admin_day_closed: "Der Tag wurde geschlossen"
     admin_day_open_agean: "Der Tag wurde geöffnet"
 
