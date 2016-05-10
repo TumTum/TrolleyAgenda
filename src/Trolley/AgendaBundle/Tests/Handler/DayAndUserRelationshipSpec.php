@@ -72,4 +72,26 @@ class DayAndUserRelationshipSpec extends ObjectBehavior
         $this->removeUserFromDay($user, $day);
 
     }
+
+    public function it_can_remove_all_user_from_day(
+        User $user,
+        User $user2,
+        Day $day,
+        HistoryService $historyService
+    ) {
+        MockDay::Day($day, 'now');
+        MockUser::User($user, 'testuser1');
+        MockUser::User($user2, 'testuser2');
+
+        $day->removeUser(Argument::any())->shouldBeCalled();
+
+        $user->removeDay(Argument::any())->shouldBeCalled();
+        $user2->removeDay(Argument::any())->shouldBeCalled();
+        $user->getHistoryService()->willReturn($historyService);
+        $user2->getHistoryService()->willReturn($historyService);
+
+        $day->getTaUsers()->shouldBeCalled()->willReturn([$user, $user2]);
+
+        $this->removeAllUserFromDay($day);
+    }
 }

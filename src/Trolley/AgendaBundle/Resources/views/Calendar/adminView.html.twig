@@ -3,6 +3,7 @@
 {% block day_befor %}
     <table class="table table-responsive table-hover table-condensed">
         <colgroup>
+            <col span="1" style="width: 1%">
             <col span="1" style="width: 25%">
             <col span="1" style="width: auto">
             <col span="1" style="width: 10%;">
@@ -10,6 +11,7 @@
         </colgroup>
         <thead>
             <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th class="text-center">{{ "page.calendar.admin_last_go"|trans }}</th>
@@ -21,6 +23,32 @@
 
 {# Tages Block design#}
 {% block day_template %}
+    {% if day.isDayClosed() %}
+        {{ block('day_close_row') }}
+    {% else %}
+        {{ block('day_open_row') }}
+    {% endif %}
+{% endblock %}
+
+{% block day_close_row %}
+    <tr>
+        <td>
+            {{ block('lockDayButton') }}
+        </td>
+        <td>
+            <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
+        </td>
+        <td colspan="3" class="bg-info">
+            <div class="row">
+                <div class="col-sm-8 col-xs-12">
+                    <strong>{{ day.getClosedMessage }}</strong>
+                </div>
+            </div>
+        </td>
+    </tr>
+{% endblock %}
+
+{% block day_open_row %}
     {% for user in day.taUsers %}
         {% if day.canUserGo(user) %}
             {% set bg_color = 'bg-success' %}
@@ -32,6 +60,9 @@
 
         <tr>
             {% if loop.first %}
+                <td rowspan="{{ day.taUsers|length+1 }}">
+                    {{ block('unlockDayButton') }}
+                </td>
                 <td rowspan="{{ day.taUsers|length+1 }}">
                     <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
                 </td>
@@ -60,6 +91,9 @@
     <tr>
         {% if day.taUsers|length == 0 %}
             <td>
+                {{ block('unlockDayButton') }}
+            </td>
+            <td>
                 <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
             </td>
         {% endif %}
@@ -76,6 +110,15 @@
 {% block day_after %}
         </tbody>
     </table>
+
+    {% use "TrolleyAgendaBundle:Calendar:_closeDayModal.html.twig" %}
+    {% include 'common/_bootstrap_modal.html.twig' with {
+        'form_action': path('trolley_agenda_calendar_admincloseday'),
+        'modal_title': block('modal_closeDay_title'),
+        'modal_body': block('modal_closeDay_body'),
+        'modal_buttons': block('modal_closeDay_footer')
+        }
+    %}
 {% endblock %}
 
 {% block autocomplete_user %}
@@ -87,6 +130,17 @@
     </form>
 {% endblock %}
 
+{% block unlockDayButton %}
+    <a data-toggle="modal" data-target="#global_modal" class="btn btn-sm btn-default" data-dayid='{{ day.id }}' data-dayname='{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}'>
+        <i class="fa fa-unlock"></i>
+    </a>
+{% endblock %}
+
+{% block lockDayButton %}
+    <a href="{{ path('trolley_agenda_calendar_adminopenday', {'day': day.id}) }}" class="btn btn-sm btn-default">
+        <i class="fa fa-lock"></i>
+    </a>
+{% endblock %}
 
 {% block stylesheets %}
     <link href="{{ asset('/bundles/trolleyagenda/select2-4.0.2/css/select2.min.css') }}" rel="stylesheet" />
@@ -113,5 +167,6 @@
             });
         });
     </script>
+    {{ block('modal_closeDay_javascript') }}
     {{ parent() }}
 {% endblock %}
