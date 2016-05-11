@@ -8,12 +8,22 @@
     <link href="{{ asset('/bundles/trolleyagenda/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <style>
+        @media print {
+            .page {
+                width: 29.7cm;
+            }
+            .nav, .sf-toolbarreset{
+                display: none;
+                visibility: hidden;
+            }
+        }
         .cards {
             display: block;
             float: left;
-            height: 10.5cm;
-            width: 7.425cm;
-            border: 1px dotted #5e5e5e;
+            height: 10.49cm;
+            width: 7.4cm;
+            border-right: 1px dotted #5e5e5e;
+            border-bottom: 1px dotted #5e5e5e;
             padding: 0.5cm;
             padding-top: 5.3cm;
             text-align: center;
@@ -21,7 +31,6 @@
         .site {
             font-size: 13pt;
             margin-bottom: 1em;
-            color: #2e6da4;
             font-family: monospace;
         }
         .name {
@@ -41,7 +50,6 @@
             font-size: 13pt;
 
         }
-
         .password span{
             display: inline-block;
             width: 100%;
@@ -51,9 +59,14 @@
         .bold {
             font-weight: bold;
         }
+        .blue {
+            color: #2e6da4;
+        }
     </style>
 </head>
 <body>
+<div class="page">
 {% block content %}{% endblock %}
+</div>
 </body>
 </html>
