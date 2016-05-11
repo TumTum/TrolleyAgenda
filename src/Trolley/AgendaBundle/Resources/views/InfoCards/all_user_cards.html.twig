@@ -1,0 +1,17 @@
+{% extends "TrolleyAgendaBundle:InfoCards:page.html.twig" %}
+
+{% block title %}Alle Vistenkarten der Teilnehmer{% endblock %}
+
+{% block content %}
+    {% for user in users %}
+        <div class="cards">
+            <div>Webseite: </div>
+            <div class="site bold">{{ host }}</div>
+            <div class="name">{{ user.firstlastname }}</div>
+            <div class="infobox">
+                <div class="username">Benutzername: <span>{{ user.username }}<span></div>
+                <div class="password">Passwort: <span> </span></div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
