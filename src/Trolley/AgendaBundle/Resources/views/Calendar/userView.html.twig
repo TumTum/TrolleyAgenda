@@ -25,7 +25,8 @@
                     {% set force_hide_buttons = true %}
                 {% elseif day.taUsers.count > 0 %}
                     <p>
-                        {{ 'page.calendar.daytext-gogo'|trans }}
+                        {% if day.isDayFutureToday %}{{ 'page.calendar.daytext-gogo'|trans }}{% endif %}
+                        {% if day.isDayBeforeToday %}{{ 'page.calendar.daytext-gonegone'|trans }}{% endif %}
                     </p>
                     {% for user in day.taUsers %}
 
