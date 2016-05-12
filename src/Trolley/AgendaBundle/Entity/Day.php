@@ -390,5 +390,10 @@ class Day
         return $this->isDayBeforeToday;
 
     }
+
+    public function isDayFutureToday()
+    {
+        return $this->isDayBeforeToday() == false;
+    }
 }
 

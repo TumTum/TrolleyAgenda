@@ -142,4 +142,22 @@ class DaySpec extends ObjectBehavior
         $this->beConstructedWith('+2 Days');
         $this->isDayBeforeToday()->shouldBe(false);
     }
+
+    public function it_is_a_yesterday_day_invert()
+    {
+        $this->beConstructedWith('2014-11-20');
+        $this->isDayFutureToday()->shouldBe(false);
+    }
+
+    public function it_is_today_day_invert()
+    {
+        $this->beConstructedWith('now');
+        $this->isDayFutureToday()->shouldBe(true);
+    }
+
+    public function it_is_future_day_invert()
+    {
+        $this->beConstructedWith('+2 Days');
+        $this->isDayFutureToday()->shouldBe(true);
+    }
 }
