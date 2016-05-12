@@ -23,6 +23,11 @@
 
 {# Tages Block design#}
 {% block day_template %}
+    {% set day_is_past_css = '' %}
+    {% if day.isDayBeforeToday %}
+        {% set day_is_past_css = 'day-is-past' %}
+    {% endif %}
+
     {% if day.isDayClosed() %}
         {{ block('day_close_row') }}
     {% else %}
@@ -31,7 +36,7 @@
 {% endblock %}
 
 {% block day_close_row %}
-    <tr>
+    <tr class="{{ day_is_past_css }}">
         <td>
             {{ block('lockDayButton') }}
         </td>
@@ -49,6 +54,10 @@
 {% endblock %}
 
 {% block day_open_row %}
+    {% set has_add_user_select = 0 %}
+    {% if day.isDayFutureToday %}
+        {% set has_add_user_select = 1 %}
+    {% endif %}
     {% for user in day.taUsers %}
         {% if day.canUserGo(user) %}
             {% set bg_color = 'bg-success' %}
@@ -58,12 +67,12 @@
             {% set signon_button  %}<a href="{{ path('trolley_agenda_calendar_adminacceptuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-success">{{ ('label.button.calendar.accept')|trans }}</a>{% endset %}
         {% endif %}
 
-        <tr>
+        <tr class="{{ day_is_past_css }}">
             {% if loop.first %}
-                <td rowspan="{{ day.taUsers|length+1 }}">
+                <td rowspan="{{ day.taUsers|length+has_add_user_select }}">
                     {{ block('unlockDayButton') }}
                 </td>
-                <td rowspan="{{ day.taUsers|length+1 }}">
+                <td rowspan="{{ day.taUsers|length+has_add_user_select }}">
                     <strong class="text-nowrap">{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
                 </td>
             {% endif %}
@@ -72,12 +81,14 @@
                     <div class="col-sm-7">
                         <span class="user-name-box" data-toggle="tooltip" data-placement="right">{{ user.firstlastname }}</span>
                     </div>
-                    <div class="col-sm-5 text-right">
-                        <div class="btn-group btn-group-xs" role="group">
-                            {{ signon_button }}
-                            <a href="{{ path('trolley_agenda_calendar_adminsignoffuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-danger">{{ ('label.button.calendar.signoff')|trans }}</a>
+                    {% if day.isDayFutureToday %}
+                        <div class="col-sm-5 text-right">
+                            <div class="btn-group btn-group-xs" role="group">
+                                {{ signon_button }}
+                                <a href="{{ path('trolley_agenda_calendar_adminsignoffuser', {'user': user.id, 'day': day.id}) }}" class="btn btn-danger">{{ ('label.button.calendar.signoff')|trans }}</a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </td>
             <td class="text-center">
@@ -88,6 +99,8 @@
             </td>
         </tr>
     {% endfor %}
+
+{% if day.isDayFutureToday %}
     <tr>
         {% if day.taUsers|length == 0 %}
             <td>
@@ -105,6 +118,8 @@
             </div>
         </td>
     </tr>
+{% endif %}
+
 {% endblock %}
 
 {% block day_after %}

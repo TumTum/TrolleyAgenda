@@ -67,6 +67,13 @@ body {
     font-size: 1em;
 }
 
+.calendar .day-is-past > * > *,
+.calendar .day-is-past > *
+{
+    background-color: white !important;
+    color: gray !important;;
+}
+
 .route dl dt {
     margin-top: 1em;
 }
