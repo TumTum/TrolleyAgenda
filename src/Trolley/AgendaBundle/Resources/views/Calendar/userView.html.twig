@@ -1,8 +1,12 @@
 {% extends "TrolleyAgendaBundle:Calendar:index.html.twig" %}
 
 {% block day_template %}
+    {% set day_is_past_css = '' %}
+    {% if day.isDayBeforeToday %}
+        {% set day_is_past_css = 'day-is-past' %}
+    {% endif %}
     <div class="col-xs-6 col-sm-3 dayentry">
-        <div class="panel panel-default">
+        <div class="panel panel-default {{ day_is_past_css }}">
             <div class="panel-heading">
                 <strong>{{ ("date." ~ day.taDay|date("l"))|trans }} {{ day.taDay|date("d.m.Y") }}</strong>
             </div>
@@ -53,6 +57,10 @@
                     {{ 'page.calendar.daytext-free'|trans }}
                 {% endif %}
             </div>
+
+            {% if day.isDayBeforeToday %}
+                {% set force_hide_buttons = true %}
+            {% endif %}
 
             {% if not force_hide_buttons and (show_buttons or day.taUsers|length < 2) %}
                 <ul class="list-group">
