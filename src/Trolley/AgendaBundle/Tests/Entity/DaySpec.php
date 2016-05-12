@@ -124,4 +124,22 @@ class DaySpec extends ObjectBehavior
         $this->getClosedMessage()->shouldReturn('');
         $this->isDayClosed()->shouldReturn(false);
     }
+
+    public function it_is_a_yesterday_day()
+    {
+        $this->beConstructedWith('2014-11-20');
+        $this->isDayBeforeToday()->shouldBe(true);
+    }
+
+    public function it_is_today_day()
+    {
+        $this->beConstructedWith('now');
+        $this->isDayBeforeToday()->shouldBe(false);
+    }
+
+    public function it_is_future_day()
+    {
+        $this->beConstructedWith('+2 Days');
+        $this->isDayBeforeToday()->shouldBe(false);
+    }
 }
