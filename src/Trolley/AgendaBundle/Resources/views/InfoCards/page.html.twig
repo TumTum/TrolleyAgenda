@@ -11,16 +11,20 @@
         @media print {
             .page {
                 width: 29.7cm;
+                page-break-after: always;
             }
             .nav, .sf-toolbarreset{
                 display: none;
                 visibility: hidden;
             }
         }
+        .clear {
+            clear: both;
+        }
         .cards {
             display: block;
             float: left;
-            height: 10.49cm;
+            height: 10.50cm;
             width: 7.4cm;
             border-right: 1px dotted #5e5e5e;
             border-bottom: 1px dotted #5e5e5e;
@@ -65,8 +69,6 @@
     </style>
 </head>
 <body>
-<div class="page">
 {% block content %}{% endblock %}
-</div>
 </body>
 </html>
