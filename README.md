@@ -1,5 +1,5 @@
-TrollyAgenda
-============
+TrolleyAgenda
+=============
 
 Ein Planung Tool um den Trolly Dienst mit Zeugen Jehovas zu verwalten.
 Die Verkündiger können sich am Dienst Anmelden und sich wieder Abmelden. Jeder bekommt eine gute Übersicht 
