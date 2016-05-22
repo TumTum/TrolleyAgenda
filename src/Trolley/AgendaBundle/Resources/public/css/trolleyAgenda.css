@@ -2,6 +2,14 @@ body {
     padding-top: 50px;
 }
 
+footer {
+    margin-top: 2em;
+    text-align: right;
+    font-size: 0.7em;
+    font-stretch: inherit;
+    padding: 1em;
+}
+
 .login-box {
     margin-top: 3em;
 }
