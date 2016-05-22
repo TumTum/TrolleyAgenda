@@ -21,9 +21,12 @@ class InfoCardsController extends Controller
     {
         $users = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User')->findAll();
         $host = $_SERVER['HTTP_HOST'];
+
+        $pages = array_chunk($users, 8);
+
         return $this->render('TrolleyAgendaBundle:InfoCards:all_user_cards.html.twig', [
             'host' => $host,
-            'users' => $users
+            'pages' => $pages
         ]);
     }
 
@@ -33,9 +36,11 @@ class InfoCardsController extends Controller
     public function coverCardsAction()
     {
         $users = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User')->findAll();
-        $host = $_SERVER['HTTP_HOST'];
+
+        $pages = array_chunk($users, 8);
+
         return $this->render('TrolleyAgendaBundle:InfoCards:cover_cards.html.twig', [
-            'users' => $users
+            'pages' => $pages
         ]);
     }
 

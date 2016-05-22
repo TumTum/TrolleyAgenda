@@ -7,11 +7,16 @@
     <div class="nav">
         <a class="btn btn-default" href="{{ path('trolley_agenda_infocards_allusercards') }}">Cover Page</a>
     </div>
-    {% for user in users %}
-        <div class="cards">
-            <h2 class="">Trolley Thon</h2>
-            <div>Zugangsdaten</div>
-            <div class="name blue">{{ user.firstlastname }}</div>
+    {% for users in pages %}
+        <div class="page">
+            {% for user in users %}
+                <div class="cards">
+                    <h2 class="">Trolley Thon</h2>
+                    <div>Zugangsdaten</div>
+                    <div class="name blue">{{ user.firstlastname }}</div>
+                </div>
+            {% endfor %}
+            <div class="clear"></div>
         </div>
     {% endfor %}
 {% endblock %}
