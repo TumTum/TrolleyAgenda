@@ -38,6 +38,9 @@ class InfoCardsController extends Controller
         $users = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:User')->findAll();
 
         $pages = array_chunk($users, 8);
+        foreach ($pages as &$users) {
+            $users = array_reverse($users);
+        }
 
         return $this->render('TrolleyAgendaBundle:InfoCards:cover_cards.html.twig', [
             'pages' => $pages
