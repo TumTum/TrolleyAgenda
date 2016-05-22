@@ -90,10 +90,6 @@ swiftmailer:
 
 trolley_agenda:
     calendar:
-        every_day:
-            - Monday
-            - Tuesday
-            - Wednesday
-            - Thursday
-        month_looking_ahead: 3
+        every_day: "%trolley_days%"
+        month_looking_ahead: "%trolley_month_ahead%"
         month_retrospective: 1
