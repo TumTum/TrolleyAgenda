@@ -1,6 +1,8 @@
 TrolleyAgenda
 =============
 
+[![Build Status](https://travis-ci.org/TumTum/TrolleyAgenda.svg?branch=master)](https://travis-ci.org/TumTum/TrolleyAgenda)
+
 Ein Planung Tool um den Trolley Dienst mit Zeugen Jehovas zu verwalten.
 Die Verkündiger können sich am Dienst Anmelden und sich wieder Abmelden. Jeder bekommt eine gute Übersicht 
 über die Monate.
