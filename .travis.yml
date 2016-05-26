@@ -18,7 +18,7 @@ before_install:
 
 install:
   - export COMPOSER_ROOT_VERSION=dev-master
-  - composer install --no-progress --no-interaction --no-scripts -o --quite --dev
+  - composer install --no-progress --no-interaction --no-scripts -o --quiet --dev
   - php bin/console doctrine:database:create -e test
   - php bin/console doctrine:schema:create -e test
 
