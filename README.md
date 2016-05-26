@@ -20,13 +20,13 @@ Benutzer hinzufügen und entfernen.
 
 ##### Zugangsdaten:
 
-- __Verküngiger__:
-     _Benutzername_: verkuengiger
-     _Passwort_: demoseite
+- __Verküngiger__:  
+     _Benutzername_: verkuendiger  
+     _Passwort_: demoseite  
 
-- __Dienstaufseher__:
-     _Benutzername_: dienstaufseher
-     _Passwort_: demoseite
+- __Dienstaufseher__:  
+     _Benutzername_: dienstaufseher  
+     _Passwort_: demoseite  
 
 Installation
 ------------
