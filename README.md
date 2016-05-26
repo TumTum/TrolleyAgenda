@@ -1,12 +1,14 @@
 TrolleyAgenda
 =============
 
+[![Build Status](https://travis-ci.org/TumTum/TrolleyAgenda.svg?branch=master)](https://travis-ci.org/TumTum/TrolleyAgenda)
+
 Ein Planung Tool um den Trolley Dienst mit Zeugen Jehovas zu verwalten.
 Die Verkündiger können sich am Dienst Anmelden und sich wieder Abmelden. Jeder bekommt eine gute Übersicht 
 über die Monate.
 
 Vorwort
---------
+-------
 
 Dieses Programm ist noch in der Anfangs Phase und für die einfache Planung erstmal gedacht. Verkündiger können sich 
 Anmelden und Abmelden. Ein Dienstaufseher kann zustimmen oder Verkündiger hinzufügen und entfernen vom Trolley Dienst.
@@ -33,13 +35,14 @@ Installation
 
 ##### Voraussetzungen:
 
-Vorteil wäre es von Terminal kenntisse auf einen Linx Rechner zu haben.
+Vorteil wäre es, wenn du Shell kenntisse hast, auf einen Linx Rechner.
+Weil dies kann man nur mit SSH-Zugang auf den Server installieren.
 
 - MySQL Datenbank
    - sollte fertig eingerichtet, mit Username und Passwort
 - Webserver
     - apache
-    - PHP <5.6
+    - PHP >5.6
     - SSL Zugang
     - PHP composer muss [Installiert](https://getcomposer.org/download/) werden.
     - [Git](https://git-scm.com)
@@ -68,7 +71,7 @@ Vorteil wäre es von Terminal kenntisse auf einen Linx Rechner zu haben.
 
    ``trolley_days ([Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]): _``
 
-   Dort gibt man die Englische Bezeichnung ein. __Achte darauf__ das du mit **'\['**-Klammer anfängst und mit  **'\]'**-Klammer endest.
+   Dort gibt man die Englische Wochentage ein. __Achte darauf__ das du mit **'\['**-Klammer anfängst und mit  **'\]'**-Klammer endest.
    z.b. ``[Saturday, Sunday]`` Damit der trolley nur Samstag und Sonntags raus geht.
 
    ###### Vorausplaung: Wie viele Monate im Voraus sollen im Kalendar angezeit werden?
