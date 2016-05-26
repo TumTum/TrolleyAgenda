@@ -1,0 +1,19 @@
+language: php
+
+matrix:
+  include:
+    - php: 5.6
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - composer selfupdate
+
+install:
+  - export COMPOSER_ROOT_VERSION=dev-master
+  - composer install --no-progress --no-scripts --quiet --dev
+
+script:
+  - php bin/phpspec run --no-code-generation --stop-on-failure
