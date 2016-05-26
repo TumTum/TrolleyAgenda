@@ -6,8 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Prophecy\Exception\InvalidArgumentException;
 
-
-
 /**
  * Day
  *
@@ -74,6 +72,11 @@ class Day
      * @var string
      */
     private $monthName = "";
+
+    /**
+     * @var bool
+     */
+    private $isDayBeforeToday = null;
 
     /**
      * Ist das datum Format für das Array key des $daysList
@@ -372,6 +375,25 @@ class Day
     {
         $this->_setTaClose(false);
         $this->_setTaCloseMessage('');
+    }
+
+    public function isDayBeforeToday()
+    {
+        if ($this->isDayBeforeToday === null) {
+            $dateIntervall = $this->getTaDay()->diff(new \DateTime('now'));
+            $this->isDayBeforeToday = (
+                $dateIntervall->invert == 0 && // liegt in der Vergangenheit
+                $dateIntervall->days != 0 // und wenn es nicht heute ist
+            );
+        }
+
+        return $this->isDayBeforeToday;
+
+    }
+
+    public function isDayFutureToday()
+    {
+        return $this->isDayBeforeToday() == false;
     }
 }
 

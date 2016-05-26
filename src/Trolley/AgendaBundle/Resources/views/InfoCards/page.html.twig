@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}User Cards{% endblock %}</title>
+    <link href="{{ asset('/bundles/trolleyagenda/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+        @media print {
+            .page {
+                width: 29.7cm;
+                page-break-after: always;
+            }
+            .nav, .sf-toolbarreset{
+                display: none;
+                visibility: hidden;
+            }
+        }
+        .clear {
+            clear: both;
+        }
+        .cards {
+            display: block;
+            float: left;
+            height: 10.50cm;
+            width: 7.4cm;
+            border-right: 1px dotted #5e5e5e;
+            border-bottom: 1px dotted #5e5e5e;
+            padding: 0.5cm;
+            padding-top: 5.3cm;
+            text-align: center;
+        }
+        .site {
+            font-size: 13pt;
+            margin-bottom: 1em;
+            font-family: monospace;
+        }
+        .name {
+            font-style: italic;
+            margin-bottom: 0.5em;
+        }
+        .infobox {
+            display: inline-block;
+            text-align: left;
+            margin: 0 auto;
+            font-size: 0.8em;
+        }
+        .username span{
+            font-family: monospace;
+            font-weight: bolder;
+            color: darkred;
+            font-size: 13pt;
+
+        }
+        .password span{
+            display: inline-block;
+            width: 100%;
+            height: 0.7cm;
+            border-bottom: 2px dotted black;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .blue {
+            color: #2e6da4;
+        }
+    </style>
+</head>
+<body>
+{% block content %}{% endblock %}
+</body>
+</html>

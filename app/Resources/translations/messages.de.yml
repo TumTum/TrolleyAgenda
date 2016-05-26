@@ -8,6 +8,7 @@ page:
     overview: "Trolley Anmeldung"
     small_title: "Terminverwaltung um sich anzumelden am Trolley Dienst."
     daytext-gogo: "An diesem Tag gehen:"
+    daytext-gonegone: "Gegangen sind:"
     daytext-free: "Nicht Belegt"
     user_successful_added: "Deine Bewerbung haben wir erhalten"
     user_successful_signoff: "Deine Bewerbung wurde zurückgezogen"

@@ -1,0 +1,26 @@
+{% extends "TrolleyAgendaBundle:InfoCards:page.html.twig" %}
+
+{% block title %}Alle Vistenkarten der Teilnehmer{% endblock %}
+
+{% block content %}
+    <div class="nav">
+        <a class="btn btn-default" href="{{ path('trolley_agenda_infocards_covercards') }}">Cover Page</a>
+    </div>
+
+    {% for users in pages %}
+        <div class="page">
+            {% for user in users %}
+                <div class="cards">
+                    <div>Webseite: </div>
+                    <div class="site bold blue">{{ host }}</div>
+                    <div class="name">{{ user.firstlastname }}</div>
+                    <div class="infobox">
+                        <div class="username">Benutzername: <span>{{ user.username }}<span></div>
+                        <div class="password">Passwort: <span> </span></div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="clear"></div>
+        </div>
+    {% endfor %}
+{% endblock %}

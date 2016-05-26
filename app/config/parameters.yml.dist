@@ -17,3 +17,15 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    # Trolley Agenda Config
+
+    trolley_days:
+            - Monday
+            - Tuesday
+            - Wednesday
+            - Thursday
+            - Friday
+            - Saturday
+            - Sunday
+    trolley_month_ahead: 3
