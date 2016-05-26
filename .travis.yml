@@ -1,0 +1,29 @@
+language: php
+
+matrix:
+  include:
+    - php: 5.6
+    - php: 7.0
+
+services:
+  - mysql
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - composer selfupdate
+  - cp app/config/parameters.yml.dist app/config/parameters.yml
+  - mysql -e "create database symfony;" -uroot
+  - mysql -e "create database trollyagenda_test;" -uroot
+
+install:
+  - export COMPOSER_ROOT_VERSION=dev-master
+  - composer install --no-progress --no-interaction --no-scripts -o --quiet --dev
+  - php bin/console doctrine:schema:create -e test
+
+script:
+  - php bin/phpspec run --format tap --no-code-generation --stop-on-failure
+  - php bin/phpunit --tap --stop-on-failure
+
