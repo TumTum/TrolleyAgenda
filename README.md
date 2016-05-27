@@ -80,12 +80,15 @@ Weil dies kann man nur mit SSH-Zugang auf den Server installieren.
 
    Drei Monate Voraus ist Standard. Vom heutigem Monat gezählt.
 
+4. Datenbank Tabellen anlegen
 
-4. Dienstaufseher Anlegen
+   ``$: php bin/console doctrine:schema:create``
+
+5. Dienstaufseher Anlegen
 
     ``$: php bin/console fos:user:create <DEIN_USERNAME> --super-admin``
 
-5. Fertig
+6. Fertig
 
 
 
