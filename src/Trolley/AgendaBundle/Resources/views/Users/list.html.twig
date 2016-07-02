@@ -51,7 +51,7 @@
                                     </p>
 
                                     <a href="{{ path('trolley_agenda_users_edit', { id: user.id }) }}"
-                                       class="btn btn-sm btn-primary">
+                                       class="btn btn-sm btn-primary waitRequest">
                                         <i class="fa fa-edit"></i> {{ 'action.edit'|trans }}
                                     </a>
                                     {% if app.user.id != user.id %}
@@ -86,7 +86,7 @@
                 <h3 class="panel-title">Verwaltung</h3>
             </div>
             <div class="panel-body">
-                <a href="{{ path('trolley_agenda_users_new') }}" class="btn btn-sm btn-primary">
+                <a href="{{ path('trolley_agenda_users_new') }}" class="btn btn-sm btn-primary waitRequest">
                     <i class="fa fa-user"></i> {{ 'action.new_user'|trans }}
                 </a>
             </div>
