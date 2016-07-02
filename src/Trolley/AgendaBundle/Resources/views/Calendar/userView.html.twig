@@ -66,7 +66,7 @@
             {% if not force_hide_buttons and (show_buttons or day.taUsers|length < 2) %}
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <a href="{{ path(add_signoff_controller, {"day": day.id}) }}" class="btn {{ show_button_color }} btn-block">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
+                        <a href="{{ path(add_signoff_controller, {"day": day.id}) }}" class="btn {{ show_button_color }} btn-block waitRequest">{{ ('label.button.calendar.' ~ show_button_type)|trans }}</a>
                         {#<a href="#" class="btn btn-default btn-xs">absagen</a>#}
                     </li>
                 </ul>

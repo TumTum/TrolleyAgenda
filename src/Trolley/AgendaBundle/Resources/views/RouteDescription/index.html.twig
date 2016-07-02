@@ -22,8 +22,8 @@
                 <td><a href="{{ path('trolley_agenda_routedescription_show', { 'id': routeDescription.id }) }}">{{ routeDescription.title }}</a></td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
-                        <a class="btn btn-primary" href="{{ path('trolley_agenda_routedescription_show', { 'id': routeDescription.id }) }}">{{ 'action.show'|trans }}</a>
-                        <a class="btn btn-default" href="{{ path('trolley_agenda_routedescription_edit', { 'id': routeDescription.id }) }}" ><i class="fa fa-edit"></i>  {{ 'action.edit'|trans }}</a>
+                        <a class="btn btn-primary waitRequest" href="{{ path('trolley_agenda_routedescription_show', { 'id': routeDescription.id }) }}">{{ 'action.show'|trans }}</a>
+                        <a class="btn btn-default waitRequest" href="{{ path('trolley_agenda_routedescription_edit', { 'id': routeDescription.id }) }}" ><i class="fa fa-edit"></i>  {{ 'action.edit'|trans }}</a>
                     </div>
                 </td>
             </tr>
@@ -35,7 +35,7 @@
 
 {% block sidebar %}
     <div class="section">
-        <a class="btn btn-success btn-block btn-lg" href="{{ path('trolley_agenda_routedescription_new') }}">{{ 'action.new_route'|trans }}</a>
+        <a class="btn btn-success btn-block btn-lg waitRequest" href="{{ path('trolley_agenda_routedescription_new') }}">{{ 'action.new_route'|trans }}</a>
     </div>
     <div class="section well well-sm">
         {{ 'help.route.index'|trans }}
