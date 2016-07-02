@@ -30,20 +30,20 @@ class Builder implements ContainerAwareInterface
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
         if (!$this->isGranted('ROLE_USER')) {
-            $menu->addChild($tr->trans('layout.login', [], 'FOSUserBundle'), array('route' => 'fos_user_security_login') );
+            $menu->addChild($tr->trans('layout.login', [], 'FOSUserBundle'), ['route' => 'fos_user_security_login', 'linkAttribute' => ['class' => 'waitRequest']] );
             return $menu;
         }
 
-        $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage'));
+        $menu->addChild($tr->trans('menu.home'), array('route' => 'startpage', 'linkAttributes' => ['class' => 'waitRequest']));
         $this->addRouteMenu($menu);
 
-        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolley_agenda_users_list') );
+        $menu->addChild($tr->trans('menu.userlist'), array('route' => 'trolley_agenda_users_list', 'linkAttributes' => ['class' => 'waitRequest']) );
 
         $menuProfile = $this->addDropdownMenu($tr->trans('menu.user') . " <small>(".$this->getUsername().")</small>", $menu);
         $menuProfile->setLabel($menuProfile->getLabel());
-        $menuProfile->addChild($tr->trans('change_password.submit',[], 'FOSUserBundle'), array('route' => 'fos_user_change_password'));
+        $menuProfile->addChild($tr->trans('change_password.submit',[], 'FOSUserBundle'), array('route' => 'fos_user_change_password', 'linkAttributes' => ['class' => 'waitRequest']));
         $this->addSeppartor($menuProfile);
-        $menuProfile->addChild($tr->trans('layout.logout', [], 'FOSUserBundle'), array('route' => 'fos_user_security_logout') );
+        $menuProfile->addChild($tr->trans('layout.logout', [], 'FOSUserBundle'), array('route' => 'fos_user_security_logout', 'linkAttributes' => ['class' => 'waitRequest']) );
 
         return $menu;
     }
@@ -54,7 +54,7 @@ class Builder implements ContainerAwareInterface
     protected function addRouteMenu(ItemInterface $menu)
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-            $route = ['route' => 'trolley_agenda_routedescription_index'];
+            $route = ['route' => 'trolley_agenda_routedescription_index', 'linkAttributes' => ['class' => 'waitRequest']];
         } else {
             $route = $this->getDefaultRoute();
         }
@@ -78,7 +78,8 @@ class Builder implements ContainerAwareInterface
 
         $route = [
             'route' => 'trolley_agenda_routedescription_show',
-            'routeParameters' => ['id' => $defaultrouteId]
+            'routeParameters' => ['id' => $defaultrouteId],
+            'linkAttributes' => ['class' => 'waitRequest']
         ];
         return $route;
     }
