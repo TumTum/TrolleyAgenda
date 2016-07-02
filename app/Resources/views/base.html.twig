@@ -46,10 +46,10 @@
 
     <footer>OpenSource Project on <a href="https://github.com/TumTum/TrolleyAgenda">GitHub: TrolleyAgenda</a></footer>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/jquery.1.11.3.min.js') }}"></script>
     <script src="{{ asset('/bundles/trolleyagenda/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/bundles/trolleyagenda/js/waitMe.min.js') }}"></script>
-    <script src="{{ asset('/bundles/trolleyagenda/js/TrolleyAgenda.js') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/waitMe.min.js?v1') }}"></script>
+    <script src="{{ asset('/bundles/trolleyagenda/js/TrolleyAgenda.js?v0.2') }}"></script>
     {% block javascript %}{% endblock %}
 </body>
 </html>
