@@ -10,7 +10,6 @@
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 /web/config.php
-/bin/symfony_requirements
 
 # Parameters
 /app/config/parameters.yml
