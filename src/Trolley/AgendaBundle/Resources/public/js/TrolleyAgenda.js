@@ -16,6 +16,7 @@ TrolleyAgenda.prototype.run = function() {
 TrolleyAgenda.prototype.initMobileSpecials = function () {
     if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
         this.fastclick_enable();
+        this.delay_waitMsg();
         this.tableHasNotHoverByMobileDevice();
     }
 };
@@ -34,6 +35,22 @@ TrolleyAgenda.prototype.fastclick_enable = function() {
     FastClick.attach(document.body);
 };
 
+/**
+ * Verspätet den rauf mit dem WaitMe
+ */
+TrolleyAgenda.prototype.delay_waitMsg = function() {
+
+    $(".waitRequest").click(function(event) {
+        event.preventDefault();
+        setTimeout(function() {
+            if (event.target.tagName == 'A') {
+                document.location.href = event.target.href;
+            }
+        }, 300);
+    });
+};
+
+/**
  * Um die warte Zeit zu überbrücken bis der Server reagiert.
  *
  * Bei alle Formulare automatisch und Knöpfe mit der der Classe .waitRequest
@@ -45,7 +62,7 @@ TrolleyAgenda.prototype.waitMeInit = function() {
         }
 
         element.waitMe({
-            effect: 'pulse',
+            effect: 'stretch',
             text: 'Bitte warten...',
             bg: 'rgba(0,0,0,0.6)',
             color: '#ffffff'
