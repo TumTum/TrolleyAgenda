@@ -5,20 +5,35 @@
 function TrolleyAgenda() {}
 
 TrolleyAgenda.prototype.run = function() {
+    this.initMobileSpecials();
     this.tableHasNotHoverByMobileDevice();
     this.waitMeInit();
+};
+
+/**
+ * Veränderungen die nur Mobile Versionen betrifft
+ */
+TrolleyAgenda.prototype.initMobileSpecials = function () {
+    if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+        this.fastclick_enable();
+        this.tableHasNotHoverByMobileDevice();
+    }
 };
 
 /**
  * Auf dem Mobile geräte ist es hinderlich dieses Table-Hover Deshalb wird es enfernt
  */
 TrolleyAgenda.prototype.tableHasNotHoverByMobileDevice = function() {
-    if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
-        $('table').removeClass("table-hover");
-    }
+    $('table').removeClass("table-hover");
 };
 
 /**
+ * Die Delay zeiten von den Browser verhindern um das gefühl der geschwindig keit zu bekommen
+ */
+TrolleyAgenda.prototype.fastclick_enable = function() {
+    FastClick.attach(document.body);
+};
+
  * Um die warte Zeit zu überbrücken bis der Server reagiert.
  *
  * Bei alle Formulare automatisch und Knöpfe mit der der Classe .waitRequest
