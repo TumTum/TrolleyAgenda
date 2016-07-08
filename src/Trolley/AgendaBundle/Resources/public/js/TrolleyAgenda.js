@@ -5,17 +5,49 @@
 function TrolleyAgenda() {}
 
 TrolleyAgenda.prototype.run = function() {
+    this.initMobileSpecials();
     this.tableHasNotHoverByMobileDevice();
     this.waitMeInit();
+};
+
+/**
+ * Veränderungen die nur Mobile Versionen betrifft
+ */
+TrolleyAgenda.prototype.initMobileSpecials = function () {
+    if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+        this.fastclick_enable();
+        this.delay_waitMsg();
+        this.tableHasNotHoverByMobileDevice();
+    }
 };
 
 /**
  * Auf dem Mobile geräte ist es hinderlich dieses Table-Hover Deshalb wird es enfernt
  */
 TrolleyAgenda.prototype.tableHasNotHoverByMobileDevice = function() {
-    if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
-        $('table').removeClass("table-hover");
-    }
+    $('table').removeClass("table-hover");
+};
+
+/**
+ * Die Delay zeiten von den Browser verhindern um das gefühl der geschwindig keit zu bekommen
+ */
+TrolleyAgenda.prototype.fastclick_enable = function() {
+    FastClick.attach(document.body);
+};
+
+/**
+ * Verspätet den rauf mit dem WaitMe
+ */
+TrolleyAgenda.prototype.delay_waitMsg = function() {
+
+    $(".waitRequest").click(function(event) {
+        event.preventDefault();
+        setTimeout(function() {
+            if (event.target.tagName == 'A') {
+                document.location.href = event.target.href;
+            }
+        }, 300);
+    });
 };
 
 /**
@@ -30,7 +62,7 @@ TrolleyAgenda.prototype.waitMeInit = function() {
         }
 
         element.waitMe({
-            effect: 'pulse',
+            effect: 'stretch',
             text: 'Bitte warten...',
             bg: 'rgba(0,0,0,0.6)',
             color: '#ffffff'
