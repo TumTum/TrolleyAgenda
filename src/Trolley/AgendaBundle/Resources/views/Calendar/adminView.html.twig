@@ -173,12 +173,23 @@
     <script src="{{ asset('/bundles/trolleyagenda/js/autocompleter-select2.js') }}"></script>
     <script type="application/javascript">
         $(function(){
-            $('.js_selectuser').select2({
+            var $customSelects = $('select');
+            $customSelects.select2({
                 url_list: '{{ path('trolley_agenda_autocomplete_searchusername') }}',
                 placeholder: '{{ 'label.preacher'|trans }}',
                 minimumInputLength: 1,
                 theme: 'bootstrap',
-                data: {{ controller.getListOfUserFirstname()|json_encode|raw }}
+                data: {{ controller.getListOfUserFirstname()|json_encode|raw }},
+                templateResult: function(result, container) {
+                    if (!result.id) {
+                        return result.text;
+                    }
+                    container.className += ' needsclick';
+                    return result.text;
+                }
+            });
+            $customSelects.each(function(index, el){
+                $(el).data('select2').$container.find('*').addClass('needsclick');
             });
         });
     </script>
