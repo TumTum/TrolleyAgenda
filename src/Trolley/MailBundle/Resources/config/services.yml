@@ -1,4 +1,4 @@
 services:
-#    trolley_mail.example:
-#        class: Trolley\MailBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    trolley.mail.notifyAdmin:
+        class: Trolley\MailBundle\Controller\notifyAdminController
+        arguments: ["@mailer", "@templating"]

@@ -5,3 +5,9 @@ suites:
         src_path: %paths.config%/src/Trolley/AgendaBundle
         spec_path: %paths.config%/src/Trolley/AgendaBundle
         psr4_prefix: Trolley\AgendaBundle
+    TrolleyMail_suite:
+        namespace: Trolley\MailBundle
+        spec_prefix: Tests
+        src_path: %paths.config%/src/Trolley/MailBundle/
+        spec_path: %paths.config%/src/Trolley/MailBundle/
+        psr4_prefix: Trolley\MailBundle
