@@ -10,7 +10,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="{{ heading_id }}">
                     <div class="panel-title row" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ collapse_id }}" aria-controls="{{ collapse_id }}">
-                        <div class="col-xs-7">
+                        <div class="col-xs-5">
                             {% set fa_user = 'fa-user' %}
                             {% set icon_hidden = 'hidden-xs' %}
                             {% if user.getAdminRole == 'yes' %}
@@ -23,6 +23,20 @@
                             {% if user.mobile != '' %}<i class="fa fa-mobile-phone hidden-xs"></i> {{ user.mobile }}
                             {% elseif user.phone != '' %}<i class="fa fa-phone hidden-xs"></i> {{ user.phone }}
                             {% elseif user.mobile2 != '' %}<i class="fa fa-mobile-phone hidden-xs"></i> {{ user.mobile2 }}{% endif %}
+                        </div>
+                        <div class="col-xs-2">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <span class="text-nowrap">
+                                    <abbr title="{{ "page.calendar.admin_last_go"|trans }}">
+                                        <i class="fa fa-street-view" aria-hidden="true"></i> {{ user.getNumberPastDates }}
+                                    </abbr>
+                                </span> &nbsp;
+                                <span class="text-nowrap">
+                                    <abbr title="{{ 'page.calendar.admin_will_go'|trans }}">
+                                        <i class="fa fa-hand-o-right" aria-hidden="true"></i> {{ user.getNumberforwardDates }}
+                                    </abbr>
+                                </span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
