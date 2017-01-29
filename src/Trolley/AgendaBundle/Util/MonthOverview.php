@@ -29,9 +29,10 @@ class MonthOverview extends \ArrayIterator
      */
     public function createAheadMonth($count)
     {
-        for($month_add = 0; $month_add < $count; $month_add++) {
+        for($month_add = 0; $month_add <= $count; $month_add++) {
             $Month = new Month();
-            $Month->setMonth("+" . $month_add . ' month');
+            $monthinday = $month_add * 30;
+            $Month->setMonth("+" . $monthinday . ' days');
             $this[$Month->getMonthName()] = $Month;
         }
 
