@@ -88,40 +88,19 @@ class MonthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test ob Month einen sting nimmt um den nächsten Monat zu bestimmen
+     * Test Prüft ob er einen Monat nehmen kann.
      */
     public function testSetMonthDate()
     {
         $month = new Month();
 
-        $month->setMonth('+1 Month');
+        $dateTime = date_create('now');
 
-        $expected = date_create('+1 Month')->format('F');
+        $month->setMonth($dateTime);
+
+        $expected = $dateTime->format('F');
 
         $this->assertEquals($expected, $month->getDate()->format('F'));
-    }
-
-    /**
-     * Testet den Fehler fall ob Month einen sting nimmt.
-     * @expectedException \Symfony\Component\Config\Definition\Exception\Exception
-     */
-    public function testSetMonthDateError()
-    {
-        $month = new Month();
-        $month->setMonth('+1 Monate in Deutsch');
-    }
-
-    /**
-     * Testet ob Month auch den übernächsten Monat nimmt
-     */
-    public function testGetMonthName()
-    {
-        $month = new Month();
-
-        $month->setMonth('+2 Month');
-        $expected = date_create('+2 Month')->format('F');
-
-        $this->assertEquals($expected, $month->getMonthName());
     }
 
     /**
@@ -162,7 +141,7 @@ class MonthTest extends \PHPUnit_Framework_TestCase
         $days[] = date('l d-m-y', $month_end->format('U'));
 
         $month = new Month();
-        $month->setMonth('this Month');
+        $month->setMonth(date_create());
         $month->fillDaysOfWeek($week);
 
         foreach ($month as $date) {
@@ -223,7 +202,7 @@ class MonthTest extends \PHPUnit_Framework_TestCase
     public function testReplaceADay()
     {
         $month = new Month();
-        $month->setMonth('2016-10-01');
+        $month->setMonth(date_create('2016-10-01'));
 
         $month[] = new Day('2016-10-20');
         $month[] = new Day('2016-10-21');

@@ -40,18 +40,14 @@ class Month extends \ArrayIterator
     }
 
     /**
-     * @param string $time erstellt am Namen den Monat
+     * Speichert den Haupt Monat ab
      *
-     * @return bool
+     * Macht aber keine Berechnungen mehr
+     *
+     * @param \DateTime $date
      */
-    public function setMonth($time)
+    public function setMonth(\DateTime $date)
     {
-        $date = date_create($time);
-
-        if ($date == false) {
-            throw new Exception('Date string is wrong: '. $time . ' - ' . json_encode(date_get_last_errors()));
-        }
-
         $this->setDate($date);
     }
 
