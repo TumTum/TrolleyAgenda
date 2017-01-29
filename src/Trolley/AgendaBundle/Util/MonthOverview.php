@@ -11,6 +11,7 @@ namespace Trolley\AgendaBundle\Util;
 
 use Trolley\AgendaBundle\Entity\Day;
 use Trolley\AgendaBundle\Entity\Month;
+use Trolley\AgendaBundle\lib\CalculateMonth;
 
 class MonthOverview extends \ArrayIterator
 {
@@ -25,14 +26,15 @@ class MonthOverview extends \ArrayIterator
      *
      * @param integer $count anzahl der Monate im Voraus
      *
-     * @return array
+     * @return $this
      */
     public function createAheadMonth($count)
     {
-        for($month_add = 0; $month_add <= $count; $month_add++) {
+        $calculateMonth = new CalculateMonth('@'.time());
+
+        for($month_add = 0; $month_add < $count; $month_add++) {
             $Month = new Month();
-            $monthinday = $month_add * 30;
-            $Month->setMonth("+" . $monthinday . ' days');
+            $Month->setMonth($calculateMonth->monthToAdd($month_add));
             $this[$Month->getMonthName()] = $Month;
         }
 
@@ -48,9 +50,11 @@ class MonthOverview extends \ArrayIterator
      */
     public function createBeforMonth($count)
     {
-        for($month_add = 1; $month_add <= $count; $month_add++) {
+        $calculateMonth = new CalculateMonth('@'.time());
+
+        for($month_sub = 1; $month_sub <= $count; $month_sub++) {
             $Month = new Month();
-            $Month->setMonth("-" . $month_add . ' month');
+            $Month->setMonth($calculateMonth->monthToMinus($month_sub));
             $this[$Month->getMonthName()] = $Month;
         }
 
