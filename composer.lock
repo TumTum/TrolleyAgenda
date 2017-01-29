@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bf54427d0253231b3d4e81505e21d9bf",
-    "content-hash": "fe9c28c849514f1ce0e1b9fdda384ab9",
+    "hash": "3dbb8f8ede3fab2f35664a9a6acaae99",
+    "content-hash": "c85e65019983c0a2841b431ab78c9aed",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -3267,6 +3267,34 @@
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
             "time": "2016-06-29 05:31:50"
+        },
+        {
+            "name": "tumtum/phpspec-alias",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TumTum/phpspec-alias.git",
+                "reference": "698c2c035d25f3aa0e9b441cd9b14aed223f0867"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TumTum/phpspec-alias/zipball/698c2c035d25f3aa0e9b441cd9b14aed223f0867",
+                "reference": "698c2c035d25f3aa0e9b441cd9b14aed223f0867",
+                "shasum": ""
+            },
+            "require": {
+                "phpspec/phpspec": "*"
+            },
+            "bin": [
+                "bin/pec"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Change phpspec run or describe command quickly",
+            "time": "2016-12-15 12:22:57"
         },
         {
             "name": "webmozart/assert",

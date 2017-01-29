@@ -14,6 +14,7 @@ namespace Trolley\AgendaBundle\Tests\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\VarDumper\VarDumper;
 use Trolley\AgendaBundle\Entity\Day;
+use Trolley\AgendaBundle\lib\CalculateMonth;
 use Trolley\AgendaBundle\Util\MonthOverview;
 
 class DayRepositoryTest extends KernelTestCase
@@ -91,13 +92,16 @@ class DayRepositoryTest extends KernelTestCase
      */
     public function testFindDaysByMonth()
     {
+        $nextMonth = new Day('1-'.date_create()->format('m-Y'));
+        $nextMonth->getTaDay()->add(new \DateInterval('P1M2D'));
+
         /** @var \Trolley\AgendaBundle\Repository\DayRepository $DayRepository */
         $DayRepository = $this->getDoctrine()->getRepository('TrolleyAgendaBundle:Day');
         $newGenarate = [
             new Day("+1 Day"),
             new Day("+2 Day"),
             new Day("+3 Day"),
-            new Day("+1 Month"),
+            $nextMonth,
         ];
 
         $manager = $this->getDoctrine()->getManager();
