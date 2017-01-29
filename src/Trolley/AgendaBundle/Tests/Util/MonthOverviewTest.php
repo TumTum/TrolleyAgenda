@@ -51,8 +51,11 @@ class MonthOverviewTest extends KernelTestCase
         $monthOverview = new MonthOverview();
         $monthOverview->createAheadMonth(2);
 
-        $thisMonth = date_create("+1 month")->format('F');
-        $this->assertArrayHasKey($thisMonth, $monthOverview);
+        $nextMonth = date_create('1-'.date_create()->format('m-Y'));
+        $nextMonth->add(new \DateInterval('P1M'));
+
+        $excepted = $nextMonth->format('F');
+        $this->assertArrayHasKey($excepted, $monthOverview);
     }
 
     /**
@@ -78,7 +81,7 @@ class MonthOverviewTest extends KernelTestCase
         $monthOverview->createAheadMonth(1);
 
         $thisMonth = new Month();
-        $thisMonth->setMonth("now");
+        $thisMonth->setMonth(date_create('now'));
 
         $monthOverview->fillMonthWithDaysFor($weeks);
 
@@ -102,12 +105,15 @@ class MonthOverviewTest extends KernelTestCase
         $exceptCount = 0;
 
         $Month = new Month();
-        $Month->setMonth("now");
+        $Month->setMonth(date_create('now'));
         $Month->fillDaysOfWeek('Saturday');
         $exceptCount += count($Month);
 
+        $nextMonth = date_create('1-'.date_create()->format('m-Y'));
+        $nextMonth->add(new \DateInterval('P1M'));
+
         $Month = new Month();
-        $Month->setMonth("next Month");
+        $Month->setMonth($nextMonth);
         $Month->fillDaysOfWeek('Saturday');
 
         $exceptCount += count($Month);
