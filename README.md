@@ -1,7 +1,12 @@
 TrolleyAgenda
 =============
 
-[![Build Status](https://travis-ci.org/TumTum/TrolleyAgenda.svg?branch=master)](https://travis-ci.org/TumTum/TrolleyAgenda)
+ARVIERT
+-------
+
+Projekt wird nicht mehr weiterentwickelt. Entwicklung gestoppt.
+
+---
 
 Ein Planung Tool um den Trolley Dienst mit Zeugen Jehovas zu verwalten.
 Die Verkündiger können sich am Dienst Anmelden und sich wieder Abmelden. Jeder bekommt eine gute Übersicht 
@@ -12,23 +17,6 @@ Vorwort
 
 Dieses Programm ist noch in der Anfangs Phase und für die einfache Planung erstmal gedacht. Verkündiger können sich 
 Anmelden und Abmelden. Ein Dienstaufseher kann zustimmen oder Verkündiger hinzufügen und entfernen vom Trolley Dienst.
-
-Demo
-----
-
-Eine Demo Version findet man unter [www.trolleyagenda.de](http://www.trolleyagenda.de/).
-Es gibt zwei zugänge, einen In der Ansicht eines Verkündiger und eine in der Ansicht des Dienstauseher. Dieser kann
-Benutzer hinzufügen und entfernen.
-
-##### Zugangsdaten:
-
-- __Verküngiger__:  
-     _Benutzername_: verkuendiger  
-     _Passwort_: demoseite  
-
-- __Dienstaufseher__:  
-     _Benutzername_: dienstaufseher  
-     _Passwort_: demoseite  
 
 Installation
 ------------
@@ -90,17 +78,6 @@ Weil dies kann man nur mit SSH-Zugang auf den Server installieren.
 
 6. Fertig
 
-
-
-RoadMap
--------
-
-Welche Featuers noch gewünscht werden.
-
-- Email benachrichtiung
-- Schichtleiter einstellen
-- Verkündiger kann sein eigenes Profil bearbeiten
-
 Autor
 -----
-Tobias Matthaiou <develop@tobimat.eu>
+Tobi Matthaiou
